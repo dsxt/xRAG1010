@@ -13,7 +13,8 @@ from tool.logger import logger
 from utils.embedding_utils import generate_embeddings
 from utils.milvus_utils import get_milvus_client, create_hybrid_search_requests,hybrid_search
 from utils.mongo_history_utils import get_recent_messages, save_chat_message, update_message_item_names
-from config import lm_config,milvus_config
+from config.lm_config import lm_config
+from config.milvus_config import milvus_config
 
 
 class NodeItemNameConfirm(NodeBase):
@@ -49,15 +50,22 @@ class NodeItemNameConfirm(NodeBase):
 
         # 步骤4：提取信息
         extract_res = self._step_4_extract_info(original_query, history)
-        item_names = extract_res.get("item_names")
+        item_names = extract_res.get("item_names") or []
+        if isinstance(item_names, str):
+            item_names = [item_names]
+        if not isinstance(item_names, list):
+            item_names = []
+        item_names = [name for name in item_names if isinstance(name, str) and name.strip()]
         rewritten_query = extract_res.get("rewritten_query", original_query)
+        if not isinstance(rewritten_query, str) or not rewritten_query.strip():
+            rewritten_query = original_query
         # 更新状态
         state["rewritten_query"] = rewritten_query
         state["item_names"] = item_names
 
         # 5. & 6. 如果有提取到商品名，进行搜索和对齐
         align_result = {}
-        if len(item_names) > 0:
+        if item_names:
             query_results = self._step_5_vectorize_and_query(item_names)
             align_result = self._step_6_align_item_names(query_results)
         else:
@@ -141,19 +149,25 @@ class NodeItemNameConfirm(NodeBase):
             # 7. 数据解析：将JSON字符串转为字典
             result = json.loads(content)
 
-            # 8. 健壮性处理：确保字段存在
-            # 确保返回结果包含item_names字段，无则设为空列表
-            if "item_names" not in result:
-                result["item_names"] = []
-            # 确保返回结果包含rewritten_query字段，无则复用原始查询
-            if "rewritten_query" not in result:
-                result["rewritten_query"] = query
-
+            # 8. 健壮性处理：确保字段存在且类型正确
+            raw_names = result.get("item_names") or []
+            if isinstance(raw_names, str):
+                raw_names = [raw_names]
+            if not isinstance(raw_names, list):
+                raw_names = []
             # 9. 给item_names 去除空格
-            result["item_names"] = [
-                name.replace(" ", "").replace("\n", "").replace("\t", "").replace("\r", "")
-                for name in result["item_names"]
-            ]
+            cleaned_names = []
+            for name in raw_names:
+                if not isinstance(name, str):
+                    continue
+                name = name.replace(" ", "").replace("\n", "").replace("\t", "").replace("\r", "")
+                if name:
+                    cleaned_names.append(name)
+            result["item_names"] = cleaned_names
+            # 确保返回结果包含rewritten_query字段，无则复用原始查询
+            rewritten_query = result.get("rewritten_query")
+            if not isinstance(rewritten_query, str) or not rewritten_query.strip():
+                result["rewritten_query"] = query
 
             # 10、返回解析后的提取结果
             return result
@@ -293,11 +307,16 @@ class NodeItemNameConfirm(NodeBase):
             # 筛选中置信度匹配结果：评分≥0.6（仅高置信度为空时生效）
             mid = [m for m in matches if m.get("score", 0) >= 0.6]
 
-            # 优化 ab 所有评分高于0.85的都可以直接确认
+            # 评分高于 0.85 的结果直接确认；名称无效时继续看中等置信度候选
             if len(high) > 0:
+                added = False
                 for m in high:
-                    confirmed_item_names.append(m.get("item_name"))
-                continue
+                    item_name = m.get("item_name")
+                    if isinstance(item_name, str) and item_name.strip():
+                        confirmed_item_names.append(item_name)
+                        added = True
+                if added:
+                    continue
             # 筛选高置信度得分的结果： >= 0.65
             # # a  如果只有一个匹配结果评分高于0.85 → 直接确认该商品名
             # if len(high) == 1:
@@ -325,16 +344,29 @@ class NodeItemNameConfirm(NodeBase):
             # 规则c: 无0.85分以上结果，取≥0.6分的最高前3个作为候选
             # 注：高置信度列表high为空时才会走到此处（规则a/b均不满足）
             if len(mid) > 0:
-                # 取中置信度结果的前5个，加入候选列表
+                # 取中置信度结果的前3个，加入候选列表
                 for m in mid[:3]:
-                    options.append(m.get("item_name"))
+                    item_name = m.get("item_name")
+                    if isinstance(item_name, str) and item_name.strip():
+                        options.append(item_name)
 
             # 规则d: 无0.6分及以上结果 → 不做任何操作，确认+候选列表均为空
-        # 返回最终对齐结果：确认列表和候选列表均做去重处理（list(set())）
+        # 去重并保持首次出现的顺序，避免 set 打乱候选型号的展示顺序
         return {
-            "confirmed_item_names": list(set(confirmed_item_names)),  # 去重，避免重复确认
-            "options": list(set(options))  # 去重，避免重复候选
+            "confirmed_item_names": self._dedup_names(confirmed_item_names),
+            "options": self._dedup_names(options)
         }
+
+    @staticmethod
+    def _dedup_names(names: List[str]) -> List[str]:
+        seen = set()
+        result = []
+        for name in names:
+            if not name or name in seen:
+                continue
+            seen.add(name)
+            result.append(name)
+        return result
 
     def _step_7_check_confirmation(self, state, align_result, history):
         """
@@ -344,6 +376,10 @@ class NodeItemNameConfirm(NodeBase):
         :param history: 列表[字典] - 近期会话历史
         :return: 字典 - 更新后的会话状态，包含item_names/answer
         """
+        # 步骤4提取出的商品名。此时还没被本步骤覆盖
+        extracted_names = state.get("item_names") or []
+        if not isinstance(extracted_names, list):
+            extracted_names = []
         # 从对齐结果中提取确认商品名列表，无则空列表
         confirmed = align_result.get("confirmed_item_names", [])
         # 从对齐结果中提取候选商品名列表，无则空列表
@@ -380,7 +416,13 @@ class NodeItemNameConfirm(NodeBase):
             state["item_names"] = []
             return state
 
-        # 分支C：无确认商品名，且无候选商品名（无匹配结果，需用户重新提供）
+        # 没有提取到商品名：不拦截提问，后续检索不带商品过滤
+        if not extracted_names:
+            state["answer"] = ""
+            state["item_names"] = []
+            return state
+
+        # 分支C：提取到了商品名，但库中没有足够相似的结果
         state["answer"] = "抱歉，未找到相关产品，请提供准确型号以便我为您查询。"
         state["item_names"] = []
         return state

@@ -159,7 +159,9 @@ class NodePDFToMD(BaseNode):
             if poll_data["code"] != 0:
                 raise PdfConversionError(f"【任务轮询】业务错误，返回数据：{poll_data}")
 
-            extract_results = poll_data["data"]["extract_result"]
+            extract_results = (poll_data.get("data") or {}).get("extract_result") or []
+            if not extract_results:
+                raise PdfConversionError(f"【任务轮询】未返回解析结果，batch_id：{batch_id}")
 
             # 获取结果
             result_item = extract_results[0]
@@ -221,10 +223,17 @@ class NodePDFToMD(BaseNode):
             zip_file_obj.extractall(extract_target_dir)
         self.logger.info(f"【ZIP解压】ZIP解压完成，解压目录：{extract_target_dir}")
 
-        # 5、重命名
-        self.logger.info(f"【MD重命名】找到MinerU生成的full.md文件")
+        # 5、重命名。MinerU 通常产出 full.md，压缩包若多一层目录则回退到任意 md
         target_md_file = extract_target_dir / "full.md"
-        self.logger.info(f"【MD重命名】开始将full.md文件进行重命名")
+        if not target_md_file.exists():
+            md_candidates = sorted(extract_target_dir.rglob("*.md"))
+            if not md_candidates:
+                raise FileProcessingError(message=f"ZIP包中未找到Markdown文件：{extract_target_dir}")
+            target_md_file = md_candidates[0]
+            self.logger.info(f"【MD重命名】未找到full.md，改用：{target_md_file}")
+        else:
+            self.logger.info("【MD重命名】找到MinerU生成的full.md文件")
+        self.logger.info("【MD重命名】开始将Markdown文件重命名")
         new_md_path = target_md_file.with_name(f"{pdf_stem}.md")
         target_md_file.rename(new_md_path)
         self.logger.info(f"【MD重命名】重命名成功，文件名：{pdf_stem}.md")

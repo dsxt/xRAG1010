@@ -90,8 +90,8 @@ class NodeBGEEmbedding(BaseNode):
             batch_texts = chunks[i:i + batch_size]
             input_texts = []
             for doc in batch_texts:
-                item_name = doc["item_name"]
-                content = doc["content"]
+                item_name = doc.get("item_name") or ""
+                content = doc.get("content") or ""
                 input_texts.append(f"{item_name}\n{content}" if item_name else content)
 
             docs_embeddings = generate_embeddings(input_texts)

@@ -20,6 +20,63 @@ def get_milvus_client():
 
     return _milvus_client
 
+def truncate_utf8(value, max_bytes: int) -> str:
+    """按 UTF-8 字节数截断。Milvus VARCHAR 的 max_length 按字节计算。"""
+    if value is None:
+        return ""
+    text = str(value)
+    if max_bytes <= 0:
+        return ""
+    raw = text.encode("utf-8")
+    if len(raw) <= max_bytes:
+        return text
+    return raw[:max_bytes].decode("utf-8", errors="ignore")
+
+
+def collection_field_meta(client, collection_name: str) -> dict:
+    """读取集合字段的类型和 VARCHAR 字节上限。读取失败时返回空字典。"""
+    meta = {}
+    try:
+        desc = client.describe_collection(collection_name)
+    except Exception as e:
+        logger.warning(f"读取集合字段信息失败[{collection_name}]: {e}")
+        return meta
+
+    fields = desc.get("fields", []) if isinstance(desc, dict) else []
+    for field in fields:
+        if not isinstance(field, dict):
+            continue
+        name = field.get("name")
+        if not name:
+            continue
+        params = field.get("params") or {}
+        raw_type = field.get("type")
+        type_code = raw_type.value if hasattr(raw_type, "value") else raw_type
+        meta[name] = {
+            "type": type_code,
+            "type_name": str(raw_type),
+            "max_length": params.get("max_length"),
+        }
+    return meta
+
+
+def fit_milvus_row(row: dict, field_meta: dict) -> dict:
+    """按集合真实 schema 截断字符串、限制整数范围，避免入库因超长或溢出失败。"""
+    fitted = dict(row)
+    for name, meta in field_meta.items():
+        if name not in fitted or fitted[name] is None:
+            continue
+        max_length = meta.get("max_length")
+        if max_length and isinstance(fitted[name], str):
+            fitted[name] = truncate_utf8(fitted[name], int(max_length))
+        # pymilvus DataType.INT8 == 2，已有旧集合仍可能是 INT8
+        type_name = str(meta.get("type_name") or "")
+        is_int8 = meta.get("type") == 2 or "INT8" in type_name
+        if is_int8 and isinstance(fitted[name], int) and not isinstance(fitted[name], bool):
+            fitted[name] = max(-128, min(127, fitted[name]))
+    return fitted
+
+
 def escape_milvus_string(value: str) -> str:
     """
     Milvus数据库过滤表达式中字符串的安全转义函数（防止解析失败）

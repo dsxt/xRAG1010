@@ -9,15 +9,13 @@ from config.milvus_config import milvus_config
 from processor.import_processor.base import BaseNode, setup_logging
 from processor.import_processor.exceptions import StateFieldError, MilvusError
 from processor.import_processor.state import ImportGraphState
-from utils.milvus_utils import get_milvus_client, escape_milvus_string
+from utils.milvus_utils import collection_field_meta, escape_milvus_string, fit_milvus_row, get_milvus_client, truncate_utf8
 
 
 class NodeImportMilvus(BaseNode):
     """
     导入向量库节点：数据持久化
     """
-
-    name = "node_import_milvus"
 
     name: str = "node_import_milvus"
 
@@ -130,11 +128,11 @@ class NodeImportMilvus(BaseNode):
         # 2. 创建列
         schema.add_field(field_name="chunk_id", datatype=DataType.INT64, is_primary=True, auto_id=True)
         schema.add_field(field_name="content", datatype=DataType.VARCHAR, max_length=65535)  # 切片内容
-        schema.add_field(field_name="title", datatype=DataType.VARCHAR, max_length=100)  # 切片标题
-        schema.add_field(field_name="parent_title", datatype=DataType.VARCHAR, max_length=100)  # 父标题
-        schema.add_field(field_name="part", datatype=DataType.INT8)  # 分片编号
-        schema.add_field(field_name="file_title", datatype=DataType.VARCHAR, max_length=100)  # 源文件标题
-        schema.add_field(field_name="item_name", datatype=DataType.VARCHAR, max_length=100)  # 商品名称（幂等性依据）
+        schema.add_field(field_name="title", datatype=DataType.VARCHAR, max_length=2048)  # 切片标题，按字节计
+        schema.add_field(field_name="parent_title", datatype=DataType.VARCHAR, max_length=2048)  # 父标题
+        schema.add_field(field_name="part", datatype=DataType.INT32)  # 分片编号，避免超过 INT8 的 127
+        schema.add_field(field_name="file_title", datatype=DataType.VARCHAR, max_length=1024)  # 源文件标题
+        schema.add_field(field_name="item_name", datatype=DataType.VARCHAR, max_length=1024)  # 商品名称（幂等性依据）
         schema.add_field(field_name="sparse_vector", datatype=DataType.SPARSE_FLOAT_VECTOR)  # 稀疏向量
         schema.add_field(field_name="dense_vector", datatype=DataType.FLOAT_VECTOR, dim=vector_dimension)  # 稠密向量
 
@@ -173,8 +171,13 @@ class NodeImportMilvus(BaseNode):
         :return:
         """
 
-        # 1. 获取查询条件
+        # 1. 获取查询条件，并按集合里 file_title 的字节上限截断，保证能删掉同名旧数据
         file_title = chunks_json_data[0].get("file_title")
+        if not file_title:
+            raise MilvusError("file_title 为空，拒绝清理旧数据")
+        field_meta = collection_field_meta(client, milvus_config.chunks_collection)
+        title_limit = (field_meta.get("file_title") or {}).get("max_length")
+        file_title = truncate_utf8(file_title, int(title_limit) if title_limit else 65535)
 
         # 2. 执行幂等清理
         self._clear_chunks_by_file_title(client, file_title)
@@ -190,36 +193,6 @@ class NodeImportMilvus(BaseNode):
             self.logger.error(f"Milvus 数据删除失败: {str(e)}")
             raise MilvusError(f"Milvus 数据删除失败: {str(e)}")
 
-    def _step_4_insert_data(self, client, chunks_json_data):
-        """
-        步骤4：批量插入切片数据到Milvus+主键回填
-        核心逻辑：
-            1. 批量插入数据：提升入库效率，减少Milvus连接次数
-            2. 回填chunk_id：将Milvus生成的自增主键回填到切片，供下游业务使用
-        参数：
-            client - MilvusClient实例
-            chunks_json_data: List[Dict[str, Any]] - 待入库的切片列表
-        返回：
-            List[Dict[str, Any]] - 回填了chunk_id的切片列表
-        """
-        # 1. 填充part字段
-        for item in chunks_json_data:
-            if "part" not in item:
-                item["part"] = 0
-
-        # 2. 批量插入数据
-        result = client.insert(
-            collection_name=milvus_config.chunks_collection,
-            data=chunks_json_data
-        )
-
-        # 3. 回填chunk_id
-        inserted_ids = result.get("ids")
-        for idx, item in enumerate(chunks_json_data):
-            item["chunk_id"] = inserted_ids[idx]
-
-        return chunks_json_data
-
     def _step_4_insert_data(self, client, chunks_json_data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
         步骤4：批量插入切片数据到Milvus+主键回填
@@ -232,27 +205,26 @@ class NodeImportMilvus(BaseNode):
         返回：
             List[Dict[str, Any]] - 回填了chunk_id的切片列表
         """
-        # 1. 预处理数据：移除手动chunk_id，避免与Milvus自增主键冲突
+        # 1. 预处理数据：移除手动主键，避免与 Milvus auto_id 冲突，并按 schema 截断超长字段
+        field_meta = collection_field_meta(client, milvus_config.chunks_collection)
         data_to_insert = []
         for item in chunks_json_data:
             item_copy = item.copy()
-
-            # 补充 part 字段
-            if "part" not in item_copy:
+            item_copy.pop("chunk_id", None)
+            item_copy.pop("pk", None)
+            if item_copy.get("part") is None:
                 item_copy["part"] = 0
-
-            # 添加到待插入列表
-            data_to_insert.append(item_copy)
+            data_to_insert.append(fit_milvus_row(item_copy, field_meta))
 
         # 2. 执行批量插入
         insert_result = client.insert(collection_name=milvus_config.chunks_collection, data=data_to_insert)
-        insert_count = insert_result.get('insert_count', 0)
 
         # 3. 主键回填：将Milvus生成的chunk_id回填到原始切片
-        inserted_ids = insert_result.get('ids', [])
-        if inserted_ids:
-            for idx, item in enumerate(chunks_json_data):
-                item['chunk_id'] = str(inserted_ids[idx])
+        inserted_ids = insert_result.get("ids") or []
+        for idx, item in enumerate(chunks_json_data):
+            if idx >= len(inserted_ids):
+                break
+            item["chunk_id"] = str(inserted_ids[idx])
 
         return chunks_json_data
 

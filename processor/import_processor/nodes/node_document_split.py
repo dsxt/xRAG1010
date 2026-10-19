@@ -358,9 +358,9 @@ class NodeDocumentSplit(BaseNode):
         """
 
         try:
-            # 拼接备份文件路径：固定文件名，便于查找
-            # backup_path = "D:/python/output" / state.get("file_title") / "chunks.json"
-            backup_dir = Path("D:/python/output") / (state.get("file_title") or "unknown")
+            # 备份目录跟导入输出目录保持一致，不再写死盘符
+            backup_root = state.get("file_dir") or "D:/python/output"
+            backup_dir = Path(backup_root) / (state.get("file_title") or "unknown")
             backup_dir.mkdir(parents=True, exist_ok=True)
             print(f"backup_dir:{backup_dir}")
             backup_path = backup_dir / "chunks.json"

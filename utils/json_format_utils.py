@@ -22,5 +22,6 @@ class CustomJSONEncoder(json.JSONEncoder):
 def format_json(data: Any, indent: int = 4, ensure_ascii: bool = False) -> str:
     return json.dumps(data, indent=indent, ensure_ascii=ensure_ascii, cls=CustomJSONEncoder)
 
-def serialize_json(data):
-    return json.dumps(data, ensure_ascii=False, indent=4)
+def serialize_json(data: Any, indent: int = 4, ensure_ascii: bool = False) -> str:
+    """序列化为 JSON 字符串。支持 indent，并处理 MongoDB ObjectId。"""
+    return format_json(data, indent=indent, ensure_ascii=ensure_ascii)

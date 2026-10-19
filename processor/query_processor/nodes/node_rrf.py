@@ -17,13 +17,9 @@ class NodeRrf(NodeBase):
     name: str = "node_rrf"
 
     def process(self, state: QueryGraphState) -> QueryGraphState:
-        # 1. 获取各路搜索的结果（排除网络搜索: reranK节点做）
-        embedding_search_list = [
-            doc.get('entity') for doc in (state.get('embedding_chunks') or []) if isinstance(doc, dict)
-        ]
-        hyde_embedding_search_list = [
-            doc.get('entity') for doc in (state.get('hyde_embedding_chunks') or []) if isinstance(doc, dict)
-        ]
+        # 1. 获取各路搜索的结果（网络搜索留给 rerank 节点）
+        embedding_search_list = self._collect_entities(state.get('embedding_chunks'))
+        hyde_embedding_search_list = self._collect_entities(state.get('hyde_embedding_chunks'))
 
         # 2. 为不同路的搜索结果设置不同的权重
         rrf_inputs = [
@@ -43,6 +39,25 @@ class NodeRrf(NodeBase):
         # 6. 返回state
         return state
 
+    def _collect_entities(self, hits) -> List[Dict[str, Any]]:
+        """取出检索命中的文档字段。没有 chunk_id 的记录不参与融合，避免全部挤进同一个空键。"""
+        entities = []
+        for doc in hits or []:
+            if not isinstance(doc, dict):
+                continue
+            entity = doc.get("entity")
+            if isinstance(entity, dict):
+                entity = dict(entity)
+            else:
+                entity = dict(doc)
+            # 主键有时只放在命中结果外层，不在 entity 里
+            if entity.get("chunk_id") is None and doc.get("chunk_id") is not None:
+                entity["chunk_id"] = doc.get("chunk_id")
+            if entity.get("chunk_id") is None:
+                continue
+            entities.append(entity)
+        return entities
+
     def _rrf_merge(self, rrf_inputs, k: int = 60, max_results: int = None) -> List[Tuple[Dict[str, Any], float]]:
         """
         利用 RRF 公式计算每一个文档的总得分
@@ -56,7 +71,11 @@ class NodeRrf(NodeBase):
 
         for rrf_input, weight in rrf_inputs:
             for rank, doc in enumerate(rrf_input, start=1):
+                if not isinstance(doc, dict):
+                    continue
                 chunk_id = doc.get('chunk_id')
+                if chunk_id is None:
+                    continue
                 # RRF 公式: score += weight / (k + rank)
                 chunk_scores[chunk_id] = chunk_scores.get(chunk_id, 0.0) + weight / (k + rank)
 

@@ -1,9 +1,8 @@
 # processor/import_processor/nodes/node_entry.py
-import json
-import logging
+import os
 from pathlib import Path
 
-from processor.import_processor.base import BaseNode, setup_logging
+from processor.import_processor.base import BaseNode
 from processor.import_processor.exceptions import ValidationError, StateFieldError, FileProcessingError
 from processor.import_processor.state import ImportGraphState
 
@@ -39,19 +38,22 @@ class NodeEntry(BaseNode):
         if not import_file_path_obj.exists():
             raise FileProcessingError(message=f"文件{import_file_path_obj.name}不存在")
 
-        # 3. 检查文件后缀
-        if import_file_path_obj.suffix == ".pdf":
+        # 3. 检查文件后缀。同时清掉另一种格式的标记，避免复用 state 时走错分支
+        suffix = import_file_path_obj.suffix.lower()
+        state["is_pdf_read_enabled"] = False
+        state["is_md_read_enabled"] = False
+        if suffix == ".pdf":
             state["is_pdf_read_enabled"] = True
-            state["pdf_path"] = import_file_path
-        elif import_file_path_obj.suffix == ".md":
+            state["pdf_path"] = str(import_file_path_obj)
+        elif suffix == ".md":
             state["is_md_read_enabled"] = True
-            state["md_path"] = import_file_path
+            state["md_path"] = str(import_file_path_obj)
         else:
             raise ValidationError(message=f"该文件的后缀格式{import_file_path_obj.suffix}不支持")
 
         # 4. 获取上传文件的标题，更新到state中
         state["file_title"] = import_file_path_obj.stem
-        state["file_dir"] = r"D:\python\output"
+        state["file_dir"] = os.getenv("MD_ROOT_DIR") or r"D:\python\output"
 
         # 5. 返回state
         return state

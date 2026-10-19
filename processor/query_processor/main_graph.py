@@ -56,7 +56,7 @@ class KBQueryWorkflowV2:
         self.workflow.add_node("node_rerank", self.node_rerank) # 重排
         self.workflow.add_node("node_answer_output", self.node_answer_output) # 生成
 
-    def _route_after_item_name_confirm(self, state: QueryGraphState) -> str:
+    def _route_after_item_name_confirm(self, state: QueryGraphState) -> str | list[str]:
         """主体名称确认后的条件路由函数"""
         if state.get("answer"):
             """
@@ -95,10 +95,11 @@ class KBQueryWorkflowV2:
             }
         )
 
-        # 3. 多路搜索结果合并
-        self.workflow.add_edge("node_search_embedding", "node_rrf")
-        self.workflow.add_edge("node_search_embedding_hyde", "node_rrf")
-        self.workflow.add_edge("node_web_search_mcp", "node_rrf")
+        # 3. 三路检索全部结束后再进入 RRF。分开写三条边时，任一路返回就会触发下游。
+        self.workflow.add_edge(
+            ["node_search_embedding", "node_search_embedding_hyde", "node_web_search_mcp"],
+            "node_rrf",
+        )
 
         # 4. 排序 -> 重排 -> 生成 -> 结束
         self.workflow.add_edge("node_rrf", "node_rerank")
@@ -119,8 +120,9 @@ class KBQueryWorkflowV2:
         :param stream: 是否是流式输出
         :return: 执行完成后的状态对象
         """
-        """"""
         if not self._compiled_app:
             self.compile()
 
-        self._compiled_app.get_graph().print_ascii()
+        if stream:
+            return self._compiled_app.stream(initial_state, stream_mode="values")
+        return self._compiled_app.invoke(initial_state)

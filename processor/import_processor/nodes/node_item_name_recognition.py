@@ -13,7 +13,7 @@ from processor.import_processor.base import BaseNode, setup_logging
 from processor.import_processor.exceptions import StateFieldError
 from processor.import_processor.state import ImportGraphState
 from utils.embedding_utils import generate_embeddings
-from utils.milvus_utils import get_milvus_client, escape_milvus_string
+from utils.milvus_utils import collection_field_meta, escape_milvus_string, get_milvus_client, truncate_utf8
 from processor.query_processor.prompt.item_name_recognition import ITEM_NAME_SYSTEM_PROMPT,ITEM_NAME_USER_PROMPT_TEMPLATE
 
 
@@ -111,8 +111,8 @@ class NodeItemNameRecognition(BaseNode):
         for idx, chunk in enumerate(chunks[:self.config.item_name_chunk_k], start=1):
 
             # 1. 提取前k的切片，避免上下文过长
-            chunk_title = chunk.get("title").strip()
-            chunk_content = chunk.get("content").strip()
+            chunk_title = (chunk.get("title") or "").strip()
+            chunk_content = (chunk.get("content") or "").strip()
 
             # 2. 格式化切片
             piece = f"【切片{idx}】\n标题{chunk_title}\n内容：{chunk_content}"
@@ -277,6 +277,19 @@ class NodeItemNameRecognition(BaseNode):
             if not milvus_client.has_collection(collection_name):
                 self._create_item_name_collection(collection_name, milvus_client)
 
+            # 按集合真实字节上限截断，删除条件和入库值必须是同一份字符串
+            field_meta = collection_field_meta(milvus_client, collection_name)
+            item_limit = (field_meta.get("item_name") or {}).get("max_length")
+            title_limit = (field_meta.get("file_title") or {}).get("max_length")
+            if item_limit:
+                item_name = truncate_utf8(item_name, int(item_limit))
+            if title_limit:
+                file_title = truncate_utf8(file_title, int(title_limit))
+            state["item_name"] = item_name
+            for chunk in state.get("chunks") or []:
+                if isinstance(chunk, dict):
+                    chunk["item_name"] = item_name
+
             # 3. 幂等性处理：删除同名商品数据（避免重复存储）
             # 转义商品名称（防止特殊字符导致filter解析失败）
             safe_item_name = escape_milvus_string(item_name)
@@ -323,13 +336,13 @@ class NodeItemNameRecognition(BaseNode):
         schema.add_field(
             field_name="file_title",
             datatype=DataType.VARCHAR,
-            max_length=100
+            max_length=1024
         )
-        # 添加商品名称字段（VARCHAR类型，最大长度65535）
+        # 添加商品名称字段（VARCHAR类型，按字节计，中文标题需要比 100 更大的上限）
         schema.add_field(
             field_name="item_name",
             datatype=DataType.VARCHAR,
-            max_length=100
+            max_length=1024
         )
         # 添加稠密向量字段（FLOAT_VECTOR类型，1024维，BGE-M3模型固定维度）
         schema.add_field(

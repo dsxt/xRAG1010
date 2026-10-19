@@ -10,7 +10,7 @@ from typing import List, Dict, Any, Optional
 from datetime import datetime
 # 导入pymongo核心模块：MongoDB原生Python驱动，实现数据库连接和操作
 # ASCENDING：表示升序排序，用于MongoDB索引和查询排序
-from pymongo import MongoClient, ASCENDING
+from pymongo import MongoClient, DESCENDING
 # 导入bson的ObjectId：MongoDB默认的主键类型，用于唯一标识文档
 from bson import ObjectId
 # 导入dotenv模块：用于从.env文件加载环境变量，避免硬编码敏感配置（如MongoDB连接地址）
@@ -36,6 +36,8 @@ class HistoryMongoTool:
             self.mongo_url = os.getenv("MONGO_URL")
             # 从环境变量读取要使用的数据库名称
             self.db_name = os.getenv("MONGO_DB_NAME")
+            if not self.mongo_url or not self.db_name:
+                raise ValueError("缺少环境变量 MONGO_URL 或 MONGO_DB_NAME")
 
             # 创建MongoDB客户端实例，建立与数据库的连接
             self.client = MongoClient(self.mongo_url)
@@ -58,9 +60,8 @@ class HistoryMongoTool:
             raise
 
 
-# 定义全局变量：存储HistoryMongoTool的单例实例
-# 目的：将数据库连接的初始化提前到模块加载阶段，避免第一次调用接口时才建立连接（提升首次响应速度）
-_history_mongo_tool = HistoryMongoTool()
+# 单例延迟创建。模块导入时不连接数据库，避免配置缺失或数据库不可用时整个流程无法加载
+_history_mongo_tool = None
 
 def get_history_mongo_tool() -> HistoryMongoTool:
     """
@@ -195,14 +196,10 @@ def get_recent_messages(session_id: str, limit: int = 10) -> List[Dict[str, Any]
         # 构造查询条件：仅查询指定session_id的记录
         query = {"session_id": session_id}
 
-        # 执行查询：按时间戳升序排序，限制返回条数
-        # find(query)：获取符合条件的游标（惰性加载，不立即查询）
-        # sort("ts", ASCENDING)：按ts字段升序（从旧到新），适配LLM上下文顺序
-        # limit(limit)：限制返回的最大条数
-        cursor = mongo_tool.chat_message.find(query).sort("ts", ASCENDING).limit(limit)
-        # 将游标转为列表，触发实际数据库查询，获取所有符合条件的文档
+        # 先按时间倒序取最近 limit 条，再反转成从旧到新，供 LLM 做上下文
+        cursor = mongo_tool.chat_message.find(query).sort("ts", DESCENDING).limit(limit)
         messages = list(cursor)
-        # 返回查询结果列表
+        messages.reverse()
         return messages
     except Exception as e:
         # 捕获查询异常，记录错误日志

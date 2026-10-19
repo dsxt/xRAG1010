@@ -2,7 +2,7 @@
 import asyncio
 import json
 
-from agents.mcp import MCPServerStreamableHttp
+from agents.mcp import MCPServerSse, MCPServerStreamableHttp
 
 from config.bailian_mcp_config import mcp_config
 from processor.query_processor.base import NodeBase
@@ -23,35 +23,58 @@ class NodeWebSearchMcp(NodeBase):
 
         query = state.get("rewritten_query", "")
         docs = []
-        # 如果没有查询内容，直接返回
+        # 联网失败时返回空结果，不能拖垮本地检索
         if query:
-            result = asyncio.run(self._mcp_call(query))
-            if result:
-                pages = json.loads(result.content[0].text).get("pages") or []
-                # 统一输出结构化结果，供后续 rerank/引用使用
-                # 每条：{title, url, snippet}
-
-                for item in pages:
-                    snippet = (item.get("snippet") or "").strip()
-                    url = (item.get("url") or "").strip()
-                    title = (item.get("title") or "").strip()
-                    if not snippet:
-                        continue
-                    docs.append({"title": title, "url": url, "snippet": snippet})
-
-                logger.info("MCP 搜索结果:", docs)
+            try:
+                result = asyncio.run(self._mcp_call(query))
+                docs = self._parse_pages(result)
+                if docs:
+                    logger.info(f"MCP 搜索结果: {docs}")
+            except Exception as e:
+                logger.exception(f"联网搜索失败: {e}")
+                return {"web_search_docs": []}
 
         if docs:
             return {"web_search_docs": docs}
-        return {}
+        return {"web_search_docs": []}
+
+    def _parse_pages(self, result) -> list:
+        if not result:
+            return []
+        content = getattr(result, "content", None) or []
+        if not content:
+            return []
+        text = getattr(content[0], "text", None)
+        if not text:
+            return []
+        payload = json.loads(text) if isinstance(text, str) else text
+        if not isinstance(payload, dict):
+            return []
+        pages = payload.get("pages") or []
+        if not isinstance(pages, list):
+            return []
+
+        docs = []
+        for item in pages:
+            if not isinstance(item, dict):
+                continue
+            snippet = (item.get("snippet") or "").strip()
+            url = (item.get("url") or "").strip()
+            title = (item.get("title") or "").strip()
+            if not snippet:
+                continue
+            docs.append({"title": title, "url": url, "snippet": snippet})
+        return docs
 
 
     async def _mcp_call(self, query):
-
-        search_mcp = MCPServerStreamableHttp(
+        url = mcp_config.mcp_base_url or ""
+        # 配置地址以 /sse 结尾时走 SSE，其余走 Streamable HTTP
+        server_cls = MCPServerSse if url.rstrip("/").endswith("/sse") else MCPServerStreamableHttp
+        search_mcp = server_cls(
             name="search_mcp",
             params={
-                "url": mcp_config.mcp_base_url,
+                "url": url,
                 "headers": {"Authorization": f"Bearer {mcp_config.api_key}"},
                 "timeout": 10,
             },

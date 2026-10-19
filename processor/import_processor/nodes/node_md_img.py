@@ -48,6 +48,9 @@ class NodeMDImg(BaseNode):
 
         # 步骤1：初始化数据，获取MD核心信息
         md_content, md_path_obj, images_dir = self._step_1_get_content(state)
+        # 直接导入 MD 时，上游不会带 md_content。即使跳过图片处理，也要把正文写回 state
+        state["md_content"] = md_content
+        state["md_path"] = str(md_path_obj)
         if not images_dir.exists():
             self.logger.info("无图片文件夹，跳过图片处理")
             return state
@@ -96,11 +99,10 @@ class NodeMDImg(BaseNode):
         if not md_path_obj.exists():
             raise FileProcessingError(message=f"MD文件{md_path_obj.name}不存在")
 
-        # 4、获取md_content
-        md_content = state["md_content"]
-        # 测试代码
+        # 4、获取md_content。直接导入 MD 时 state 里还没有正文
+        md_content = state.get("md_content")
         if not md_content:
-            with open(md_path,"r",encoding="utf-8") as md_file:
+            with open(md_path, "r", encoding="utf-8") as md_file:
                 md_content = md_file.read()
 
         # 5、组装图片文件夹路径：图片文件夹固定为MD文件同级的images目录
@@ -245,6 +247,9 @@ class NodeMDImg(BaseNode):
         with open(image_path, "rb") as img_file:
             base64_image = base64.b64encode(img_file.read()).decode("utf-8")
 
+        ext = os.path.splitext(image_path)[1].lower().lstrip(".")
+        mime_ext = "jpeg" if ext in ("jpg", "jpeg", "") else ext
+
         try:
             # chat_model = ChatOpenAI(
             #     model=lm_config.vl_model,
@@ -264,7 +269,7 @@ class NodeMDImg(BaseNode):
                         {
                             "type": "image_url",
                             "image_url": {
-                                "url": f"data:image/jpeg;base64,{base64_image}"
+                                "url": f"data:image/{mime_ext};base64,{base64_image}"
                             }
                         }
                     ]
@@ -299,9 +304,12 @@ class NodeMDImg(BaseNode):
 
         # 获取MinIO客户端
         minio_client = get_minio_client()
+        if minio_client is None:
+            self.logger.error("MinIO 客户端不可用，跳过图片上传")
+            return md_content
 
         # 构造上传目录，去除文件名中的空格
-        minio_img_dir = minio_config.img_dir
+        minio_img_dir = (minio_config.img_dir or "images").strip("/")
         upload_dir = f"{minio_img_dir}/{doc_stem}".replace(" ", "")
 
         # 步骤1：清理该文档对应的MinIO旧目录
