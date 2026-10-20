@@ -10,7 +10,7 @@ import logging
 
 from processor.import_processor.config import ImportConfig, get_config
 from processor.import_processor.exceptions import ImportProcessError
-# from utils.task_util import add_running_task, add_done_task
+from utils.task_utils import add_done_task, add_running_task
 
 T = TypeVar("T")  # 泛型状态类型
 
@@ -67,8 +67,16 @@ class BaseNode(ABC):
             # 1. 开始准备执行节点
             self.logger.info(f"--- {self.name} 开始 ---")
 
+            # 直接跑图时可能没有 task_id，只有 Web 导入才会写入进度
+            task_id = state.get("task_id") if isinstance(state, dict) else None
+            if task_id:
+                add_running_task(task_id, self.name)
+
             # 2. 执行节点
             result = self.process(state)
+
+            if task_id:
+                add_done_task(task_id, self.name)
 
             # 3. 执行节点成功
             self.logger.info(f"--- {self.name} 完成 ---")

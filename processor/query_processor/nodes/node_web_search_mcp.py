@@ -9,6 +9,7 @@ from processor.query_processor.base import NodeBase
 from processor.query_processor.state import QueryGraphState
 from tool.logger import logger
 from utils.json_format_utils import serialize_json
+from utils.task_utils import add_done_task
 
 
 class NodeWebSearchMcp(NodeBase):
@@ -32,8 +33,10 @@ class NodeWebSearchMcp(NodeBase):
                     logger.info(f"MCP 搜索结果: {docs}")
             except Exception as e:
                 logger.exception(f"联网搜索失败: {e}")
+                add_done_task(state.get("session_id"), self.name, state.get("is_stream"))
                 return {"web_search_docs": []}
 
+        add_done_task(state.get("session_id"), self.name, state.get("is_stream"))
         if docs:
             return {"web_search_docs": docs}
         return {"web_search_docs": []}

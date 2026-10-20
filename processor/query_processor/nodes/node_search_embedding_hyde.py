@@ -8,6 +8,7 @@ from utils.embedding_utils import generate_embeddings
 from utils.json_format_utils import serialize_json
 from utils.llm_utils import get_llm_client
 from utils.milvus_utils import create_hybrid_search_requests, escape_milvus_string, get_milvus_client, hybrid_search
+from utils.task_utils import add_done_task
 
 
 class NodeSearchEmbeddingHyde(NodeBase):
@@ -53,6 +54,7 @@ class NodeSearchEmbeddingHyde(NodeBase):
 			)
 
 			# 4、结果封装
+			add_done_task(state.get("session_id"), self.name, state.get("is_stream"))
 			return {
 				"hyde_embedding_chunks": res,
 				"hyde_doc": hyde_doc,
@@ -60,6 +62,7 @@ class NodeSearchEmbeddingHyde(NodeBase):
 
 		except Exception as e:
 			logger.exception(f"假设性文档向量搜索失败: {e}")
+			add_done_task(state.get("session_id"), self.name, state.get("is_stream"))
 			return {"hyde_embedding_chunks": [], "hyde_doc": ""}
 
 	def _step_1_create_hyde_doc(self, rewritten_query: str) -> str:

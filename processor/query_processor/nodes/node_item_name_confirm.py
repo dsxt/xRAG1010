@@ -13,6 +13,7 @@ from tool.logger import logger
 from utils.embedding_utils import generate_embeddings
 from utils.milvus_utils import get_milvus_client, create_hybrid_search_requests,hybrid_search
 from utils.mongo_history_utils import get_recent_messages, save_chat_message, update_message_item_names
+from utils.task_utils import add_done_task
 from config.lm_config import lm_config
 from config.milvus_config import milvus_config
 
@@ -75,7 +76,8 @@ class NodeItemNameConfirm(NodeBase):
         state = self._step_7_check_confirmation(state, align_result, history)
 
         # 8. 写入最终历史
-        self._step_8_write_history(state, session_id, rewritten_query, message_id)    
+        self._step_8_write_history(state, session_id, rewritten_query, message_id)
+        add_done_task(state.get("session_id"), self.name, state.get("is_stream"))
         return state
 
     def _step_1_validate_param(self, state: QueryGraphState) -> Tuple[str, str]:
@@ -89,6 +91,23 @@ class NodeItemNameConfirm(NodeBase):
             raise ValueError("核心参数original_query缺失")
 
         return session_id, original_query
+
+    @staticmethod
+    def _message_text(content) -> str:
+        """模型有时返回字符串，有时返回内容块列表。统一成文本再解析 JSON。"""
+        if isinstance(content, str):
+            return content
+        if isinstance(content, list):
+            parts = []
+            for item in content:
+                if isinstance(item, str):
+                    parts.append(item)
+                elif isinstance(item, dict):
+                    parts.append(str(item.get("text") or ""))
+                else:
+                    parts.append(str(getattr(item, "text", "") or ""))
+            return "".join(parts)
+        return str(content or "")
 
     def _step_4_extract_info(self, query, history) -> Dict:
         """
@@ -140,7 +159,7 @@ class NodeItemNameConfirm(NodeBase):
 
             # 5. 调用LLM客户端，发起请求获取结果
             response = chat_model.invoke(messages)
-            content = response.content
+            content = self._message_text(response.content)
 
             # 6. 数据清洗：处理LLM可能返回的代码块格式（如```json ... ```），去除包裹符
             if content.startswith("```json"):

@@ -8,6 +8,7 @@
 from abc import abstractmethod, ABC
 from typing import TypeVar
 from tool.logger import logger
+from utils.task_utils import add_running_task
 
 T = TypeVar("T")  # 泛型状态类型
 class NodeBase(ABC):
@@ -21,6 +22,11 @@ class NodeBase(ABC):
         try:
             # 1. 开始准备执行节点
             logger.info(f"--- {self.name} 开始啦 ---")
+
+            # 多路检索的完成标记放在各节点 return 之前；这里只记运行中
+            session_id = state.get("session_id") if isinstance(state, dict) else None
+            if session_id:
+                add_running_task(session_id, self.name, state.get("is_stream"))
 
             # 2. 执行节点
             result = self.process(state)

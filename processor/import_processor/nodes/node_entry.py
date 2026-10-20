@@ -53,7 +53,8 @@ class NodeEntry(BaseNode):
 
         # 4. 获取上传文件的标题，更新到state中
         state["file_title"] = import_file_path_obj.stem
-        state["file_dir"] = os.getenv("MD_ROOT_DIR") or r"D:\python\output"
+        if not state.get("file_dir"):
+            state["file_dir"] = os.getenv("MD_ROOT_DIR") or r"D:\python\output"
 
         # 5. 返回state
         return state

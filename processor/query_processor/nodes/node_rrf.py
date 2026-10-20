@@ -5,6 +5,7 @@ from processor.query_processor.base import NodeBase
 from processor.query_processor.state import QueryGraphState
 from tool.logger import logger
 from utils.json_format_utils import serialize_json
+from utils.task_utils import add_done_task
 
 
 class NodeRrf(NodeBase):
@@ -37,6 +38,7 @@ class NodeRrf(NodeBase):
         state['rrf_chunks'] = rrf_chunks
 
         # 6. 返回state
+        add_done_task(state.get("session_id"), self.name, state.get("is_stream"))
         return state
 
     def _collect_entities(self, hits) -> List[Dict[str, Any]]:
