@@ -1,0 +1,790 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="../img/AI.jpg">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.2.3">
+    
+    
+      
+        <title>2.1 数据集介绍 - 投满分项目</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.f7f47774.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    
+      
+  
+
+
+
+  
+  
+
+
+
+  <script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-36723568-3","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script>
+  <script async src="https://www.google-analytics.com/analytics.js"></script>
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#21" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="投满分项目" class="md-header__button md-logo" aria-label="投满分项目" data-md-component="logo">
+      
+  <img src="../img/AI.jpg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            投满分项目
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2.1 数据集介绍
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="投满分项目" class="md-nav__button md-logo" aria-label="投满分项目" data-md-component="logo">
+      
+  <img src="../img/AI.jpg" alt="logo">
+
+    </a>
+    投满分项目
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
+      
+      <label class="md-nav__link" for="__nav_1">
+        Chapter1：项目背景
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Chapter1：项目背景" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Chapter1：项目背景
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter1%EF%BC%9A%E9%A1%B9%E7%9B%AE%E8%83%8C%E6%99%AF/1.1_%E9%A1%B9%E7%9B%AE%E8%83%8C%E6%99%AF.html" class="md-nav__link">
+        1.1 项目背景
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter1%EF%BC%9A%E9%A1%B9%E7%9B%AE%E8%83%8C%E6%99%AF/1.2_%E9%A1%B9%E7%9B%AE%E6%9E%B6%E6%9E%84.html" class="md-nav__link">
+        1.2 项目架构
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      <label class="md-nav__link" for="__nav_2">
+        Chapter2：数据集
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Chapter2：数据集" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Chapter2：数据集
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          2.1 数据集介绍
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="2.1%20%E6%95%B0%E6%8D%AE%E9%9B%86%E4%BB%8B%E7%BB%8D.html" class="md-nav__link md-nav__link--active">
+        2.1 数据集介绍
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1. 数据类型
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 数据类型">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    1.1 日志数据
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    1.2 业务数据
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    1.3 第三方数据
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2. 项目数据概览
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3、投满分项目数据集
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    4. 小结
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2.2%20%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90.html" class="md-nav__link">
+        2.2 数据集分析
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        Chapter3：模型训练与部署
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Chapter3：模型训练与部署" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Chapter3：模型训练与部署
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter3%EF%BC%9A%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%E4%B8%8E%E9%83%A8%E7%BD%B2/3.1%20%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E6%A8%A1%E5%9E%8B.html" class="md-nav__link">
+        3.1 随机森林模型
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter3%EF%BC%9A%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%E4%B8%8E%E9%83%A8%E7%BD%B2/3.2%20fasttext%E6%A8%A1%E5%9E%8B.html" class="md-nav__link">
+        3.2 Fastext 模型
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter3%EF%BC%9A%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%E4%B8%8E%E9%83%A8%E7%BD%B2/3.3%20bert%E6%A8%A1%E5%9E%8B.html" class="md-nav__link">
+        3.3 Bert模型
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter3%EF%BC%9A%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%E4%B8%8E%E9%83%A8%E7%BD%B2/3.4%20LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B.html" class="md-nav__link">
+        3.4 大模型LLM
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        Chapter4：模型压缩
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Chapter4：模型压缩" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Chapter4：模型压缩
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter4%EF%BC%9A%E6%A8%A1%E5%9E%8B%E5%8E%8B%E7%BC%A9/4.1%E6%A8%A1%E5%9E%8B%E5%8E%8B%E7%BC%A9.html" class="md-nav__link">
+        4.1 模型压缩
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter4%EF%BC%9A%E6%A8%A1%E5%9E%8B%E5%8E%8B%E7%BC%A9/4.2%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96.html" class="md-nav__link">
+        4.2 模型量化
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter4%EF%BC%9A%E6%A8%A1%E5%9E%8B%E5%8E%8B%E7%BC%A9/4.3%E6%A8%A1%E5%9E%8B%E8%92%B8%E9%A6%8F.html" class="md-nav__link">
+        4.3 知识蒸馏
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter4%EF%BC%9A%E6%A8%A1%E5%9E%8B%E5%8E%8B%E7%BC%A9/4.4%E6%A8%A1%E5%9E%8B%E5%89%AA%E6%9E%9D.html" class="md-nav__link">
+        4.4 模型剪枝
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1. 数据类型
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 数据类型">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    1.1 日志数据
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    1.2 业务数据
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    1.3 第三方数据
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2. 项目数据概览
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3、投满分项目数据集
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    4. 小结
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="21">2.1 数据集介绍<a class="headerlink" href="#21" title="Permanent link">&para;</a></h1>
+<p><strong>学习目标</strong></p>
+<ul>
+<li>了解数据类型与数据来源</li>
+<li>熟悉投满分数据样例和格式</li>
+<li>理解投满分数据基础分析</li>
+</ul>
+<h2 id="1">1. 数据类型<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p><img alt="" src="img/datatypes.png" /></p>
+<h3 id="11">1.1 日志数据<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
+<p><strong>定义</strong>：日志数据是通过应用程序自动记录的事件数据，通常以非结构化或半结构化形式存储（如TXT、JSON），捕捉用户行为、系统操作或错误信息。日志数据高频、实时、规模大，常含噪声和缺失值，需清洗和处理。日志有很多种，例如包括用户行为埋点日志、app系统性能埋点日志（例如API响应时间）、广告埋点日志、搜索埋点日志等等。</p>
+<p><strong>特点：</strong>高频（秒级/分钟级），每日亿级至十亿级行甚至更多，具体取决于业务本身。</p>
+<p><strong>用途：</strong>行为分析、推荐优化、风控、系统监控、AI所需模型特征开发等。</p>
+<blockquote>
+<p><strong>示例：</strong></p>
+<p>用户行为埋点日志，记录用户在头条App的交互，如浏览文章、点击视频、点赞等。基于这样的行为数据可以用于推荐等场景。</p>
+<p>view用户打开文章或视频页面，页面加载完成时触发；click，用户点击标题、按钮或链接（如“阅读更多”）时触发等。</p>
+</blockquote>
+<p><img alt="image-20250525101311526" src="img/user_logs.png" /></p>
+<h3 id="12">1.2 业务数据<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<p><strong>定义</strong>：业务数据是公司核心业务流程生成的数据，结构化存储在数据库（如MySQL、Hive），记录业务实体或交易，字段明确，更新频率较低。</p>
+<p><strong>特点：</strong>更新在每日/每小时。结构化，数据量中等（百万至千万级行），具体取决于业务本身。</p>
+<p><strong>用途：</strong>业务分析、报表、模型特征、用户画像等。</p>
+<blockquote>
+<p><strong>示例：</strong></p>
+<p>订单类数据记录用户付费行为（如订阅会员、打赏），用户类数据记录用户信息和画像（如年龄、兴趣偏好），通过 user_id 关联日志数据（用户行为）和其他业务数据（如文章元数据），为推荐模型提供静态特征。</p>
+<p><img alt="image-20250525104046808" src="img/user_order_data.png" /></p>
+</blockquote>
+<h3 id="13">1.3 第三方数据<a class="headerlink" href="#13" title="Permanent link">&para;</a></h3>
+<p><strong>定义：</strong>第三方数据是从外部合作伙伴、公开数据集或API获取的数据，非公司内部生成，格式多样，质量参差不齐。</p>
+<p><strong>特点：</strong>格式多样，数据量小至中等（千行至百万级行等）。且需整合清洗，可能涉及费用。</p>
+<p><strong>用途：</strong>丰富特征、增强模型上下文、补充画像等。</p>
+<blockquote>
+<p><strong>示例：</strong></p>
+<p>电信运营商提供的用户画像数据，基于用户通话、流量使用、地理位置等生成兴趣标签、消费能力、行为特征，增强推荐系统精准性。</p>
+</blockquote>
+<p><img alt="image-20250525105059645" src="img/third_party_data.png" /></p>
+<h2 id="2">2. 项目数据概览<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<p>本次是属于内部项目，实际项目中的数据来源有多种情况，本次的数据是第①中情况，即<strong>公司数据平台提供成品数据:</strong></p>
+<p><img alt="image-20250525111430541" src="img/data_sources%20.png" /></p>
+<p><strong>第一类: 内部项目，公司内部数据部门提供</strong></p>
+<ul>
+<li>情况1: 数据平台有预处理, 提供的是"成品数据".</li>
+<li>情况2: 数据平台没有预处理, 只告诉开发人员"数据路径".</li>
+<li>情况3：数据平台有部分数据，但需要增加第三方数据.</li>
+<li>情况4: 原始数据就没有, 需要开发人员沟通不同部分, 来最终得到数据.</li>
+</ul>
+<p><strong>第二类: TOB项目，甲方提需求, 并提供数据</strong></p>
+<ul>
+<li>情况1: 甲方有预处理数据, 提供的基本是"半成品数据".</li>
+<li>情况2: 甲方只负责"埋点", 后续数据需要开发人员处理.</li>
+<li>情况3: 甲方数据"匮乏", 甚至数据"缺失".</li>
+</ul>
+<p><strong>第三类: 其他</strong></p>
+<ul>
+<li>实际可能还存在其他情况，这里不继续拓展。</li>
+</ul>
+<h2 id="3">3、投满分项目数据集<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<p>以下是投满分项目数据集，这里快速预览，接下来的会在 <strong>2.2 数据集分析</strong> 小节着重展开。</p>
+<p><strong>数据位置</strong>：TMFCode/01-data</p>
+<p><img alt="image-20250526092210745" src="img/data_preview.png" /></p>
+<blockquote>
+<p>数据文件：</p>
+<p><strong>数据位置</strong>：TMFCode/01-data</p>
+<p><strong>class.txt</strong> 为标签文件，包含10个类别标签, 每行一个标签, 为英文单词的展示格式.</p>
+<p><strong>train.txt</strong>  为18w条样本，10个类别，每个类别是1.8w。每行包括两列, 第一列为文本, 第二列是标签, 中间用\t作为分隔符.</p>
+<p><strong>test.txt</strong>  为1w条样本，每行包括两列, 第一列为文本, 第二列是标签, 中间用\t作为分隔符.</p>
+<p><strong>dev.txt</strong>  为1w条样本，每行包括两列, 第一列为文本, 第二列是标签, 中间用\t作为分隔符.</p>
+</blockquote>
+<h2 id="4">4. 小结<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
+<ul>
+<li>本小节主要介绍了数据类型以及本次投满分项目数据来源、以及数据整体概览。</li>
+</ul>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../Chapter1%EF%BC%9A%E9%A1%B9%E7%9B%AE%E8%83%8C%E6%99%AF/1.2_%E9%A1%B9%E7%9B%AE%E6%9E%B6%E6%9E%84.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: 1.2 项目架构" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              1.2 项目架构
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="2.2%20%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90.html" class="md-footer__link md-footer__link--next" aria-label="下一页: 2.2 数据集分析" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              2.2 数据集分析
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            ©Copyright wuchangbin 666 This website has been reviewed by the review agency. 京ICP备25006739号
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.709b4209.min.js", "translations": {"search.placeholder": "\u641c\u7d22", "search.result.term.missing": "Missing", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "1 more on this page", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "select.version.title": "Select version", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.more.other": "# more on this page", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.separator": "[\\uff0c\\u3002]+", "search.config.pipeline": "trimmer, stemmer", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.29db7785.min.js"></script>
+      
+        <script src="../javascripts/extra.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

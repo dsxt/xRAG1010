@@ -1,0 +1,22 @@
+import torch
+
+if __name__ == '__main__':
+    pred_index = torch.tensor([[11, 22, 33], [44, 55, 66]])
+    labels =     torch.tensor([[11, 888, 33], [999, 55, 66]])
+
+    result_1 = (pred_index == labels)
+    result_2 = (pred_index == labels).sum()
+    result_3 = (pred_index == labels).sum().item()
+
+    print(result_1)
+    print("-"*30)
+    print(result_2)
+    print("-" * 30)
+    print(result_3)
+
+    print("-"*30)
+    predict_mask_index = 3
+    last_hidden_state = torch.randint(low=1,high=5,size=(2,5,6))
+    mask_hidden = last_hidden_state[:, predict_mask_index]
+    print(mask_hidden)
+    print(mask_hidden.shape)

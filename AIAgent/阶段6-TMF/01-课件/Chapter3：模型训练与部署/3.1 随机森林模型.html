@@ -1,0 +1,1481 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="../img/AI.jpg">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.2.3">
+    
+    
+      
+        <title>3.1 随机森林模型 - 投满分项目</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.f7f47774.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    
+      
+  
+
+
+
+  
+  
+
+
+
+  <script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-36723568-3","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script>
+  <script async src="https://www.google-analytics.com/analytics.js"></script>
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#31" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="投满分项目" class="md-header__button md-logo" aria-label="投满分项目" data-md-component="logo">
+      
+  <img src="../img/AI.jpg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            投满分项目
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3.1 随机森林模型
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="投满分项目" class="md-nav__button md-logo" aria-label="投满分项目" data-md-component="logo">
+      
+  <img src="../img/AI.jpg" alt="logo">
+
+    </a>
+    投满分项目
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
+      
+      <label class="md-nav__link" for="__nav_1">
+        Chapter1：项目背景
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Chapter1：项目背景" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Chapter1：项目背景
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter1%EF%BC%9A%E9%A1%B9%E7%9B%AE%E8%83%8C%E6%99%AF/1.1_%E9%A1%B9%E7%9B%AE%E8%83%8C%E6%99%AF.html" class="md-nav__link">
+        1.1 项目背景
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter1%EF%BC%9A%E9%A1%B9%E7%9B%AE%E8%83%8C%E6%99%AF/1.2_%E9%A1%B9%E7%9B%AE%E6%9E%B6%E6%9E%84.html" class="md-nav__link">
+        1.2 项目架构
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
+        Chapter2：数据集
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Chapter2：数据集" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Chapter2：数据集
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter2%EF%BC%9A%E6%95%B0%E6%8D%AE%E9%9B%86/2.1%20%E6%95%B0%E6%8D%AE%E9%9B%86%E4%BB%8B%E7%BB%8D.html" class="md-nav__link">
+        2.1 数据集介绍
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter2%EF%BC%9A%E6%95%B0%E6%8D%AE%E9%9B%86/2.2%20%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90.html" class="md-nav__link">
+        2.2 数据集分析
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      <label class="md-nav__link" for="__nav_3">
+        Chapter3：模型训练与部署
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Chapter3：模型训练与部署" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Chapter3：模型训练与部署
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          3.1 随机森林模型
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="3.1%20%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E6%A8%A1%E5%9E%8B.html" class="md-nav__link md-nav__link--active">
+        3.1 随机森林模型
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1. 代码结构图
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2. 代码实现
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 代码实现">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-config" class="md-nav__link">
+    2.1 config配置文件
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22dataeda_processing" class="md-nav__link">
+    2.2dataEDA_Processing数据处理
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2dataEDA_Processing数据处理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step1" class="md-nav__link">
+    step1:读取数据
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step2" class="md-nav__link">
+    step2: 进行分词预处理
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step3" class="md-nav__link">
+    step3：保存数据
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-rf_trainpy" class="md-nav__link">
+    2.3 rf_train.py 模型训练脚本
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 rf_train.py 模型训练脚本">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step1_1" class="md-nav__link">
+    step1:读取数据
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step2_1" class="md-nav__link">
+    step2:将文本转换为数值特征
+  </a>
+  
+    <nav class="md-nav" aria-label="step2:将文本转换为数值特征">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tf-idf" class="md-nav__link">
+    TF-IDF介绍
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    代码实现
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step3_1" class="md-nav__link">
+    step3:模型训练和模型评估
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step4" class="md-nav__link">
+    step4: 模型保存
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24rf_predictpy" class="md-nav__link">
+    2.4rf_predict.py 模型预测脚本
+  </a>
+  
+    <nav class="md-nav" aria-label="2.4rf_predict.py 模型预测脚本">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step1_2" class="md-nav__link">
+    step1：加载模型及向量化器
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step2dev" class="md-nav__link">
+    step2：读取dev数据
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step3tfidf" class="md-nav__link">
+    step3：通过tfidf向量器，转换为数值特征
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step4_1" class="md-nav__link">
+    step4：进行模型预测与保存
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25rf_predict_funpy" class="md-nav__link">
+    2.5rf_predict_fun.py 模型预测脚本
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-apipy" class="md-nav__link">
+    2.5 api.py接口封装
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="3.2%20fasttext%E6%A8%A1%E5%9E%8B.html" class="md-nav__link">
+        3.2 Fastext 模型
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="3.3%20bert%E6%A8%A1%E5%9E%8B.html" class="md-nav__link">
+        3.3 Bert模型
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="3.4%20LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B.html" class="md-nav__link">
+        3.4 大模型LLM
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        Chapter4：模型压缩
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Chapter4：模型压缩" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Chapter4：模型压缩
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter4%EF%BC%9A%E6%A8%A1%E5%9E%8B%E5%8E%8B%E7%BC%A9/4.1%E6%A8%A1%E5%9E%8B%E5%8E%8B%E7%BC%A9.html" class="md-nav__link">
+        4.1 模型压缩
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter4%EF%BC%9A%E6%A8%A1%E5%9E%8B%E5%8E%8B%E7%BC%A9/4.2%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96.html" class="md-nav__link">
+        4.2 模型量化
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter4%EF%BC%9A%E6%A8%A1%E5%9E%8B%E5%8E%8B%E7%BC%A9/4.3%E6%A8%A1%E5%9E%8B%E8%92%B8%E9%A6%8F.html" class="md-nav__link">
+        4.3 知识蒸馏
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter4%EF%BC%9A%E6%A8%A1%E5%9E%8B%E5%8E%8B%E7%BC%A9/4.4%E6%A8%A1%E5%9E%8B%E5%89%AA%E6%9E%9D.html" class="md-nav__link">
+        4.4 模型剪枝
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1. 代码结构图
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2. 代码实现
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 代码实现">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-config" class="md-nav__link">
+    2.1 config配置文件
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22dataeda_processing" class="md-nav__link">
+    2.2dataEDA_Processing数据处理
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2dataEDA_Processing数据处理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step1" class="md-nav__link">
+    step1:读取数据
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step2" class="md-nav__link">
+    step2: 进行分词预处理
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step3" class="md-nav__link">
+    step3：保存数据
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-rf_trainpy" class="md-nav__link">
+    2.3 rf_train.py 模型训练脚本
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 rf_train.py 模型训练脚本">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step1_1" class="md-nav__link">
+    step1:读取数据
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step2_1" class="md-nav__link">
+    step2:将文本转换为数值特征
+  </a>
+  
+    <nav class="md-nav" aria-label="step2:将文本转换为数值特征">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tf-idf" class="md-nav__link">
+    TF-IDF介绍
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    代码实现
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step3_1" class="md-nav__link">
+    step3:模型训练和模型评估
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step4" class="md-nav__link">
+    step4: 模型保存
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24rf_predictpy" class="md-nav__link">
+    2.4rf_predict.py 模型预测脚本
+  </a>
+  
+    <nav class="md-nav" aria-label="2.4rf_predict.py 模型预测脚本">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step1_2" class="md-nav__link">
+    step1：加载模型及向量化器
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step2dev" class="md-nav__link">
+    step2：读取dev数据
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step3tfidf" class="md-nav__link">
+    step3：通过tfidf向量器，转换为数值特征
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step4_1" class="md-nav__link">
+    step4：进行模型预测与保存
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25rf_predict_funpy" class="md-nav__link">
+    2.5rf_predict_fun.py 模型预测脚本
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-apipy" class="md-nav__link">
+    2.5 api.py接口封装
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="31">3.1 随机森林模型<a class="headerlink" href="#31" title="Permanent link">&para;</a></h1>
+<p><strong>学习目标</strong></p>
+<ul>
+<li>掌握利用随机森林快速实现投满分项目的基线模型.</li>
+<li>能够完成模型部署</li>
+<li>理解整个算法建模、评估、上线整个流程</li>
+</ul>
+<blockquote>
+<p><strong>为什么要做基线模型？</strong>：</p>
+<p><strong>基线模型(Baseline Model)</strong>是AI建模任务的重要起点，主要核心目标是：</p>
+<p>①快速验证任务可行性：基线模型通常简单高效，能够快速验证数据和任务的可行性，为后续优化提供方向。</p>
+<p>②提供性能参考：基线模型的性能为后续复杂模型（如深度学习模型）提供对比基准，衡量改进效果。</p>
+<p>③降低开发成本：基线模型实现简单，能在资源有限的情况下快速构建一个可用的解决方案。</p>
+<p>④发现问题：通过基线模型的训练和评估，可以发现潜在的一些问题，例如数据质量问题。
+</p>
+</blockquote>
+<h2 id="1">1. 代码结构图<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p><img src="img/rf_code_structure.png" style="zoom:150%;" /></p>
+<blockquote>
+<p>基于随机森林分类建模思路：</p>
+<p>①对数据train.txt等相关文件的文本列进行 分词处理， 得到words列。</p>
+<p><img alt="image-20250526145119002" src="img/text_jieba.png" /></p>
+<p>②采用TF-IDF将words列，转换为数值特征</p>
+<p><img alt="image-20250526150436341" src="img/tf-idf-features.png" /></p>
+<p>③利用随机森林算法进行建模、评估与保存。</p>
+<p>④模型预测</p>
+<p>⑤模型部署，提供api接口</p>
+<p>⑥前端预测实现</p>
+</blockquote>
+<h2 id="2">2. 代码实现<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<h3 id="21-config">2.1 config配置文件<a class="headerlink" href="#21-config" title="Permanent link">&para;</a></h3>
+<p><strong>代码位置</strong>：TMFCode\02-rf\config.py</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root_path</span> <span class="o">=</span> <span class="s1">&#39;/Users/duyi/duyi7/HeiMa/我的课程/投满分项目/投满分项目-我的备课/03-code/TouManFenClassifier/&#39;</span>
+        <span class="c1"># 原始数据路径</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">train_datapath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_path</span> <span class="o">+</span> <span class="s1">&#39;01-data/train.txt&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_datapath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_path</span> <span class="o">+</span> <span class="s1">&#39;01-data/test.txt&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dev_datapath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_path</span> <span class="o">+</span> <span class="s1">&#39;01-data/dev.txt&#39;</span>
+        <span class="c1"># 类别文档</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">class_doc_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_path</span> <span class="o">+</span> <span class="s2">&quot;01-data/class.txt&quot;</span>
+        <span class="c1"># 停用词路径</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stop_words_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_path</span> <span class="o">+</span> <span class="s2">&quot;01-data/stopwords.txt&quot;</span>
+
+        <span class="c1"># 处理后的数据路径</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">process_train_datapath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_path</span> <span class="o">+</span> <span class="s2">&quot;02-rf/final_data/train_process.txt&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">process_test_datapath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_path</span> <span class="o">+</span> <span class="s2">&quot;02-rf/final_data/test_process.txt&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">process_dev_datapath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_path</span> <span class="o">+</span> <span class="s2">&quot;02-rf/final_data/dev_process.txt&quot;</span>
+
+
+        <span class="c1"># 保存模型路径</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rf_model_save_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_path</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;02-rf/save_model/rf_model.pkl&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tfidf_model_save_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_path</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;02-rf/save_model/tfidf_model.pkl&quot;</span>
+        <span class="c1"># 模型预测结果</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_predict_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_path</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;02-rf/result/predict_result.txt&quot;</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">train_datapath</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="22dataeda_processing">2.2dataEDA_Processing数据处理<a class="headerlink" href="#22dataeda_processing" title="Permanent link">&para;</a></h3>
+<p><strong>代码位置</strong>：</p>
+<div class="highlight"><pre><span></span><code>TMFCode<span class="se">\0</span><span class="m">2</span>-rf<span class="se">\d</span>ataEDA_Processing.py
+</code></pre></div>
+
+<p>导入工具包及初始化配置</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">jieba</span>
+<span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">Config</span>
+<span class="c1"># 初始化配置文件</span>
+<span class="n">conf</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
+</code></pre></div>
+
+<h4 id="step1">step1:读取数据<a class="headerlink" href="#step1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1">#设置处理的及分析的文件路径，默认为 train.txt</span>
+<span class="n">current_path</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">train_datapath</span>
+<span class="n">current_path</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">test_datapath</span>
+<span class="n">current_path</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">dev_datapath</span>
+<span class="c1"># 第一步：读取数据</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">current_path</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">])</span>  <span class="c1"># 读取CSV文件，指定列名为text和label</span>
+</code></pre></div>
+
+<h4 id="step2">step2: 进行分词预处理<a class="headerlink" href="#step2" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 第二步：进行分词预处理</span>
+<span class="k">def</span> <span class="nf">cut_sentence</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;对输入文本进行结巴分词，并限制前30个词&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">jieba</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">s</span><span class="p">))[:</span><span class="mi">30</span><span class="p">])</span>  <span class="c1"># 分词后取前30个词并a用空格连接</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;words&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">cut_sentence</span><span class="p">)</span>  <span class="c1"># 对每行文本进行分词并存储到words列</span>
+</code></pre></div>
+
+<h4 id="step3">step3：保存数据<a class="headerlink" href="#step3" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 第三步：保存处理后的数据</span>
+<span class="k">if</span> <span class="s2">&quot;train&quot;</span> <span class="ow">in</span> <span class="n">current_path</span><span class="p">:</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">conf</span><span class="o">.</span><span class="n">processt_train_datapath</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="c1"># 将处理后的数据保存到CSV文件</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;train数据已经处理完成，已经成功保存至：</span><span class="si">{</span><span class="n">conf</span><span class="o">.</span><span class="n">processt_train_datapath</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">elif</span> <span class="s2">&quot;test&quot;</span> <span class="ow">in</span> <span class="n">current_path</span><span class="p">:</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">conf</span><span class="o">.</span><span class="n">proces_test_datapath</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="c1"># 将处理后的数据保存到CSV文件</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;test数据已经处理完成，已经成功保存至：</span><span class="si">{</span><span class="n">conf</span><span class="o">.</span><span class="n">proces_test_datapath</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">elif</span> <span class="s2">&quot;dev&quot;</span> <span class="ow">in</span> <span class="n">current_path</span><span class="p">:</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">conf</span><span class="o">.</span><span class="n">proces_dev_datapath</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="c1"># 将处理后的数据保存到CSV文件</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;dev数据已经处理完成，已经成功保存至：</span><span class="si">{</span><span class="n">conf</span><span class="o">.</span><span class="n">proces_dev_datapath</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="23-rf_trainpy">2.3 rf_train.py 模型训练脚本<a class="headerlink" href="#23-rf_trainpy" title="Permanent link">&para;</a></h3>
+<p><strong>代码位置</strong>：</p>
+<div class="highlight"><pre><span></span><code>TMFCode<span class="se">\0</span><span class="m">2</span>-rf<span class="se">\r</span>f_train.py
+</code></pre></div>
+
+<p>导入工具包及初始化配置</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">precision_score</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">,</span> <span class="n">f1_score</span><span class="p">,</span> <span class="n">classification_report</span><span class="p">,</span> \
+    <span class="n">confusion_matrix</span>
+<span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">Config</span>
+
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.expand_frame_repr&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>  <span class="c1"># 避免宽表格换行</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_columns&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>  <span class="c1"># 确保所有列可见</span>
+<span class="n">conf</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
+</code></pre></div>
+
+<h4 id="step1_1">step1:读取数据<a class="headerlink" href="#step1_1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 第一步：读取数据</span>
+<span class="c1"># 读取训练数据集</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">conf</span><span class="o">.</span><span class="n">processt_train_datapath</span><span class="p">)[:</span><span class="mi">20000</span><span class="p">]</span>
+<span class="n">words</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;words&quot;</span><span class="p">]</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+</code></pre></div>
+
+<h4 id="step2_1">step2:将文本转换为数值特征<a class="headerlink" href="#step2_1" title="Permanent link">&para;</a></h4>
+<blockquote>
+<p>注意：目前有非常多的方式可以实现文本到数值的转换，例如one-hot等等，本次采用tf-idf进行文本的数值化处理。它的核心是将文本转化为一组数字（向量），让计算机能处理文字。</p>
+</blockquote>
+<h5 id="tf-idf">TF-IDF介绍<a class="headerlink" href="#tf-idf" title="Permanent link">&para;</a></h5>
+<p>TF-IDF（term frequency–inverse document frequency，词频-逆向文件频率）是一种将文本转化为数值向量的向量化方法。它由两部分组成，TF 和 IDF。</p>
+<ul>
+<li>TF 为term frequency,即词频。衡量一个词在一篇文章里出现的频率（出现的次数除以文章总词数）。</li>
+<li>逆文档频率（inverse document frequency）：IDF 用来衡量一个词在所有文章中的“独特性”。如果一个词只在少数文章中出现（很罕见），它就更能代表这些文章的特殊内容，IDF 分数高，说明它很重要；如果一个词几乎每篇文章都有（很常见），它对区分文章内容没太大帮助，IDF 分数低，说明它不重要。</li>
+</ul>
+<p><strong>①TF</strong></p>
+<div class="highlight"><pre><span></span><code>#样例数据：
+D1: 中华 女子 学院 本科 层次 仅 1 专业 招 男生
+D2: 两天 价 网站 背后 重重 迷雾 ： 做个 网站 究竟 要 多少 钱
+D3: 东 5 环 海棠 公社 230 - 290 平 2 居 准现房 98 折 优惠
+D4: 卡佩罗 ： 告诉 你 德国 脚 生猛 的 原因 不 希望 英德 战 踢 点球
+D5: 82 岁 老太 为 学生 做饭 扫地 44 年 获 授 港大 荣誉 院士
+</code></pre></div>
+
+<p>第①步，计算词频TF。
+$$
+\text{TF}(t, d) = \frac{\text{词 } t \text{ 在文档 } d \text{ 中的出现次数}}{\text{文档 } d \text{ 的总词数}}
+$$</p>
+<ul>
+<li>t为具体的词，（如“本科”）。</li>
+<li>( d ): 当前文档（如 D1）</li>
+<li>TF作用：衡量当前词在当前文档的频率。考虑到文章有长短之分，为了便于不同文章的比较，进行 “词频” 标准化（归一化），也就有了上述分母。</li>
+<li>示例：TF("本科",D1) = 1/10 </li>
+</ul>
+<p><strong>②IDF</strong></p>
+<p>第②步，计算逆文档频率。看一个词在所有文章中是否罕见。罕见的词（如“本科”）分数高，常见的词（如“的”）分数低。
+$$
+\text{IDF}(t) = \log\left(\frac{N}{\text{df}(t) + 1}\right) + 1
+$$</p>
+<ul>
+<li>
+<p>( N ): 总文档数。</p>
+</li>
+<li>
+<p>df ( t ) 的文档数</p>
+</li>
+<li>
+<p>示例：IDF("本科") =log(5/2) +1 ≈ 0.398
+  $$
+  \text{df}(t): 包含词 ( t ) 的文档数。
+  $$</p>
+</li>
+</ul>
+<blockquote>
+<p>如果一个词越常见，那么分母就越大，逆文档频率就越小越接近0。这里分母+1，是为了避免分母为0（即所有文档都不包含该词）。</p>
+<p>log表示对得到的值取对数。</p>
+</blockquote>
+<p><strong>③TF-IDF</strong></p>
+<p>第③步，计算TF-IDF。
+$$
+\text{TF-IDF}(t, d) = \text{TF}(t, d) \times \text{IDF}(t)
+$$
+含义：结合 TF 和 IDF，计算词   t 在文档  d 的重要性分数。</p>
+<p><strong>④总结</strong></p>
+<p>TF-IDF 是一种统计方法，用以评估一字词对于一个文件集或一个语料库中的其中一份文件的重要程度。字词的重要性随着它在文件中出现的次数的增加成正比增加，但同时会随着它在语料库中出现的频率成反比下降。</p>
+<p>TF-IDF 的主要思想是：如果某个单词在一篇文章中出现的频率 TF 高，并且在其他文章中很少出现，则认为此词或者短语具有很好的类别区分能力，适合用来分类。</p>
+<h5 id="_1">代码实现<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="c1"># 第二步：将文本转换为数值特征</span>
+<span class="c1"># 读取停用词文件</span>
+<span class="n">stop_words</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">conf</span><span class="o">.</span><span class="n">stop_words_path</span><span class="p">,</span><span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="n">tfidf</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">(</span><span class="n">stop_words</span><span class="o">=</span><span class="n">stop_words</span><span class="p">)</span>
+<span class="n">features</span> <span class="o">=</span> <span class="n">tfidf</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
+
+<span class="c1">#  查看特征,features是稀疏矩阵，稀疏矩阵的格式是 (row, column) value</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+<span class="c1">#  查看特征维度  1000行 4687</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">features</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">tfidf</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">()))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tfidf</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">()))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tfidf</span><span class="o">.</span><span class="n">vocabulary_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tfidf</span><span class="o">.</span><span class="n">vocabulary_</span><span class="p">))</span>
+</code></pre></div>
+
+<h4 id="step3_1">step3:模型训练和模型评估<a class="headerlink" href="#step3_1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 第三步：划分训练集和测试集，模型训练和模型预测评估</span>
+<span class="c1"># 划分数据集</span>
+<span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span>
+
+<span class="c1"># 训练随机森林模型</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">()</span>  <span class="c1"># 默认参数</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;训练模型...&quot;</span><span class="p">)</span>
+<span class="c1"># 使用 tqdm 包装 model.fit 来显示进度条</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;RandomForest模型训练进度....&quot;</span><span class="p">):</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># 模型预测并评估</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;模型预测评估...&quot;</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;预测结果:&quot;</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;准确率:&quot;</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;精确率 (macro):&quot;</span><span class="p">,</span> <span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;macro&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;召回率 (macro):&quot;</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;macro&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;F1分数 (macro):&quot;</span><span class="p">,</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;macro&#39;</span><span class="p">))</span>
+</code></pre></div>
+
+<h4 id="step4">step4: 模型保存<a class="headerlink" href="#step4" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 第四步：保存模型和向量化器</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;保存模型和向量化器...&quot;</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">conf</span><span class="o">.</span><span class="n">rf_model_save_path</span> <span class="o">+</span> <span class="s1">&#39;/rf_model.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">conf</span><span class="o">.</span><span class="n">rf_model_save_path</span> <span class="o">+</span> <span class="s1">&#39;/tfidf_vectorizer.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">tfidf</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;模型和向量化器，保存成功！&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>输出结果日志：</p>
+<div class="highlight"><pre><span></span><code><span class="err">模型评估结果如下</span><span class="o">:</span>
+<span class="err">准确率：</span> <span class="mf">0.725</span>
+<span class="err">精确率：</span> <span class="mf">0.7636486677943023</span>
+<span class="err">召回率：</span> <span class="mf">0.7250275473104539</span>
+<span class="n">F1</span><span class="err">值：</span> <span class="mf">0.7346080014939013</span>
+<span class="err">保存模型和向量化器</span><span class="o">...</span>
+<span class="err">模型和向量化器，保存成功！</span>
+</code></pre></div>
+
+<h3 id="24rf_predictpy">2.4rf_predict.py 模型预测脚本<a class="headerlink" href="#24rf_predictpy" title="Permanent link">&para;</a></h3>
+<p><strong>代码位置：</strong></p>
+<div class="highlight"><pre><span></span><code>TMFCode<span class="se">\0</span><span class="m">2</span>-rf<span class="se">\r</span>f_predict.py
+</code></pre></div>
+
+<p>导入工具包及初始化配置</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">Config</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="c1"># 设置pandas显示选项</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_columns&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="c1"># 加载配置</span>
+<span class="n">conf</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
+</code></pre></div>
+
+<h4 id="step1_2">step1：加载模型及向量化器<a class="headerlink" href="#step1_2" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 第一步：加载保存的模型和向量化器</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;加载模型和向量化器...&quot;</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">conf</span><span class="o">.</span><span class="n">rf_model_save_path</span> <span class="o">+</span> <span class="s1">&#39;/rf_model.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">conf</span><span class="o">.</span><span class="n">rf_model_save_path</span> <span class="o">+</span> <span class="s1">&#39;/tfidf_vectorizer.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">tfidf</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</code></pre></div>
+
+<h4 id="step2dev">step2：读取dev数据<a class="headerlink" href="#step2dev" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;读取dev数据...&quot;</span><span class="p">)</span>
+<span class="n">dev_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">conf</span><span class="o">.</span><span class="n">proces_dev_datapath</span><span class="p">)</span>
+<span class="n">dev_df</span><span class="p">[</span><span class="s1">&#39;words&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dev_df</span><span class="p">[</span><span class="s1">&#39;words&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dev数据前5行:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dev_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+</code></pre></div>
+
+<h4 id="step3tfidf">step3：通过tfidf向量器，转换为数值特征<a class="headerlink" href="#step3tfidf" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;转换dev数据为数值...&quot;</span><span class="p">)</span>
+<span class="n">dev_features</span> <span class="o">=</span> <span class="n">tfidf</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">dev_df</span><span class="p">[</span><span class="s1">&#39;words&#39;</span><span class="p">])</span>
+</code></pre></div>
+
+<h4 id="step4_1">step4：进行模型预测与保存<a class="headerlink" href="#step4_1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 第四步：进行预测及保存</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;进行预测...&quot;</span><span class="p">)</span>
+<span class="n">dev_predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">dev_features</span><span class="p">)</span>
+
+<span class="c1"># 保存预测结果</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;保存预测结果...&quot;</span><span class="p">)</span>
+<span class="n">output_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;words&#39;</span><span class="p">:</span> <span class="n">dev_df</span><span class="p">[</span><span class="s1">&#39;words&#39;</span><span class="p">],</span> <span class="s1">&#39;predicted_label&#39;</span><span class="p">:</span> <span class="n">dev_predictions</span><span class="p">})</span>
+<span class="n">output_path</span> <span class="o">=</span> <span class="n">conf</span><span class="o">.</span><span class="n">model_predict_result</span> <span class="o">+</span> <span class="s1">&#39;/dev_predictions.csv&#39;</span>
+<span class="n">output_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;预测结果已保存到 </span><span class="si">{</span><span class="n">output_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;预测结果前5行:&quot;</span><span class="p">)</span> 
+<span class="nb">print</span><span class="p">(</span><span class="n">output_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+</code></pre></div>
+
+<h3 id="25rf_predict_funpy">2.5rf_predict_fun.py 模型预测脚本<a class="headerlink" href="#25rf_predict_funpy" title="Permanent link">&para;</a></h3>
+<p><strong>代码位置：</strong></p>
+<div class="highlight"><pre><span></span><code>TMFCode\02-rf\rf_predict_fun.py
+</code></pre></div>
+
+<p><strong>导入包以及配置文件：</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">jieba</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">Config</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+<span class="c1"># 设置pandas显示选项</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_columns&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">conf</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
+</code></pre></div>
+
+<p><strong>进行单条原样本预测：</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 加载模型</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">conf</span><span class="o">.</span><span class="n">rf_model_save_path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="c1"># 加载向量化器</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">conf</span><span class="o">.</span><span class="n">tfidf_model_save_path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">tfidf</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">predict_fun</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="c1"># 分词</span>
+    <span class="n">words</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">jieba</span><span class="o">.</span><span class="n">lcut</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">])[:</span><span class="mi">30</span><span class="p">])</span>
+    <span class="c1"># 向量化</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">tfidf</span><span class="o">.</span><span class="n">transform</span><span class="p">([</span><span class="n">words</span><span class="p">])</span>
+    <span class="c1"># 预测</span>
+    <span class="n">y_pred_id</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">features</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># 设置对应关系</span>
+    <span class="n">id2class</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">conf</span><span class="o">.</span><span class="n">class_doc_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))}</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">id2class</span><span class="p">[</span><span class="n">y_pred_id</span><span class="p">]</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;pred_class&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_pred</span>
+    <span class="k">return</span> <span class="n">data</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;体验2D巅峰 倚天屠龙记十大创新概览&quot;</span><span class="p">}</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">predict_fun</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>输入日志：</strong></p>
+<div class="highlight"><pre><span></span><code>{&#39;text&#39;: &#39;体验2D巅峰 倚天屠龙记十大创新概览&#39;, &#39;pred_class&#39;: &#39;game&#39;}
+</code></pre></div>
+
+<h3 id="25-apipy">2.5 api.py接口封装<a class="headerlink" href="#25-apipy" title="Permanent link">&para;</a></h3>
+<p>工业界中的AI是指"能落地的AI", 即指在生产环境中可以部署并提供在线, 或离线作业的模型.</p>
+<ul>
+<li>例如：随机森林模型的在线服务地址（http://127.0.0.1:8001）</li>
+</ul>
+<blockquote>
+<p>api.py服务启动演示：</p>
+<blockquote>
+<p>代码地址：C:\Lucky_dt\2_bj\TMFCode\02-rf\api.py</p>
+<p>运行截图：
+<img alt="image-20250606162442823" src="img/image-20250606162442823-1749198284796-7.png" /></p>
+</blockquote>
+<p>flask的demo:</p>
+<blockquote>
+<p>Flask框架是当下最受欢迎的python轻量级框架，也是pytorch官网指定的部署框架。 Flask的基本模式为在程序里将一个视图函数分配给一个URL，每当用户访问这个URL时，系统就会执行给该URL分配好的视图函数，获取函数的返回值，其工作过程见图：
+<img alt="image-20250606162641669" src="img/image-20250606162641669.png" /></p>
+<div class="highlight"><pre><span></span><code>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>
+</code></pre></div>
+
+<p>from flask import Flask</p>
+<h1 id="app">创建app服务<a class="headerlink" href="#app" title="Permanent link">&para;</a></h1>
+<p>app=Flask(<strong>name</strong>) #创建快递站</p>
+<h1 id="_2">引入路由模块<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h1>
+<p>@app.route("/")
+def gate():
+return "hello world"
+@app.route("/sendPackage")
+def sendPackage():
+return "寄件请先填写单号，请联系快递员小A"
+@app.route("/pickupPackage")
+def pickupPackage():
+return "取快递请先出示取件码，请联系快递员小C"
+if <strong>name</strong> == '<strong>main</strong>':
+app.run(host='0.0.0.0', port=5004, debug=True)</p>
+<div class="highlight"><pre><span></span><code>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>
+</code></pre></div>
+
+</blockquote>
+<p>推理延时计算：</p>
+<div class="highlight"><pre><span></span><code>import time
+start_time = time.time()
+# 计算耗时（毫秒）
+elapsed_time = (time.time() - start_time) * 1000
+</code></pre></div>
+
+</blockquote>
+<h4 id="_3">用哪些工具？<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
+<p>将预测函数封装成 api.py在线服务，需要flask、request工具！</p>
+<p><strong>代码位置</strong>：</p>
+<div class="highlight"><pre><span></span><code>TMFCode\02-rf\api.py
+</code></pre></div>
+
+<p>导包及配置文件：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">jsonify</span>
+<span class="kn">import</span> <span class="nn">jieba</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">Config</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">rf_predict_fun</span> <span class="kn">import</span> <span class="n">predict</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_columns&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>构建flask应用：</strong>
+<strong>注：requests 是一个简单易用的 HTTP 客户端工具，允许我们通过 Python 代码向服务器发送 HTTP 请求并处理响应。</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/predict&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">predict</span><span class="p">():</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">predict_fun</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8001</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+
+<p><img alt="image-20250606165318667" src="img/image-20250606165318667.png" /></p>
+<h3 id="26-api_testpy">2.6 api_test.py接口封装<a class="headerlink" href="#26-api_testpy" title="Permanent link">&para;</a></h3>
+<p><strong>代码位置：</strong></p>
+<div class="highlight"><pre><span></span><code>TMFCode\02-rf\api_test.py
+</code></pre></div>
+
+<p><strong>以下是通过代码进行接口的请求：</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="c1"># 定义接口地址</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://127.0.0.1:8008/predict&#39;</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># 测试调用api接口</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="s2">&quot;中国人民公安大学2012年硕士研究生目录及书目&quot;</span><span class="p">})</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error occurred:&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="27-apppy">2.7 app.py前端预测<a class="headerlink" href="#27-apppy" title="Permanent link">&para;</a></h3>
+<p><strong>代码位置</strong>：</p>
+<div class="highlight"><pre><span></span><code>TMFCode\02-rf\app.py
+</code></pre></div>
+
+<p><strong>以下是前端测试接口的代码：</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">streamlit</span> <span class="k">as</span> <span class="nn">st</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="c1"># todo streamlit创建页面</span>
+<span class="c1"># 设置标题</span>
+<span class="n">st</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;投满分分类项目&quot;</span><span class="p">)</span>
+<span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;这是一个投满分分类项目&quot;</span><span class="p">)</span>
+<span class="c1"># 获取用户输入的文本</span>
+<span class="n">text</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span><span class="s2">&quot;请输入要查询分类的文本&quot;</span><span class="p">)</span>
+
+<span class="c1"># todo 后台发送请求</span>
+<span class="c1"># 准备url</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://127.0.0.1:8008/predict&#39;</span>
+<span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;点击获取分类！&quot;</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># 发送请求</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">text</span><span class="p">})</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+        <span class="c1"># todo 显示结果到页面</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;预测结果&quot;</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;pred_class&quot;</span><span class="p">])</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error occurred:&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>启动app前端：</strong>
+<strong>代码位置</strong>：</p>
+<div class="highlight"><pre><span></span><code>TMFCode\02-rf\app_run.py
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c1"># 执行指令</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;streamlit run F:/TouManFenClassifier/02-rf/app.py&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>app效果：</p>
+<p><img alt="image-20250714203501834" src="3.1%20%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E6%A8%A1%E5%9E%8B.assets/image-20250714203501834.png" /></p>
+<h3 id="28">2.8本节小节<a class="headerlink" href="#28" title="Permanent link">&para;</a></h3>
+<ul>
+<li>本小节完成了基于随机森林的基线模型，该模型以其可解释性强、性能稳定的特点为本次的项目奠定了一个基础。</li>
+<li>本小节从数据处理到模型构建、训练、评估、部署、前端测试等完成了整个落地流程。</li>
+</ul>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../Chapter2%EF%BC%9A%E6%95%B0%E6%8D%AE%E9%9B%86/2.2%20%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: 2.2 数据集分析" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              2.2 数据集分析
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="3.2%20fasttext%E6%A8%A1%E5%9E%8B.html" class="md-footer__link md-footer__link--next" aria-label="下一页: 3.2 Fastext 模型" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              3.2 Fastext 模型
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            ©Copyright wuchangbin 666 This website has been reviewed by the review agency. 京ICP备25006739号
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.709b4209.min.js", "translations": {"search.placeholder": "\u641c\u7d22", "search.result.term.missing": "Missing", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "1 more on this page", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "select.version.title": "Select version", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.more.other": "# more on this page", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.separator": "[\\uff0c\\u3002]+", "search.config.pipeline": "trimmer, stemmer", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.29db7785.min.js"></script>
+      
+        <script src="../javascripts/extra.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

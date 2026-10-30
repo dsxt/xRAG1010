@@ -1,0 +1,1012 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="../img/AI.jpg">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.2.3">
+    
+    
+      
+        <title>3.4 大模型LLM - 投满分项目</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.f7f47774.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    
+      
+  
+
+
+
+  
+  
+
+
+
+  <script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-36723568-3","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script>
+  <script async src="https://www.google-analytics.com/analytics.js"></script>
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#34-llm" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="投满分项目" class="md-header__button md-logo" aria-label="投满分项目" data-md-component="logo">
+      
+  <img src="../img/AI.jpg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            投满分项目
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3.4 大模型LLM
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="投满分项目" class="md-nav__button md-logo" aria-label="投满分项目" data-md-component="logo">
+      
+  <img src="../img/AI.jpg" alt="logo">
+
+    </a>
+    投满分项目
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
+      
+      <label class="md-nav__link" for="__nav_1">
+        Chapter1：项目背景
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Chapter1：项目背景" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Chapter1：项目背景
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter1%EF%BC%9A%E9%A1%B9%E7%9B%AE%E8%83%8C%E6%99%AF/1.1_%E9%A1%B9%E7%9B%AE%E8%83%8C%E6%99%AF.html" class="md-nav__link">
+        1.1 项目背景
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter1%EF%BC%9A%E9%A1%B9%E7%9B%AE%E8%83%8C%E6%99%AF/1.2_%E9%A1%B9%E7%9B%AE%E6%9E%B6%E6%9E%84.html" class="md-nav__link">
+        1.2 项目架构
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
+        Chapter2：数据集
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Chapter2：数据集" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Chapter2：数据集
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter2%EF%BC%9A%E6%95%B0%E6%8D%AE%E9%9B%86/2.1%20%E6%95%B0%E6%8D%AE%E9%9B%86%E4%BB%8B%E7%BB%8D.html" class="md-nav__link">
+        2.1 数据集介绍
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter2%EF%BC%9A%E6%95%B0%E6%8D%AE%E9%9B%86/2.2%20%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90.html" class="md-nav__link">
+        2.2 数据集分析
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      <label class="md-nav__link" for="__nav_3">
+        Chapter3：模型训练与部署
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Chapter3：模型训练与部署" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Chapter3：模型训练与部署
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="3.1%20%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E6%A8%A1%E5%9E%8B.html" class="md-nav__link">
+        3.1 随机森林模型
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="3.2%20fasttext%E6%A8%A1%E5%9E%8B.html" class="md-nav__link">
+        3.2 Fastext 模型
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="3.3%20bert%E6%A8%A1%E5%9E%8B.html" class="md-nav__link">
+        3.3 Bert模型
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          3.4 大模型LLM
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="3.4%20LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B.html" class="md-nav__link md-nav__link--active">
+        3.4 大模型LLM
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1llm" class="md-nav__link">
+    1.关于大模型LLM
+  </a>
+  
+    <nav class="md-nav" aria-label="1.关于大模型LLM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-llm" class="md-nav__link">
+    1.1 什么是LLM
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1 什么是LLM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#111" class="md-nav__link">
+    1.1.1 定义
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#112" class="md-nav__link">
+    1.1.2 核心突破
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-deepseek" class="md-nav__link">
+    1.2 关于deepseek
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2.代码实现
+  </a>
+  
+    <nav class="md-nav" aria-label="2.代码实现">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step1api_key" class="md-nav__link">
+    step1：注册api_key
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step2deepseek" class="md-nav__link">
+    step2：deepseek基础实现
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step3" class="md-nav__link">
+    step3：编写提示词
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step4" class="md-nav__link">
+    step4：提示词集成进代码中
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step5" class="md-nav__link">
+    step5：编写分类函数，进行使用
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step6" class="md-nav__link">
+    step6：测试与结果
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3.大模型实现文本分类的优缺点
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    4.本节小结
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        Chapter4：模型压缩
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Chapter4：模型压缩" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Chapter4：模型压缩
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter4%EF%BC%9A%E6%A8%A1%E5%9E%8B%E5%8E%8B%E7%BC%A9/4.1%E6%A8%A1%E5%9E%8B%E5%8E%8B%E7%BC%A9.html" class="md-nav__link">
+        4.1 模型压缩
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter4%EF%BC%9A%E6%A8%A1%E5%9E%8B%E5%8E%8B%E7%BC%A9/4.2%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96.html" class="md-nav__link">
+        4.2 模型量化
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter4%EF%BC%9A%E6%A8%A1%E5%9E%8B%E5%8E%8B%E7%BC%A9/4.3%E6%A8%A1%E5%9E%8B%E8%92%B8%E9%A6%8F.html" class="md-nav__link">
+        4.3 知识蒸馏
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter4%EF%BC%9A%E6%A8%A1%E5%9E%8B%E5%8E%8B%E7%BC%A9/4.4%E6%A8%A1%E5%9E%8B%E5%89%AA%E6%9E%9D.html" class="md-nav__link">
+        4.4 模型剪枝
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1llm" class="md-nav__link">
+    1.关于大模型LLM
+  </a>
+  
+    <nav class="md-nav" aria-label="1.关于大模型LLM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-llm" class="md-nav__link">
+    1.1 什么是LLM
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1 什么是LLM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#111" class="md-nav__link">
+    1.1.1 定义
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#112" class="md-nav__link">
+    1.1.2 核心突破
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-deepseek" class="md-nav__link">
+    1.2 关于deepseek
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2.代码实现
+  </a>
+  
+    <nav class="md-nav" aria-label="2.代码实现">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step1api_key" class="md-nav__link">
+    step1：注册api_key
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step2deepseek" class="md-nav__link">
+    step2：deepseek基础实现
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step3" class="md-nav__link">
+    step3：编写提示词
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step4" class="md-nav__link">
+    step4：提示词集成进代码中
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step5" class="md-nav__link">
+    step5：编写分类函数，进行使用
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step6" class="md-nav__link">
+    step6：测试与结果
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3.大模型实现文本分类的优缺点
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    4.本节小结
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="34-llm">3.4 大模型LLM<a class="headerlink" href="#34-llm" title="Permanent link">&para;</a></h1>
+<p><strong>学习目标：</strong></p>
+<p>1.了解什么是大模型LLM</p>
+<p>2.大模型deepseek应用方式</p>
+<p>3.大模型实现投满分分类</p>
+<h2 id="1llm">1.关于大模型LLM<a class="headerlink" href="#1llm" title="Permanent link">&para;</a></h2>
+<h3 id="11-llm">1.1 什么是LLM<a class="headerlink" href="#11-llm" title="Permanent link">&para;</a></h3>
+<h4 id="111">1.1.1 定义<a class="headerlink" href="#111" title="Permanent link">&para;</a></h4>
+<p><strong>通俗定义：</strong> 将大模型比作“超级大脑”——通过海量数据训练，具备理解、创作、推理能力的通用AI系统。</p>
+<p><strong>技术定义：</strong> 参数量超十亿（如GPT-3达1750亿）、基于Transformer架构的深度学习模型</p>
+<h4 id="112">1.1.2 核心突破<a class="headerlink" href="#112" title="Permanent link">&para;</a></h4>
+<p><strong>数据：</strong> TB级多源数据（如互联网文本、科学文献、医疗影像）</p>
+<p><strong>算法：</strong> Transformer架构（自注意力机制实现全局语义关联）</p>
+<p><strong>算力：</strong> 千卡GPU集群训练（单次训练耗电≈一个家庭年用电量）</p>
+<h3 id="12-deepseek">1.2 关于deepseek<a class="headerlink" href="#12-deepseek" title="Permanent link">&para;</a></h3>
+<p>本次用投满分项目分类，我们采用<strong><u>DeepSeek V3–0324</u></strong>模型，进行新闻文本分类。所以我们先整体了解一下deepseek。</p>
+<p>深度求索（DeepSeek），总部在杭州，成立于2023年，专注于研究世界领先的通用人工智能底层模型与技术，挑战人工智能前沿性难题。基于自研训练框架、自建智算集群和万卡算力等资源，深度求索团队仅用半年时间便已发布并开源多个百亿级参数大模型，如DeepSeek-LLM通用大语言模型、DeepSeek-Coder代码大模型，并在2024年1月率先开源国内首个MoE大模型（DeepSeek-MoE），各大模型在公开评测榜单及真实样本外的泛化效果均有超越同级别模型的出色表现。</p>
+<p>注意：<strong>deepseek在以远低于 OpenAI 的 o1 的成本，开发了 DeepSeek-R1 后获得了国际关注。DeepSeek V3–0324 是对前代 DeepSeek V3（于2023年12月24日发布） 的一次重要更新。</strong></p>
+<p><img alt="image-20250718014426343" src="3.4%20LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B.assets/image-20250718014426343.png" /></p>
+<p><strong>DeepSeek-V3 :</strong> 我们与 DeepSeek 交互时使用的默认模型。它是一个多功能的大型语言模型 （LLM），作为可以处理各种任务的通用工具脱颖而出。类似chatgpt一样，可以直接提问并解决通用的一些问题。</p>
+<p><strong>DeepSeek-R1 :</strong>是一个强大的推理模型，专为解决需要高级推理和深入解决问题的任务而构建。它的与众不同之处在于它对强化学习的特殊使用。</p>
+<p><img alt="image-20250718014510804" src="3.4%20LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B.assets/image-20250718014510804.png" /></p>
+<h2 id="2">2.代码实现<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<h4 id="step1api_key">step1：注册api_key<a class="headerlink" href="#step1api_key" title="Permanent link">&para;</a></h4>
+<p>deepseek api_key注册网站：<a href="https://platform.deepseek.com/api_keys">deepseek api注册</a></p>
+<p><img alt="image-20250718014547796" src="3.4%20LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B.assets/image-20250718014547796.png" /></p>
+<h4 id="step2deepseek">step2：deepseek基础实现<a class="headerlink" href="#step2deepseek" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;&lt;DeepSeek API Key&gt;&quot;</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="s2">&quot;https://api.deepseek.com&quot;</span><span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;deepseek-chat&quot;</span><span class="p">,</span>
+    <span class="n">messages</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;You are a helpful assistant&quot;</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;Hello&quot;</span><span class="p">},</span>
+    <span class="p">],</span>
+    <span class="n">stream</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>代码解释： 
+model=&quot;deepseek-chat&quot;：指定使用 DeepSeek 提供的聊天模型。 
+messages：是一个对话列表，采用 OpenAI Chat 的格式。
+    &quot;system&quot; 消息设定 AI 的行为（系统指令）。
+    &quot;user&quot; 消息表示用户的输入。
+stream=False：表示不使用流式响应。设置为 True 时，可以一边生成一边输出，适合生成长文本。
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>role 有三种：system、user、assistant
+系统提示用于设定 AI 的身份或风格，用户输入和 AI 回复是对话的来回过程。
+</code></pre></div>
+
+<h4 id="step3">step3：编写提示词<a class="headerlink" href="#step3" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="err">你是一名新闻分类专家，请严格按以下规则执行分类任务：</span><span class="w"></span>
+<span class="err">1.</span><span class="w"> </span><span class="err">**任务定义**</span><span class="w">  </span>
+<span class="err">基于新闻标题的语义内容，将其精准归类至以下10个类别之一：</span><span class="w"></span>
+<span class="err">`finance,</span><span class="w"> </span><span class="err">realty,</span><span class="w"> </span><span class="err">stocks,</span><span class="w"> </span><span class="err">education,</span><span class="w"> </span><span class="err">science,</span><span class="w"> </span><span class="err">society,</span><span class="w"> </span><span class="err">politics,</span><span class="w"> </span><span class="err">sports,</span><span class="w"> </span><span class="err">game,</span><span class="w"> </span><span class="err">entertainment`</span><span class="w"></span>
+<span class="err">2.</span><span class="w"> </span><span class="err">**分类规则**</span><span class="w">  </span>
+<span class="err">-</span><span class="w"> </span><span class="err">**领域关键词匹配**（示例）：</span><span class="w">  </span>
+<span class="err">-</span><span class="w"> </span><span class="err">`finance/realty/stocks`：含“股价、房贷、汇率、楼市、上市公司”等经济相关术语</span><span class="w">  </span>
+<span class="err">*示例：锌价难续去年辉煌</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="err">finance*</span><span class="w">  </span>
+<span class="err">-</span><span class="w"> </span><span class="err">`science`：涉及科研/自然现象（如“铁树开花”“电池技术”）</span><span class="w">  </span>
+<span class="err">*示例：60年铁树开花形状似玉米芯</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="err">science*</span><span class="w">  </span>
+<span class="err">-</span><span class="w"> </span><span class="err">`society`：民生事件/意外事故（如“坠楼”“获救”“纠纷”）</span><span class="w">  </span>
+<span class="err">*示例：2岁男童7楼坠下获救</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="err">society*</span><span class="w">  </span>
+<span class="err">-</span><span class="w"> </span><span class="err">**多义词消歧**：</span><span class="w">  </span>
+<span class="err">-</span><span class="w"> </span><span class="err">“金科”在房地产语境→`realty`（如“金科西府</span><span class="w"> </span><span class="err">名墅天成”），在游戏语境→`game`</span><span class="w">  </span>
+<span class="err">-</span><span class="w"> </span><span class="err">“表演”在文体领域→`entertainment`（如“兔子舞热辣表演”），在商业活动→`finance`</span><span class="w">  </span>
+<span class="err">-</span><span class="w"> </span><span class="err">**体育与游戏区分**：</span><span class="w">  </span>
+<span class="err">-</span><span class="w"> </span><span class="err">足球/篮球等实体运动→`sports`（如“FIFA”“布拉特”）</span><span class="w">  </span>
+<span class="err">-</span><span class="w"> </span><span class="err">电子游戏/网游→`game`（如“中青宝sg现场抓拍”含游戏公司名）</span><span class="w"></span>
+<span class="err">3.</span><span class="w"> </span><span class="err">**输出要求**</span><span class="w">  </span>
+<span class="err">-</span><span class="w"> </span><span class="err">仅输出**小写英文类别名**，不加标点/解释</span><span class="w">  </span>
+<span class="err">-</span><span class="w"> </span><span class="err">无法确定时按标题核心名词归类</span><span class="w"></span>
+<span class="err">4.</span><span class="w"> </span><span class="err">**示例对照**（供参考，实际提示词中无需包含）</span><span class="w">  </span>
+<span class="err">-</span><span class="w"> </span><span class="err">同步A股首秀：港股缩量回调</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="err">`stocks`</span><span class="w">  </span>
+<span class="err">-</span><span class="w"> </span><span class="err">布拉特：放球员一条生路</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="err">`sports`</span><span class="w">  </span>
+<span class="err">-</span><span class="w"> </span><span class="err">倚天屠龙记十大创新概览</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="err">`game`（电子游戏题材）</span><span class="w"></span>
+</code></pre></div>
+
+<h4 id="step4">step4：提示词集成进代码中<a class="headerlink" href="#step4" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
+
+<span class="n">SYSTEM_PROMPT</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">你是一名新闻分类专家，请严格按以下规则执行分类任务：</span>
+<span class="s2">1. **任务定义**  </span>
+<span class="s2">   基于新闻标题的语义内容，将其精准归类至以下10个类别之一：  </span>
+<span class="s2">   `finance, realty, stocks, education, science, society, politics, sports, game, entertainment`</span>
+
+<span class="s2">2. **分类规则**  </span>
+<span class="s2">   - **领域关键词匹配**（示例）：  </span>
+<span class="s2">     - `finance/realty/stocks`：含“股价、房贷、汇率、楼市、上市公司”等经济相关术语  </span>
+<span class="s2">     *示例：锌价难续去年辉煌 → finance*  </span>
+<span class="s2">     - `science`：涉及科研/自然现象（如“铁树开花”“电池技术”）  </span>
+<span class="s2">     *示例：60年铁树开花形状似玉米芯 → science*  </span>
+<span class="s2">     - `society`：民生事件/意外事故（如“坠楼”“获救”“纠纷”）  </span>
+<span class="s2">     *示例：2岁男童7楼坠下获救 → society*  </span>
+<span class="s2">   - **多义词消歧**：  </span>
+<span class="s2">     - “金科”在房地产语境→`realty`（如“金科西府 名墅天成”），在游戏语境→`game`  </span>
+<span class="s2">     - “表演”在文体领域→`entertainment`（如“兔子舞热辣表演”），在商业活动→`finance`  </span>
+<span class="s2">   - **体育与游戏区分**：  </span>
+<span class="s2">     - 足球/篮球等实体运动→`sports`（如“FIFA”“布拉特”）  </span>
+<span class="s2">     - 电子游戏/网游→`game`（如“中青宝sg现场抓拍”含游戏公司名）</span>
+
+<span class="s2">3. **输出要求**  </span>
+<span class="s2">   - 仅输出**小写英文类别名**，不加标点/解释  </span>
+<span class="s2">   - 无法确定时按标题核心名词归类</span>
+
+<span class="s2">4. **示例对照**（供参考，实际提示词中无需包含）  </span>
+<span class="s2">   - 同步A股首秀：港股缩量回调 → `stocks`  </span>
+<span class="s2">   - 布拉特：放球员一条生路 → `sports`  </span>
+<span class="s2">   - 倚天屠龙记十大创新概览 → `game`（电子游戏题材）</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">news_classifier</span><span class="p">(</span><span class="n">user_content</span><span class="p">):</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;sk-xxxxxx&quot;</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="s2">&quot;https://api.deepseek.com&quot;</span><span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+        <span class="n">model</span><span class="o">=</span><span class="s2">&quot;deepseek-chat&quot;</span><span class="p">,</span>
+        <span class="n">messages</span><span class="o">=</span><span class="p">[</span>
+            <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">SYSTEM_PROMPT</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">user_content</span><span class="p">},</span>
+        <span class="p">],</span>
+        <span class="n">stream</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</code></pre></div>
+
+<h4 id="step5">step5：编写分类函数，进行使用<a class="headerlink" href="#step5" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">predict_fun</span><span class="p">(</span><span class="n">data_dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        预测函数</span>
+<span class="sd">        :param data_dict: {&quot;text&quot;:&quot;状元心经：考前一周重点是回顾和整理&quot;}</span>
+<span class="sd">        :return: {&quot;text&quot;:&quot;状元心经：考前一周重点是回顾和整理&quot;, &quot;pred_class&quot;:&quot;education&quot;}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span>
+    <span class="n">pred_class</span> <span class="o">=</span> <span class="n">news_classifier</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;pred_class&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pred_class</span>
+    <span class="k">return</span> <span class="n">data_dict</span>
+</code></pre></div>
+
+<h4 id="step6">step6：测试与结果<a class="headerlink" href="#step6" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">data_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;状元心经：考前一周重点是回顾和整理&quot;</span><span class="p">}</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">predict_fun</span><span class="p">(</span><span class="n">data_dict</span><span class="p">))</span>
+</code></pre></div>
+
+<p>运行结果：</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="s1">&#39;状元心经：考前一周重点是回顾和整理&#39;</span><span class="p">,</span> <span class="s1">&#39;pred_class&#39;</span><span class="p">:</span> <span class="s1">&#39;education&#39;</span><span class="p">}</span>
+</code></pre></div>
+
+<h2 id="3">3.大模型实现文本分类的优缺点<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="err">优点：</span><span class="w"></span>
+<span class="err">1、零样本学习，快速上手</span><span class="w"></span>
+<span class="err">2、无需训练，节省算力</span><span class="w"></span>
+<span class="err">3、一模多用，适配多任务</span><span class="w"></span>
+<span class="err">4、语义理解强，适合复杂语言</span><span class="w"></span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">缺点：</span><span class="w"></span>
+<span class="err">1、结果依赖提示词，调优困难</span><span class="w"></span>
+<span class="err">2、成本高、速度慢</span><span class="w"></span>
+<span class="err">3、不可控、可解释性差</span><span class="w"></span>
+<span class="err">4、无法微调，难定制，缺乏针对性</span><span class="w"></span>
+</code></pre></div>
+
+<h2 id="4">4.本节小结<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
+<ul>
+<li>本小节主要完成了对大模型基础知识一个学习，以及基于deepseek的api方式实现投满分项目分类实现。</li>
+</ul>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="3.3%20bert%E6%A8%A1%E5%9E%8B.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: 3.3 Bert模型" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              3.3 Bert模型
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../Chapter4%EF%BC%9A%E6%A8%A1%E5%9E%8B%E5%8E%8B%E7%BC%A9/4.1%E6%A8%A1%E5%9E%8B%E5%8E%8B%E7%BC%A9.html" class="md-footer__link md-footer__link--next" aria-label="下一页: 4.1 模型压缩" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              4.1 模型压缩
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            ©Copyright wuchangbin 666 This website has been reviewed by the review agency. 京ICP备25006739号
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.709b4209.min.js", "translations": {"search.placeholder": "\u641c\u7d22", "search.result.term.missing": "Missing", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "1 more on this page", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "select.version.title": "Select version", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.more.other": "# more on this page", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.separator": "[\\uff0c\\u3002]+", "search.config.pipeline": "trimmer, stemmer", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.29db7785.min.js"></script>
+      
+        <script src="../javascripts/extra.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
