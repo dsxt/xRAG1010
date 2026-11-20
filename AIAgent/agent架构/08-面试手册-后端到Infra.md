@@ -1168,7 +1168,7 @@ ulimit -n                       # 大量 SSE 长连接要调大文件句柄数
 
 - **`/dev/shm`**：PyTorch DataLoader、NCCL、vLLM/SGLang 多进程之间通过共享内存交换数据。Docker 默认只有 64MB，推理容器要加 `--ipc=host` 或 `--shm-size=16g`，K8s 中挂一个 `emptyDir: {medium: Memory}` 到 `/dev/shm`。不加的典型报错是 NCCL 初始化失败或 `Bus error`。
 - **NUMA 亲和**：双路 CPU 服务器上，GPU 挂在某个 CPU 的 PCIe 下。进程跑在另一个 NUMA 节点时，Host↔Device 拷贝要跨 CPU 互联，带宽下降。用 `nvidia-smi topo -m` 查 GPU 对应的 CPU 亲和性，再用 `numactl --cpunodebind --membind` 或 K8s 的 Topology Manager 对齐。
-- **pinned memory**：页锁定内存不会被换出，DMA 可以直接读取，`cudaMemcpyAsync` 才能真正异步；KV Cache 卸载到 CPU（LMCache、vLLM 的 CPU offload）依赖它。代价是占用不可交换的物理内存，开太多会把宿主机内存挤爆。
+- **pinned memory**：页锁定内存不会被操作系统换页，DMA 可以直接读取，`cudaMemcpyAsync` 才能真正异步。锁页池用于权重预热和输入输出张量。vLLM V1 抢占后重算，不把 KV 卸到 CPU。代价是占用不可交换的物理内存，开太多会把宿主机内存挤爆。
 - **显存 OOM 与内存 OOM 是两回事**：CUDA OOM 是进程内异常（`torch.OutOfMemoryError`），进程可能还活着；宿主机内存 OOM 是内核 SIGKILL（退出码 137）。加载大模型权重时先读到 CPU 内存，容器 memory limit 太小会在加载阶段被杀。
 - **大量长连接**：每个 SSE/WebSocket 连接占一个 fd，Agent 网关单机几万连接时要调大 `ulimit -n`、`net.core.somaxconn`，并关注每个连接的内存占用。
 
@@ -7472,7 +7472,7 @@ print("s2 命中", bm.allocate(s2))   # 64：系统提示的 4 个完整块全�
 **面试题**
 
 1. **PagedAttention 解决了什么问题？** KV Cache 的显存碎片和无法共享问题，使显存利用率接近 100%，提高并发和吞吐。
-2. **KV Cache 显存不够时 vLLM 怎么办？** 不再接纳新请求进入运行队列；运行中的请求需要新块但没有时，抢占部分请求（释放其块，之后重计算或换出到 CPU）。
+2. **KV Cache 显存不够时 vLLM 怎么办？** 不再接纳新请求进入运行队列；运行中的请求需要新块但没有时，抢占部分请求并释放其块。vLLM V1 抢占后重算，不再把 KV 换出到 CPU。
 3. **为什么系统提示里放当前时间会让成本上升？** 前缀缓存要求逐 token 一致，时间放在开头会让后面所有内容的缓存都失效，每次都要完整 prefill。应把动态内容放在最后。
 4. **Chunked prefill 和 PD 分离都解决什么问题，区别？** 都在解决 prefill 干扰 decode 的问题。Chunked prefill 在同一 GPU 上切块混合调度，简单；PD 分离在物理上隔离到不同 GPU 集群，隔离彻底，能独立扩缩容，但需要 KV 传输和更复杂的调度。
 5. **GQA 为什么能减少 KV Cache？** 多个 Query 头共享同一组 K/V 头，KV 头数从 32 降到 8，KV Cache 缩小 4 倍，精度几乎不受影响。
