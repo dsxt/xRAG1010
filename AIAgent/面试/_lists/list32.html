@@ -1,0 +1,1536 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <link rel="canonical" href="https://blog.csdn.net/qq_36301061/article/list/32"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <meta name="report" content='{"pid": "blog", "spm":"1001.2014"}'>
+    <meta name="referrer" content="always">
+    <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848">
+    <meta name="applicable-device" content="pc">
+    <link  href="https://g.csdnimg.cn/static/logo/favicon32.ico"  rel="shortcut icon" type="image/x-icon" />
+    <title>计算机王-CSDN博客</title>
+    <meta name="description" content="计算机王擅长逆向学习,AI大模型,WEB渗透测试,等方面的知识,计算机王关注c++,游戏程序,java,android,windows领域.">
+        <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/release/blogv2/dist/pc/css/list_enter-f4ce3d7658.min.css">
+        <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/release/blogv2/dist/pc/themesSkin/skin-finalboss/skin-finalboss-b2ba816980.min.css">
+    <script src="https://g.csdnimg.cn/lib/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
+    <script src="https://g.csdnimg.cn/lib/jquery-migrate/1.4.1/jquery-migrate.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var isCorporate = false;
+        var username =  "qq_36301061";
+        var skinImg = "white";
+
+        var blog_address = "https://jisuanjiwang.blog.csdn.net";
+        var currentUserName = "";
+        var isOwner = false;
+        var loginUrl = "http://passport.csdn.net/account/login?from=https://blog.csdn.net/qq_36301061/article/list/32";
+        var blogUrl = "https://blog.csdn.net/";
+        var starMapUrl = '';
+        var paymentBalanceUrl = '';
+        var avatar = "https://profile-avatar.csdnimg.cn/77a887b860794f48b0373a3d6b18340c_qq_36301061.jpg!1";
+        var isCJBlog = false;
+        var isStarMap = false;
+        var articleTitle = "计算机王的博客";
+        var articleDesc = "计算机王擅长逆向学习,AI大模型,WEB渗透测试,等方面的知识,计算机王关注c++,游戏程序,java,android,windows领域.";
+        var articleTitles = "计算机王-CSDN博客";
+        var nickName = "计算机王";
+        var articleDetailUrl = "";
+        var vipUrlV = "https://mall.csdn.net/vip?vipSource=learningVip";
+        if(window.location.host.split('.').length == 3) {
+            blog_address = blogUrl + username;
+        }
+        var skinStatus = "White";
+        var isVipSkin = false;
+        var blogStaticHost = "https://csdnimg.cn/release/blogv2/"
+        var payColumn = false
+    </script>
+        <meta name="toolbar" content='{"type":"0","fixModel":"1"}'>
+      <script ript src="https://g.csdnimg.cn/??fixed-sidebar/1.1.7/fixed-sidebar.js" type="text/javascript"></script>
+    <script src='//g.csdnimg.cn/common/csdn-report/report.js' type='text/javascript'></script>
+    <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/public/sandalstrap/1.4/css/sandalstrap.min.css">
+    <style>
+        .MathJax_Message, .MathJax_Preview{
+            display: none !important;
+        }
+    </style>
+    <script src="https://dup.baidustatic.com/js/ds.js"></script>
+      <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "lgtpix6r85");
+      </script>
+
+    <script src="/cdn_cgi_bs_captcha/static/js/waf_captcha_embedded_bs_v6.3.0805.js"></script>
+</head>
+  <body class="nodata  " style="">
+    <div id="toolbarBox" style="min-height: 48px;"></div>
+    <script src="https://g.csdnimg.cn/common/csdn-toolbar/csdn-toolbar.js" type="text/javascript"></script>
+    <style>
+      #csdn-toolbar .toolbar-search {
+        width: 320px !important;
+        max-width: 320px !important;
+        height: 32px !important;
+        line-height: 32px !important;
+        margin-left: auto;
+        margin-right: auto;
+        transition: width 0.2s ease, max-width 0.2s ease;
+      }
+      #csdn-toolbar .toolbar-search:focus-within,
+      #csdn-toolbar .toolbar-search:has(.toolbar-search-container.is-focus) {
+        width: 640px !important;
+        max-width: 640px !important;
+      }
+      #csdn-toolbar .toolbar-search .toolbar-search-container {
+        display: flex !important;
+        align-items: center !important;
+        box-sizing: border-box !important;
+        width: 100% !important;
+        height: 32px !important;
+        padding: 0 4px 0 16px !important;
+        gap: 0 !important;
+        border-radius: 100px !important;
+      }
+      #csdn-toolbar .toolbar-search:focus-within .toolbar-search-container,
+      #csdn-toolbar .toolbar-search .toolbar-search-container.is-focus {
+        padding: 0 2px 0 16px !important;
+      }
+      #csdn-toolbar .toolbar-search .toolbar-search-container input {
+        flex: 1 1 auto !important;
+        width: auto !important;
+        min-width: 0 !important;
+        height: 100% !important;
+        margin-right: 0 !important;
+        padding-right: 0 !important;
+        text-indent: 0 !important;
+        border: 0 none !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        font-size: 14px !important;
+      }
+      #csdn-toolbar .toolbar-search .toolbar-search-container input:focus {
+        border: 0 none !important;
+      }
+      #csdn-toolbar .toolbar-search .toolbar-search-container .icon-fire {
+        left: 16px !important;
+      }
+      #csdn-toolbar .toolbar-search .toolbar-search-container input.input-fire-hidden,
+      #csdn-toolbar .toolbar-search.onlySearch .toolbar-search-container input {
+        text-indent: 0 !important;
+      }
+      #csdn-toolbar .toolbar-search .toolbar-search-container .icon-fire + input,
+      #csdn-toolbar .toolbar-search .toolbar-search-container:has(.icon-fire:not(.icon-fire-hidden)) input {
+        text-indent: 20px !important;
+      }
+      #csdn-toolbar .toolbar-search .toolbar-search-container .gradient {
+        display: none !important;
+      }
+      #csdn-toolbar .toolbar-search .toolbar-search-container .clear-icon {
+        position: static !important;
+        transform: none !important;
+        flex: 0 0 18px !important;
+        width: 18px !important;
+        height: 18px !important;
+        margin: 0 4px 0 auto !important;
+        display: inline-block !important;
+        cursor: pointer;
+        z-index: 2;
+      }
+      #csdn-toolbar .toolbar-search #toolbar-search-button {
+        flex: 0 0 40px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 40px !important;
+        min-width: 40px !important;
+        height: 28px !important;
+        margin: 0 0 0 auto !important;
+        padding: 0 !important;
+        border-radius: 100px !important;
+        background-color: #FC5531 !important;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease, background-color 0.2s ease;
+      }
+      #csdn-toolbar .toolbar-search .toolbar-search-container:has(.clear-icon) #toolbar-search-button {
+        margin-left: 0 !important;
+      }
+      #csdn-toolbar .toolbar-search:focus-within #toolbar-search-button,
+      #csdn-toolbar .toolbar-search .toolbar-search-container.is-focus #toolbar-search-button {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      #csdn-toolbar .toolbar-search #toolbar-search-button:hover {
+        background-color: #E34D2C !important;
+      }
+      #csdn-toolbar .toolbar-search #toolbar-search-button span {
+        display: none !important;
+      }
+      #csdn-toolbar .toolbar-search #toolbar-search-button i {
+        width: 16px !important;
+        height: 16px !important;
+        margin: 0 !important;
+        top: 0 !important;
+        background-size: 100% !important;
+      }
+      #csdn-toolbar .toolbar-search .toolbar-search-drop-menu,
+      #csdn-toolbar .toolbar-search .toolbar-new-search-drop-menu {
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+      body:not(.is_black_skin) #csdn-toolbar .toolbar-search .toolbar-search-container {
+        background: #F2F2F2 !important;
+        border: 1px solid #E5E5E5 !important;
+      }
+      body:not(.is_black_skin) #csdn-toolbar .toolbar-search:focus-within .toolbar-search-container,
+      body:not(.is_black_skin) #csdn-toolbar .toolbar-search .toolbar-search-container.is-focus {
+        background: #FFFFFF !important;
+        border-color: #FC5531 !important;
+      }
+      body:not(.is_black_skin) #csdn-toolbar .toolbar-search .toolbar-search-container input {
+        color: #1a1a1a !important;
+      }
+      body:not(.is_black_skin) #csdn-toolbar .toolbar-search .toolbar-search-container input::-webkit-input-placeholder {
+        color: #999999 !important;
+      }
+      body:not(.is_black_skin) #csdn-toolbar .toolbar-search .toolbar-search-container input::-moz-placeholder {
+        color: #999999 !important;
+      }
+      body.is_black_skin #csdn-toolbar .toolbar-search .toolbar-search-container {
+        background: #404041 !important;
+        border: 1px solid #555555 !important;
+      }
+      body.is_black_skin #csdn-toolbar .toolbar-search:focus-within .toolbar-search-container,
+      body.is_black_skin #csdn-toolbar .toolbar-search .toolbar-search-container.is-focus {
+        background: #333333 !important;
+        border-color: #FC5531 !important;
+      }
+      body.is_black_skin #csdn-toolbar .toolbar-search .toolbar-search-container input {
+        color: #FFFFFF !important;
+      }
+      body.is_black_skin #csdn-toolbar .toolbar-search .toolbar-search-container input::-webkit-input-placeholder {
+        color: #D3D3D3 !important;
+      }
+      body.is_black_skin #csdn-toolbar .toolbar-search .toolbar-search-container input::-moz-placeholder {
+        color: #D3D3D3 !important;
+      }
+    </style>
+    <script>
+    (function () {
+      function bindClearFix() {
+        if (!window.jQuery) return;
+        var $ = window.jQuery;
+        var sel = '#csdn-toolbar .toolbar-search .clear-icon';
+        $(document)
+          .off('mousedown.blogDetailSearchClear', sel)
+          .on('mousedown.blogDetailSearchClear', sel, function (e) {
+            e.preventDefault();
+          });
+      }
+      if (window.jQuery) {
+        window.jQuery(bindClearFix);
+        window.jQuery(document).on('toolbarReady', bindClearFix);
+      } else {
+        document.addEventListener('DOMContentLoaded', bindClearFix);
+      }
+    })();
+    </script>
+    <script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+    </script>
+<link rel="stylesheet" href="https://g.csdnimg.cn/lib/cropper/3.1.6/cropper.css">
+<script src="https://g.csdnimg.cn/lib/cropper/3.1.6/cropper.js"></script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/common/csdn-login-box/csdn-login-box.js"></script>
+<script>
+	$("#msgToastText").hide()
+</script>
+<div class="skin-boxshadow"></div>
+<div id="userSkin">
+	<div class="user-skin-box">
+		<p class="user-skin-title">
+        <span>自定义博客皮肤<span class="vip-get">VIP专享<span></span>
+        <span class="close-bt bt-back"><svg t="1567152543821" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10924" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" height="12"><defs><style type="text/css"></style></defs><path d="M512 438.378667L806.506667 143.893333a52.032 52.032 0 1 1 73.6 73.621334L585.621333 512l294.485334 294.485333a52.074667 52.074667 0 0 1-73.6 73.642667L512 585.621333 217.514667 880.128a52.053333 52.053333 0 1 1-73.621334-73.642667L438.378667 512 143.893333 217.514667a52.053333 52.053333 0 1 1 73.621334-73.621334L512 438.378667z" fill="" p-id="10925"></path></svg></span>
+        </p>
+		<div class="user-skin-item">
+			<div class="user-skin-left"><span>*</span>博客头图：</div>
+			<div class="user-skin-right">
+				<input type="file" class="upload-skin-img" id="uploadHeaderimg" style="display:none" value="">
+				<label for="uploadHeaderimg" class="upload-img">
+					<div class="icon-box">
+					<img class="upload-icon" src="https://csdnimg.cn/release/blogv2/dist/pc/img/upLoadImage.png" alt="">
+					<img style="display:none" class="success-upload-icon" src="https://csdnimg.cn/release/blogv2/dist/pc/img/upLoadImageWhite.png" alt="">
+					<p class="tip-massage">点击选择上传的图片</p>
+					</div>
+				</label>
+                <p  class="user-skin-tip">格式为PNG、JPG，宽度*高度大于1920*100像素，不超过2MB，主视觉建议放在右侧，请参照线上博客头图</p>
+			    <p  class="user-skin-color">请上传大于1920*100像素的图片！</p>
+			</div>
+		</div>
+		<div class="user-skin-item">
+            <div class="user-skin-left"><span></span>博客底图：</div>
+			<div class="user-skin-right">
+				<input type="file" class="upload-skin-img" id="uploadBgimg" style="display:none" value="">
+				<label for="uploadBgimg" class="upload-img">
+					<div class="icon-box">
+					<img class="upload-icon" src="https://csdnimg.cn/release/blogv2/dist/pc/img/upLoadImage.png" alt="">
+					<img style="display:none" class="success-upload-icon" src="https://csdnimg.cn/release/blogv2/dist/pc/img/upLoadImageWhite.png" alt="">					
+					<p class="tip-massage">点击选择上传的图片</p>
+					</div>
+				</label>
+                <p class="user-skin-tip">图片格式为PNG、JPG，不超过1MB，可上下左右平铺至整个背景</p>
+			</div>
+		</div>
+		<div class="user-skin-item">
+            <div class="user-skin-left"><span></span>栏目图：</div>
+			<div class="user-skin-right">
+				<input type="file" class="upload-skin-img" id="uploadColumnimg" style="display:none" value="">
+				<label for="uploadColumnimg" class="upload-img">
+					<div class="icon-box">
+					<img class="upload-icon" src="https://csdnimg.cn/release/blogv2/dist/pc/img/upLoadImage.png" alt="">
+					<img style="display:none" class="success-upload-icon" src="https://csdnimg.cn/release/blogv2/dist/pc/img/upLoadImageWhite.png" alt="">					
+					<p class="tip-massage">点击选择上传的图片</p>
+					</div>
+				</label>
+                <p class="user-skin-tip">图片格式为PNG、JPG，图片宽度*高度为300*38像素，不超过0.5MB</p>
+			</div>
+			
+		</div>
+		<div class="user-skin-item user-skin-item-input">
+            <div class="user-skin-left"><span></span>主标题颜色：</div>
+			<div class="user-skin-right">
+				<input type="text" class="skin-input" id="topicColor" placeholder="#ffffff">
+                <p class="user-skin-tip">RGB颜色，例如：#AFAFAF</p>
+			</div>
+			
+		</div>
+		<div class="user-skin-item user-skin-item-input">
+            <div class="user-skin-left"><span></span>Hover：</div>
+			<div class="user-skin-right">
+				<input type="text" class="skin-input" id="topicHoverColor" placeholder="#ffffff">
+                <p class="user-skin-tip">RGB颜色，例如：#AFAFAF</p>
+			</div>
+			
+		</div>
+		<div class="user-skin-item user-skin-item-input">
+            <div class="user-skin-left"><span></span>副标题颜色：</div>
+			<div class="user-skin-right">
+				<input type="text" class="skin-input" id="subTopicColor" placeholder="#b8b8b8">
+                <p class="user-skin-tip">RGB颜色，例如：#AFAFAF</p>
+			</div>
+			
+		</div>
+		<div class="user-skin-bt">
+			<a href="javascript:;" class="user-skin-preview bt">预览</a>
+			<a href="javascript:;" class="user-skin-cancel bt bt-back">取消</a>
+			<a href="javascript:;" class="user-skin-refer bt">提交</a>
+		</div>
+	</div>
+</div>
+<div id="cropBox">
+	<div class="crop-box">
+		<p class="crop-box-title">
+        	<span>自定义博客皮肤</span>
+        	<span class="close-bt  bt-back"><svg t="1567152543821" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10924" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" height="12"><defs><style type="text/css"></style></defs><path d="M512 438.378667L806.506667 143.893333a52.032 52.032 0 1 1 73.6 73.621334L585.621333 512l294.485334 294.485333a52.074667 52.074667 0 0 1-73.6 73.642667L512 585.621333 217.514667 880.128a52.053333 52.053333 0 1 1-73.621334-73.642667L438.378667 512 143.893333 217.514667a52.053333 52.053333 0 1 1 73.621334-73.621334L512 438.378667z" fill="" p-id="10925"></path></svg></span>
+        </p>
+		<div class="crop-img-before">
+			<img src="" alt="" id="cropImg">
+		</div>
+		<div class="crop-zoom">
+			<a href="javascript:;" class="bt-reduce">-</a><a href="javascript:;" class="bt-add">+</a>
+		</div>
+		<div class="crop-img-after">
+			<div  class="final-img"></div>
+		</div>
+		<div class="crop-bt">
+			<a href="javascript:;" class="bt-prev bt-back">上一步</a><a href="javascript:;" class="bt-next">保存</a>
+		</div>
+	</div>
+</div>
+<header>
+	<div class="container d-flex clearfix">
+		<div class="header-content-box " style=" padding:0;">
+		<div class="title-box">
+			<h1 class="title-blog ">
+				<a href="https://jisuanjiwang.blog.csdn.net" style="">计算机王的博客</a>
+			</h1>
+			<p class="description " style="">防外挂、攻防</p>
+		</div>
+		<div class="opt-box d-flex justify-content-end">
+		</div>
+		</div>
+	</div>
+</header>
+<div class="container clearfix pt0" id="mainBox">
+    <main class="content-mian-box"> 
+    <div class="container-header">
+        <ul class="container-header-ul" id="container-header-ul">
+         <li class="active margin" id="container-header-blog" data-type="blog" data-num="1382"><span  data-report-click='{"spm":"1001.2014.3001.5189"}'>博客(1382)</span></li> 
+            <li data-num="0" data-type="downloadfile" class="container-header-ul-li"></li>
+            <li data-num="0" data-type="askquestion" class="container-header-ul-li"></li>
+            <li data-num="" data-type="shou" data-report-click='{"spm":"1001.2014.3001.5232"}' data-flag="true" id="blogCollection" class="container-header-ul-li margin"><span>收藏</span></li>
+            <li data-num="" data-type="guan" data-report-click='{"spm":"1001.2014.3001.5233"}' data-flag="true" id="blogFollow" class="container-header-ul-li margin"><span>关注</span></li>
+        </ul>
+    </div>
+<div class="articleMeList-integration" id="articleMeList-blog" style="display:block;">
+  <div class="filter-box d-flex align-items-center">
+      <form action="" id="seeOriginal">
+      <label class="chk-box" for="chkOriginal">
+        <input onchange="this.checked ? document.getElementById('seeOriginal').submit() : location.href = 'https://jisuanjiwang.blog.csdn.net'" type="checkbox" name="t" value="1"  id="chkOriginal" data-report-click='{"spm":"1001.2014.3001.5236","extend1":"点击选中"}'>
+        只看原创
+      </label>
+      </form>
+      <dl class="filter-sort-box d-flex align-items-center">
+        <dt>排序：</dt>
+        <dd><a href="https://blog.csdn.net/qq_36301061/article/list/32" data-report-query="" class="btn-filter-sort active" target="_self" data-report-click='{"spm":"1001.2014.3001.5237"}'>按最后发布时间</a></dd>
+        <dd><a href="https://blog.csdn.net/qq_36301061/article/list/32" data-report-query="orderby=ViewCount" class="btn-filter-sort " target="_self" data-report-click='{"spm":"1001.2014.3001.5238"}'>按访问量</a></dd>
+        <dd><a class="btn btn-sm rss" href="https://blog.csdn.net/qq_36301061/rss/list" data-report-click='{"spm":"1001.2014.3001.5239"}'>
+        <img class="rss-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/rss.png" alt="">RSS订阅</a>
+        </dd>
+    </dl>
+  </div>
+  <div class="article-list">
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="135115265">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/135115265"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          乐理基础-情绪与速度、具体的速度、BPM
+        </a> 
+      </h4>
+      <p class="content">
+        音乐的速度会标记在乐谱左上角的第三部分，如图4，速度可以分两大类，具体的或者说精确的速度 与 抽象的 或者说不精确的速度，现在写的是什么是具体的速度，抽象的速度后面会写。图5：下图每分钟60拍一秒钟1拍，也就是四分音符是1秒的时间，因为这个乐谱是以四分音符为一拍的，所以在这个乐谱里四分音符就是1秒的时间，确定了四分音符是1秒就可以推出其它各种音符的时长，如图6。图1：下图是以四分音符为一拍，那两分音符就是两拍，全音符就是四拍，八分音符就是0.5拍等，如确定四分音符是1秒，如图2。
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2023-12-20 19:30:24</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">3275</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="135093433">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/135093433"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          45.网游逆向分析与插件开发-代码保护壳的优化-逆向分析隐藏壳代码解析不正常的BUG
+        </a> 
+      </h4>
+      <p class="content">
+        游戏安全、逆向、网游攻防、c++
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2023-12-19 20:23:51</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">1227</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="135092368">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/135092368"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          乐理基础-弱起小节、弱起
+        </a> 
+      </h4>
+      <p class="content">
+        图1：下图是天空之城的简谱，它是一个四四拍的音乐，但它开始的部分la、si，实际上只有一拍，而后面的小节都是正常的，也必须都是正常的，如图2说明，看完了图2说明就可以理解了什么是弱起小节了，这时有一个问题为什么一定要把la、si放在弱拍呢？图4： 下图有背景色的是音符比较长的，如图5里的说明，长音符通常处于强拍，而图3就不太满足长音符从强拍出发的逻辑，图3里的长音符都是从第二拍从弱拍出发的。4.弱起的概念，弱起小节指的是某些乐谱最开始 不完整 的那个小节，就仅仅指代那个不完整小节的意思，弱起指的是看图8。
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2023-12-19 20:00:23</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">3986</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="124158990">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/124158990"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          java中gc实现并发标记
+        </a> 
+      </h4>
+      <p class="content">
+        cms写后屏障+增量更新增量更新跟记忆集差不多，然后卡表是记忆集的实现，增量更新用的是脏页卡表就是看图需要理解漏标public calss a{Objecte b = new Object();}public class b{Object a = null;}b.a=a.b;a.b=null漏标就是 对象a被三色标记标记为黑色，然后对象a里面的属性b被设置为null了设置null之前还把之给了b.a这就是漏标然后上面是卡表的算法逻辑然后是脏页，脏页可以理解为对象是很多的依次遍历是很耗
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-04-13 22:53:06</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">806</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="124112140">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/124112140"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          实现三色标记算法
+        </a> 
+      </h4>
+      <p class="content">
+        上图是一个栈栈的实现方式：1、把所有数据封装成一个对象2、直接存放数据第一种实现起来简单而jvm中是使用的第二种使用第二种就有一个问题无法区分是一个数字还是一个内存地址，jvm区分内存地址使用了栈图，栈图是由抽象解析器记录的，抽象解析器就是一个用来记录局部变量表与操作数栈中的数据的类型的，比如iconst_1把1压入操作数栈，这时抽象解析器会记录一个状态基本类型的状态用v表示引用类型用r表示这是在栈帧中，new这个操作是申请一块空间它被抽象解析器记录为空字符invokespecial调用构造方.
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-04-12 00:16:08</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">698</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="124029044">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/124029044"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          实现STW
+        </a> 
+      </h4>
+      <p class="content">
+        在java虚拟机中使用的是Linux处理信号的机制中的段信号使用kill -l指令可以看linux中有那些信号，段信号是11然后java在编译的时候会写很多安全点，安全点就是出发段异常，jvm是通过把内存设置为不可读实现的触发段异常就是使用mmp申请一快空间当出发stw是把mmp的内存空间设置为不可读然后让每个线程去读这个内存这时触发段异常，触发段异常之后会执行捕获异常的函数这个东西需要我们自己捕获不然程序就停了，捕获之前需要先注册。注册捕获异常的函数signal(这里写要捕获的异常段异常为11, 这里
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-04-07 23:47:50</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">994</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="124024013">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/124024013"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          Stream类API
+        </a> 
+      </h4>
+      <p class="content">
+        map方法public static void main(String[] args) {    List&lt;String&gt; list1 = new ArrayList();    for(long i = 0; i &lt; 10; i++){        list1.add(i+&quot;&quot;);    }    List&lt;Integer&gt; list2 = list1.stream().map(e -&gt; Integer.parseInt(e)).collect(Colle
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-04-07 19:16:19</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">302</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="124003474">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/124003474"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          搭建windows内核调试、malloc执行流程、线程数据结构、进程数据结构
+        </a> 
+      </h4>
+      <p class="content">
+        首先安装VMware虚拟机在VMware中安装windowsXP系统安装玩之后然后打开c盘然后通过工具中的文件选项中查看页签里的高级设置吧后缀与隐藏的文件都显示出来，然后打开boot.ini文件，然后把下面的文字复制到boot.ini中把原来的内容覆盖掉。[boot loader]timeout=30default=multi(0)disk(0)rdisk(0)partition(1)\WINDOWS[operating systems]multi(0)disk(0)rdisk(0)partit
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-04-07 01:02:13</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">1715</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="123809761">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/123809761"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          偏向锁源码
+        </a> 
+      </h4>
+      <p class="content">
+        偏向锁对应的c/c++代码是BiasedLocking 这个文件然后我们进入这个文件中去可以看到一个init函数函数注释中文意思//如果偏向锁是启用的，调度一个任务来触发一些//开启偏置锁定的运行秒数//当前加载的类以及将来加载的类。这是一个//解决方案启动时间倒退，由于大量//在虚拟机启动时获取的安全点，以撤销bias。//理想的情况是，我们可以降低消除个人偏见的成本//不需要这样的机制。就是解释延迟偏向的作用的，白话就是因为java应用程序在启动时会创建大量的安全点如果创建这些安
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-03-29 00:55:12</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">767</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="123586805">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/123586805"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          java实现锁的思想
+        </a> 
+      </h4>
+      <p class="content">
+        前置知识：https://blog.csdn.net/qq_36301061/article/details/121801532aqs实现aqs核心实现可以分六个功能：抢锁、释放锁、入队、出队、阻塞、唤醒根据参考ReentrantLock的实现抢锁它的核心是判断阻塞队列中有没有抢不到因抢不到锁而进去的线程下图就是抢锁的核心代码 首先判断同步阻塞队列中有没有线程下面return的逻辑 大概就是判断阻塞队列的首节点的next指针是不是null如果不是说明阻塞队列中以及存在线程了，首先是h!=t也就
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-03-18 23:51:02</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">499</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="123539437">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/123539437"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          java的Thread类start0方法源码
+        </a> 
+      </h4>
+      <p class="content">
+        带着几个问题去看源码1、如何找到native方法的源码2、Java的Thread对象、JavaThread、OSThread、操作系统线程3、Java线程与操作系统线程的关联4、Java线程保存了哪些操作系统线程数据5、怎么执行到run方法的首先第一个问题native的方法是通过jin与c/c++进行通信的jin有个规则一个java类中有native方法那么就会有一个.h的文件.h文件是c/c++用来定义变量、方法的所以想看native方法的源码可以直接去jdk源码搜索类名找它的.c或.cpp文
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-03-17 02:02:17</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">3818</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/commentCountWhite.png" alt="">1</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="123514922">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/123514922"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          手写线程池（一）
+        </a> 
+      </h4>
+      <p class="content">
+        线程池实现原理：想明白线程池的原理就需要先理解条件变量条件变量需要跟互斥锁一起使用，为什么要一起使用？目前还不理解百度上没人写人话互斥锁就是加锁只有两种状态锁定和非锁定，条件变量是让一个线程进入阻塞想不懂它俩为什么要一起用，以后懂了回头再写然后互斥锁的api（linux的）// 声明一个锁类型pthread_mutex_t// 锁的属性pthread_mutex_attr_t    // 属性有下面三个	PTHREAD_MUTEX_NORMAL  // 抢不到锁就进入阻塞	PTHR
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-03-16 00:08:17</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">289</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="123491386">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/123491386"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          linux线程
+        </a> 
+      </h4>
+      <p class="content">
+        线程的状态joinable（读音 找嗯的波）与detached（读音 第它吃特 分离线程）joinable线程结束资源不会回收 需要手动回收detached线程结束可以回收资源回收资源就是线程执行的方法中定义的描述符比如文件流、socket回收就是把它们的内存释放pthread_join 函数对于joinable是有效的 对于detached是无效的主控线程跟进程一起启动的线程叫做主控线程main线程指的主控线程是一个逻辑线程程序中的线程，在java中的main线程是一个joinable类
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-03-15 01:10:29</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">574</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="123365814">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/123365814"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          寄存器（一）
+        </a> 
+      </h4>
+      <p class="content">
+        寄存器：在8086CPU中一共有14个寄存器：ax,bx,cx,dx,si,di,sp,bp,ip,cs,ss,ds,es,flag每个寄存器都是16位，在下面对各个寄存器的逐一介绍中，根据功能或者其特点可能会将几个寄存器划分在一起介绍（所以一个寄存器可能会出现在多个地方，最后会给出总结表）通用寄存器（ax,bx,cx,dx）将它们4个划分一起是由于它们的一个共同特性：都可以分为独立使用的2个8位寄存器来使用ax:ah,albx:bh,blcx:ch,cldx,dh,dlh结束的为高位
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-03-08 23:55:02</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">5294</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="123366306">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/123366306"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          寄存器（二）
+        </a> 
+      </h4>
+      <p class="content">
+        Intel  CPU 的发展史吧：Intel CPU 系列，最初是 4 位微处理器 4004，然后到到 8 位微处理器的 8008 ，再到 8 微微处理器 8080,以及稍后的 16 位微处理器 8086，由 8086 开始，Intel 进入现在所谓的  x86  时代 。Intel  8086 为 16 位  CPU ，而因为在 8086 之前的 CPU 都是 8 位 CPU，这样也就造成了很多的外设也只支持 8 位，因此  Intel  紧接着就退出了 8 位的 8088 CPU，因此  In
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-03-08 23:54:55</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">2169</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="123341792">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/123341792"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          JIT即时编译器
+        </a> 
+      </h4>
+      <p class="content">
+        java是半编译半解释性语言编译就是把代码编译成机器码解释就是在代码运行的时候随着运行随着编译成机器码机器码就是二进制java的半编译半解释体现在javac编译，java运行还有运行期即时编译（c1或c2）+解释执行java有两种解释器字节码解析器与模板解析器解释器就是把代码中的关键字翻译成机器码 比如new关键字在字节码解释器中它对应jvm中的一个switch分支这个分支中做的事情就是分配内存等操作 而java中一共有200多个关键字 这一段switch是很长的 它还会循环遍历代码中的关
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-03-07 23:32:12</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">686</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="123266629">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/123266629"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          STW&amp;OopMap&amp;安全点
+        </a> 
+      </h4>
+      <p class="content">
+        stw原理让线程停止的方式test  %eax, os::_polling_page 往寄存器设置无用的数据然后test汇编指令会设置寄存器状态 当要发生stw时它会把内存叶变成不可写这时就会触发操作系统的异常  然后线程就能停止了 线程到安全点的时间就是用户线程到执行test  %eax, os::_polling_page的时间OopMap用来存储根对象（GC root）它会在使用对象之前把它存起来 用来做gcroot扫描的入口...
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-03-04 20:24:08</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">927</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="123242668">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/123242668"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          jvm内存池
+        </a> 
+      </h4>
+      <p class="content">
+        内存池为什么jvm要创建内存池？申请内存需要操作系统去做如果java程序运行时再通过操作系统申请内存那效率是很慢的 这涉及到cpu用户态与内核态的切换是一个很重的操作 所以jvm做了优化在启动时申请一大片内存也就是运行时数据区 它的结构首先有一个Memory pool可以把Memory pool理解为它是内存池也是管理内存者 一块很大的连续空间Memory Chunk对应堆Memory Cell存储数据的最小结构 一个cell占8B一个对象16B就用两个cell存储 可以把cell理解为实
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-03-03 00:08:45</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">755</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="123217176">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/123217176"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          OOM与调优
+        </a> 
+      </h4>
+      <p class="content">
+        模拟元空间OOM通过cglib包中的api动态的加载类import net.sf.cglib.proxy.Enhancer;import net.sf.cglib.proxy.MethodInterceptor;import net.sf.cglib.proxy.MethodProxy;import java.lang.reflect.Method;public class MetaspaceOverFlowTest {    /**     * 通过CGLIB模拟向元空间写入数据 
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-03-01 23:29:32</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">1375</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="123192005">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/123192005"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          对象创建过程2
+        </a> 
+      </h4>
+      <p class="content">
+        计算对象的大小 对象头MarkWord 8字节类型指针 32位机器是4字节 64位机器8字节（可使用指针压缩变成4字节）实例数据 实际大小看类中有无非静态成员变量对齐填充 MarkWord与类型指针与实例数据加起来是否整除8 如果不整除会计算还差多少可以被8整除 然后这个数就是对齐填充的大小还有这样的对象头如果类中有数组会并且关闭了指针压缩就会有两个对齐填充 如果开启指针压缩类型指针与数组长度的内存地址会写在一块计算对象大小public class CountSimpleObjectSi
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-02-28 21:53:29</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">364</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="123099803">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/123099803"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          字符串常量池
+        </a> 
+      </h4>
+      <p class="content">
+        字符数组的存储方式public static void main(String[] args){     char[] arr = new char[]{'1','1'};     while(true);}数组是运行时数据（动态数据只有在运行的时候才会生成）klass模型或者说元空间模型oop模型一个char数组对应一个TypeArrayKlass（TypeArrayKlass是c++的类）一个char数组对象对应一个typeArrayOopDeschsdb工具查看类的元信息（c
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-02-23 22:36:46</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">1311</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="123057314">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/123057314"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          jvm内存模型2
+        </a> 
+      </h4>
+      <p class="content">
+        方法区方法区与元空间与永久代的关系方法区可以理解为是一个规范而永久代与元空间实现了这个规范永久代与元空间的区别永久代是jdk8之前的方法区的实现 它的数据存放在jvm的堆中用于存放类的原信息及instanceKlass类型的实例元空间jdk8之后方法区的实现 数据存放在直接内存（直接内存是java进程中的堆下面看一张图）代码段、数据区、栈都是操作系统层面的我们无法控制 只能控制运行时数据区中的东西运行时数据区又分为 下面的五部分由元空间实现的方法区是跟运行时数据区平级的也就是在直接内存中
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-02-21 22:52:07</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">414</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="123025120">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/123025120"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          Spring注解@RequestMapping
+        </a> 
+      </h4>
+      <p class="content">
+        可以把类注册为bean的注解@component 把普通pojo实例化到spring容器中@controller 控制器（注入服务）@service 服务（注入dao）@repository dao（实现dao访问）增强bean的注解@RequestMapping指定访问路径 需要搭配@controller使用 如果只有@controller就没有请求路径 如果只有@RequestMapping注解在找调用链的时候会找不着可以成为bean的只能是component类型在这写死的只能识别c
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-02-19 23:22:37</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">1039</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="123011354">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/123011354"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          解析java字节码
+        </a> 
+      </h4>
+      <p class="content">
+        java字节码划分区域图中u4、u2等表示的是字节u4就是4个字节u2就是2个字节idea查看class的十六进制 看这里  https://blog.csdn.net/weixin_45112292/article/details/115609491其中魔术就是magic它表示的是字节码的开头CAFEBABE这个单词然后次版本号也就是minor version然后主版本号majorversion然后常量池。。。现在应该会看图了后面的不写了对应的次版本号与主版本号然后常量池类型图 先
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-02-18 23:53:44</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">1487</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="122974001">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/122974001"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          类的加载器二
+        </a> 
+      </h4>
+      <p class="content">
+        类加载器在内存中的存储结构启动类加载器启动类加载器没有实体它是在一段逻辑称为启动类加载器这段逻辑做的事情是：加载类sun.launcher.LauncherHelper，执行该类的方法checkAndLoadMain反射底层原理反射底层存储的时候使用的字典dictionary 就是一个key:value类型的数据结构 可以搜索在openjdk8代码中搜SystemDictionary::find java的反射就会调用这个find方法 反射大体存储样子key是一个全类名加类加载器名算出的一个哈希值
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-02-16 23:40:37</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">350</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="122953604">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/122953604"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          Klass模型与类加载的详细机制
+        </a> 
+      </h4>
+      <p class="content">
+        klass模型是jvm中的数据类型 这个数据类型表示的是一个java类 java语言是在jvm中运行而jvm是不认识java代码的我们使用javac编译的class文件jvm是不认识的 所以有一个类加载的动作 这个动作就是把class字节码拼装成一个klass类型  这个klass类型是c++中的一个类 klass里面有java类中的所有信息比如它的属性 方法 修饰符等成为类的元信息 这些信息放在元空间中 通过下面的klass类的继承关系图可以看出metaspace中文意思就是元空间 meatadata
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-02-15 23:05:49</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">2108</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/commentCountWhite.png" alt="">1</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="122735857">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/122735857"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          JNI简单理解使用
+        </a> 
+      </h4>
+      <p class="content">
+        这里写自定义目录标题欢迎使用Markdown编辑器新的改变功能快捷键合理的创建标题，有助于目录的生成如何改变文本的样式插入链接与图片如何插入一段漂亮的代码片生成一个适合你的列表创建一个表格设定内容居中、居左、居右SmartyPants创建一个自定义列表如何创建一个注脚注释也是必不可少的KaTeX数学公式新的甘特图功能，丰富你的文章UML 图表FLowchart流程图导出与导入导出导入欢迎使用Markdown编辑器你好！ 这是你第一次使用 Markdown编辑器 所展示的欢迎页。如果你想学习如何使用Mar
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-02-02 10:26:00</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">368</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="122630189">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/122630189"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          c++（一）
+        </a> 
+      </h4>
+      <p class="content">
+        与C语言的关系c++其实是为了蹭C语言的热度。但是现在很多人认为是C语言的Plus Plus版本。其实这样理解也说得过去。但是这个Plus的意思不是说对C语言的语法进行扩充，而是编译器在编译时做了更多事情。所以学会C++的核心不是学会它的语法，而是深刻理解编译器做了哪些事情，让C语言变成了C++。c++面向对象编程的语法封装struct Student {    int age;    int level;​    int print_age();​    int print_level
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-01-21 22:02:50</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">294</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="122603466">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/122603466"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          c语言（二）
+        </a> 
+      </h4>
+      <p class="content">
+        指针int* i = 0x11223344;*有两个作用一个是用来定义指针	这个好理解就是上面的i一个是用来把变量的值当为内存地址根据这个内存地址去找它的值	这个是我测出来的现象 比如		int* i2 = *i;这个东西然后它就会报错 报错的原因就是*i这样写指针就会认为0x11223344是一个内存地址然是它不是然后就报错了 也不能说是报错 是这个内存地址不存在什么数据都没有 如果i的值是一个真实存在的内存地址（简称a）那么*i就会把a对应的那块内存区域中的数据返回给i2 专业词叫做解引
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-01-20 16:05:41</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">693</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="122569584">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/122569584"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          c语言（一）
+        </a> 
+      </h4>
+      <p class="content">
+        c语言编译器gcc、g++    gcc是用来编译c语言的   g++是用来编译c++的c语言的数据类型基本数据类型    char	 它的长度是1字节	short	它的长度是2字节	int		它的长度是4字节	long		它的长度是4字节	float		它的长度是4字节	double		它的长度是8字节非基本类型    结构体    数组    指针结构体定义定义结构体的时候，一般用char数组数组作为成员属性，元素个数写在后面，写在前面会报错		struct
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-01-18 22:23:45</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">522</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="122529973">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/122529973"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          汇编语言（三）
+        </a> 
+      </h4>
+      <p class="content">
+        esp是栈帧的栈顶 edp是栈帧中的栈低edp寻址就是寻找调用者中的数据esp寻址当使用push这个指令的时候它会进行这样 esp+数据的大小 然后得出的结果就是栈顶的内存地址 栈帧  然后push一个寄存器 会把当前寄存器中的数据保存到内存中 可以利用这个机制 做方法的调用 如果调用方法了 就先把edp的地址push一下 然后把esp赋值给edp这个就会形成一块内存空间 就是一个栈帧的形式  如果edp+数据大小就可以找到i的值 如果用esp加数据的大小就可以找到vv方法中变量的数据 这个过
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-01-16 22:41:50</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">650</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="122517027">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/122517027"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          汇编语言（二）
+        </a> 
+      </h4>
+      <p class="content">
+        寄存器是cpu每个核都有的不会存在线程安全问题栈线程是基于栈去运行的windows、linux的内存地址内存地址是从大向小去使用的 原有的数据不会被覆盖 会在下次使用是进行覆盖从大到小就是一个先入后出的画面前面的依赖后面的用来存储内存地址的寄存器esp栈寄存器 存储当前线程的栈顶的内存地址 可以用来存放局部变量ebp栈低寄存器 可以用来存储入参数据宽度字节Byte: 八个比特 (Bit) 称为一个字节,是计算机中数据处理的基本单位字Word: 两个字节称为一个字双字Dwor
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-01-15 23:11:00</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">228</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="122516774">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/122516774"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          汇编常用指令
+        </a> 
+      </h4>
+      <p class="content">
+        常用的汇编指令MOV：传送字或字节。  mov 寄存器名字比如rax  数值  // 这样写就可以对rax赋值了ADD： 加法。add 寄存器名字比如rax  数值  // 这样写就可以把数值赋值给rax了MOVSX  先符号扩展,再传送.  MOVZX先零扩展,再传送.  PUSH	把字压入堆栈.POP把字弹出堆栈.  PUSHA把AX,CX,DX,BX,SP,BP,SI,DI依次压入堆栈.  POPA 把DI,SI,BP,SP,BX,DX,CX,AX依次弹出
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-01-15 21:58:14</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">2236</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="122504547">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/122504547"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          汇编语言（一）
+        </a> 
+      </h4>
+      <p class="content">
+        汇编语言介绍可以说计算机是一堆由二进制数组成的在计算机刚出世的时候使用二进制写程序 打孔卡 原理就是一张纸你提前知道要在那打孔  通过打没打孔来表示数字（详细的自行百度）然后由于打孔机很麻烦 如果一个东西很繁琐那么就不会有人去做因为门槛太高就赚不了钱所以就出现了硬编码 硬编码就是把打孔卡封装了一层 把二进制数封装为十六进制（目前默认十六进制）比如1000 使用打孔卡就要写1010封装了一层就变成了8这样的一个效果 然后这样还是很麻烦就出现了汇编 汇编就是把十六进制数据封装成了英语单词比如add eax, 
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-01-15 00:17:18</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">590</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="122461379">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/122461379"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          Kubernetes（K8S）二
+        </a> 
+      </h4>
+      <p class="content">
+        K8S核心概念k8s有很多核心概念 先写几个DeploymentDeployment负责创建和更新应用程序的实例 创建Deployment后k8s master将应用程序实例调度到集群中的各个节点上，如果托管实例的节点关闭或被删除，Deployment控制器会将该实例替换为集群中另一个节点上的实例。这提供了一种自我修复机制来解决机器故障维护问题  白话就是之前用docker能在单机下载应用程序 运行应用程序 这个Deployment就是用来管理一下docker的这套机制 比如现在有机器a机器b两台机器
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-01-12 20:50:20</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">1126</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="122444250">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/122444250"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          Kubernetes（K8S）一
+        </a> 
+      </h4>
+      <p class="content">
+        K8S之前写了docker发现 docker只能在单机部署 docker部署分布式系统还是很麻烦 所以就有了K8S  K8S全称Kubernetes（读音 库波奈第丝）可以把K8S理解为一个在docker基础上进一步封装 让docker可以支持部署分布式系统 当然docker也有自己实现的用来部署分布式系统的工具 docker-swarm只不过docker-swarm被k8s打败了 k8s是一个管理docker的工具实现了自动化运维管理多个跨机器 Docker 程序的集群K8S核心特性服务发现与负载均
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-01-12 00:36:52</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">3091</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="122421636">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/122421636"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          Prometheus&amp;Grafana
+        </a> 
+      </h4>
+      <p class="content">
+        Prometheus是一个全能选手 原生支持容器监控  也支持传统应用程序  它具备所有监控系统都具备的流程 数据采集 --》数据处理 --》数据存储 --》数据展示 --》警告prometheus中文名字普罗米修斯最初在soundCloud上构建的监控系统，自2012年称为社区开源项目 用户非常活跃的开发人员和用户社区2016年加入cncf称为继kubernetes之后的第二个托管项目 官方地址https://prometheus.io/Prometheus 特点展开目录多维数据模型：由度量名称和键
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-01-10 23:19:33</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">854</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="122387984">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/122387984"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          Docker Compose
+        </a> 
+      </h4>
+      <p class="content">
+        Docker Compose介绍使用微服务架构的应用系统一般包含若干个微服务，每个微服务一般都会部署多个实例。如果每个微服务都要手动启停，那么效率之低、维护量之大可想而知。而Docker Compose可以变的很轻松、高效地管理容器。为了简单起见将 Docker Compose简称为 Compose。Compose 是一个用于定义和运行多容器的Docker应用的工具。使用Compose，你可以在一个配置文件（yaml格式）中配置你应用的服务，然后使用一个命令，即可创建并启动配置中引用的所有服务。Doc
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-01-08 22:52:14</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">298</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="122372884">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/122372884"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          Docker二
+        </a> 
+      </h4>
+      <p class="content">
+        将微服务运行在docker上使用Dockerfile构建Docker镜像Dockerfile是一个文本文件，其中包含了若干条指令，指令描述了构建镜像的细节先来编写一个最简单的Dockerfile，以前文下载的Nginx镜像为例，来编写一个Dockerfile修改该Nginx镜像的首页1、新建一个空文件夹docker-demo，在里面再新建文件夹app，在app目录下新建一个名为Dockerfile的文件，在里面增加如下内容：FROM nginxRUN echo '&lt;h1&gt;This i
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-01-07 21:43:17</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">1709</span>
+        </p>
+      </div>
+    </div>
+    <div class="article-item-box csdn-tracking-statistics" data-articleid="122355093">
+      <h4 class="">
+        <a href="https://jisuanjiwang.blog.csdn.net/article/details/122355093"  data-report-click='{"spm":"1001.2014.3001.5190"}' target="_blank">
+            <span class="article-type type-1 float-none">原创</span>
+          Docker一
+        </a> 
+      </h4>
+      <p class="content">
+        DockerDocker是一个开源的容器引擎，它有助于更快地交付应用。Docker可以将应用程序和基础设施（比如mysql、mq）层进行隔离 并且能将基础设施当做程序一样进行管理 使用Docker可以更快的打包、测试以及部署应用程序，并可以缩短从编写到部署运行代码的周期Docker就跟maven一样 maven只是把java的依赖jar放到了maven仓库中 我们使用什么jar直接从maven仓库中下载 而Docker是把所有运行环境继承到Docker的仓库 当我们需要jdk、mq、Tomcat时只需要
+      </p>
+      <div class="info-box d-flex align-content-center">
+        <p>
+          <span class="date">2022-01-06 23:10:41</span>
+          <span class="read-num"><img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">452</span>
+        </p>
+      </div>
+    </div>
+  </div>
+      <div class="pagination-box" id="pageBox"></div>
+</div>
+<div class="articleMeList-integration">
+  <div class="no-data d-flex flex-column justify-content-center align-items-center">
+      <p>
+        <img class="monkey-blank" src="https://csdnimg.cn/release/blogv2/dist/pc/img/monkeyNewBlank.png">
+      </p>
+      <h6>空空如也</h6>
+  </div>
+</div>
+<div class="articleMeList-integration">
+  <div class="no-data d-flex flex-column justify-content-center align-items-center">
+      <p>
+        <img class="monkey-blank" src="https://csdnimg.cn/release/blogv2/dist/pc/img/monkeyNewBlank.png">
+      </p>
+      <h6>空空如也</h6>
+  </div>
+</div>
+
+<div class="articleMeList-integration">
+  <div class="collecItem-box">
+    <p class="collecItem-type"><span class="active" data-type="collecAdd">TA创建的收藏夹  </span><span data-type="collecFan">TA关注的收藏夹</span></p>
+    <div class="collecItem-box-add blog-box-type-list rolling-load-shou active" data-page="1" data-flag="true" data-type="collecAdd"></div>
+    <div class="collecItem-box-add blog-box-type-list rolling-load-shou " data-page="1" data-flag="true" data-type="collecFan"></div>
+  </div>
+</div>
+<div class="articleMeList-integration">
+  <div class="blogFollow">
+    <p class="blogFollow-type">
+    <span class="active" data-type="FollowNum">TA关注的人 </span>
+    </p>
+    <div class="blogFollow-box rolling-load-guan blog-box-type-list active" data-page="1" data-flag="true" data-type="FollowNum"></div>
+  </div>
+</div>
+<div class="blog-footer-bottom" style="margin-top:10px;"></div>
+<script src="https://g.csdnimg.cn/common/csdn-footer/csdn-footer.js" data-isfootertrack="false" type="text/javascript"></script>
+<script type="text/javascript">
+    window.csdn.csdnFooter.options = {
+        el: '.blog-footer-bottom',
+        type: 2
+    }
+</script>    </main>
+<aside class="blog_container_aside">
+<div id="asideProfile" class="aside-box active">
+    <div class="profile-intro d-flex">
+        <div class="avatar-box d-flex justify-content-center flex-column">
+            <a href="https://jisuanjiwang.blog.csdn.net" target="_blank" data-report-click='{"mod":"popu_379","spm":"3001.4121","dest":"https://jisuanjiwang.blog.csdn.net","ab":"new"}'>
+                <img src="https://profile-avatar.csdnimg.cn/77a887b860794f48b0373a3d6b18340c_qq_36301061.jpg!1" class="avatar_pic">
+            </a>
+        </div>
+        <div class="user-info d-flex flex-column profile-intro-name-box">
+            <div class="profile-intro-name-boxTop">
+                <a href="https://jisuanjiwang.blog.csdn.net" target="_blank" class="" id="uid" title="计算机王" data-report-click='{"mod":"popu_379","spm":"3001.4122","dest":"https://jisuanjiwang.blog.csdn.net","ab":"new"}'>
+                    <span class="name" username="qq_36301061">计算机王</span>
+                </a>
+            </div>
+            <div class="profile-intro-name-boxFooter-new">
+              <p class="profile-intro-name-leve">
+                <span>
+                  博客等级
+                </span>
+                  <img class="level" src="https://csdnimg.cn/identity/blog8.png">
+              </p>
+                <span class="profile-intro-name-years" title="已加入 CSDN 10年">码龄10年</span>
+               
+            </div>
+        </div>
+    </div>
+    <div class="profile-intro-rank-information">
+      <dl>
+        <a href="https://jisuanjiwang.blog.csdn.net" data-report-click='{"mod":"1598321000_001","spm":"3001.4310"}' data-report-query="t=1">  
+            <dd><span >1382</span></dd>
+            <dt>原创</dt>
+        </a>
+      </dl>
+       <dl title="16754">
+        <dd>1万+</dd>
+        <dt>点赞</dt>
+      </dl>
+       <dl title="11464">
+        <dd>1万+</dd>
+        <dt>收藏</dt>
+      </dl>
+      <dl id="fanBox" title="8342">
+        <dd><span id="fan">8342</span></dd>
+        <dt>粉丝</dt>
+      </dl>
+    </div>
+    <div class="profile-intro-name-boxOpration">
+        <div class="opt-letter-watch-box"> 
+            <a class="personal-watch bt-button" id="btnAttent" >关注</a>  
+        </div>
+        <div class="opt-letter-watch-box">
+        <a rel="nofollow" class="bt-button personal-letter" href="https://im.csdn.net/chat/qq_36301061" target="_blank" rel="noopener">私信</a>
+        </div>
+    </div>
+</div>
+      <div class="swiper-slide-box-remuneration">
+        <a data-report-click='{"spm":"3001.9728","extra":{"index":"0"}}' data-report-view='{"spm":"3001.9728","extra":{"index":"0"}}' href="https://builderx.csdn.net/activity-site/blogsoduwork/blogsoduwork" target="_blank">
+          <img src="https://i-operation.csdnimg.cn/images/459853bbd29c41abb3f54eee2d88df05.png" alt="">
+        </a>
+      </div>
+<div class="box-shadow mb8" data-pid="blog" >
+    <div class="aside-content text-center" id="cpro_u2734133">
+        <div id="kp_box_56" data-pid="56"><div class="wwads-cn wwads-vertical" data-id="149" style="max-width:300px;margin-top:0;margin-bottom:10px;background-color: #fff;"></div> 
+<style>.wwads-img img {width: 150px; margin-top:10px}</style>
+<script type="text/javascript" charset="UTF-8" src="https://cdn.wwads.cn/js/makemoney.js" async></script><img class="pre-img-lasy" data-src="https://kunyu.csdn.net/1.png?p=56&adId=1100446&adBlockFlag=0&a=1100446&c=0&k=&spm=1001.2014.3001.5000&articleId=0&d=1&t=3&u=6bc844c774dd4546b2f22722344da02d" style="display: block;width: 0px;height: 0px;"></div>
+    </div>
+</div>
+
+
+
+<div id="asideHotArticle" class="aside-box">
+	<h3 class="aside-title">热门文章</h3>
+	<div class="aside-content">
+		<ul class="hotArticle-list">
+			<li>
+				<a href="https://jisuanjiwang.blog.csdn.net/article/details/135710821" target="_blank"  data-report-click='{"mod":"popu_541","spm":"3001.4139","dest":"https://jisuanjiwang.blog.csdn.net/article/details/135710821","ab":"new"}'>
+				95.乐理基础-记号篇-装饰音记号（三）波音
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">20339</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://jisuanjiwang.blog.csdn.net/article/details/135565407" target="_blank"  data-report-click='{"mod":"popu_541","spm":"3001.4139","dest":"https://jisuanjiwang.blog.csdn.net/article/details/135565407","ab":"new"}'>
+				88.乐理基础-记号篇-反复记号（二）D.C.、D.S.、Fine、Coda
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">20279</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://jisuanjiwang.blog.csdn.net/article/details/135561025" target="_blank"  data-report-click='{"mod":"popu_541","spm":"3001.4139","dest":"https://jisuanjiwang.blog.csdn.net/article/details/135561025","ab":"new"}'>
+				87.乐理基础-记号篇-反复记号（一）反复、跳房子
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">16642</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://jisuanjiwang.blog.csdn.net/article/details/135510952" target="_blank"  data-report-click='{"mod":"popu_541","spm":"3001.4139","dest":"https://jisuanjiwang.blog.csdn.net/article/details/135510952","ab":"new"}'>
+				85.乐理基础-记号篇-力度记号
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">6602</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://jisuanjiwang.blog.csdn.net/article/details/135999204" target="_blank"  data-report-click='{"mod":"popu_541","spm":"3001.4139","dest":"https://jisuanjiwang.blog.csdn.net/article/details/135999204","ab":"new"}'>
+				108.乐理基础-五线谱-五线谱的拍号、音符与写法
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">5967</span>
+                </a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div id="asideCategory" class="aside-box aside-box-column flexible-box">
+    <h3 class="aside-title">分类专栏</h3>
+    <div class="aside-content" id="aside-content">
+        <ul>
+            <li>
+                <a class="clearfix special-column-name"  href="https://blog.csdn.net/qq_36301061/category_13165252.html" data-report-click='{"mod":"popu_537","spm":"3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/qq_36301061/category_13165252.html","ab":"new"}'>
+                    <div class="special-column-bar "></div>
+                    <img src="https://i-blog.csdnimg.cn/columns/default/20201014180756923.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://i-blog.csdnimg.cn/columns/default/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        AI大模型
+                    </span>
+                </a>
+                <span class="special-column-num">184篇</span>
+            </li>
+            <li>
+                <a class="clearfix special-column-name"  href="https://blog.csdn.net/qq_36301061/category_13112948.html" data-report-click='{"mod":"popu_537","spm":"3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/qq_36301061/category_13112948.html","ab":"new"}'>
+                    <div class="special-column-bar "></div>
+                    <img src="https://i-blog.csdnimg.cn/columns/default/20201014180756923.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://i-blog.csdnimg.cn/columns/default/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        其它
+                    </span>
+                </a>
+                <span class="special-column-num">3篇</span>
+            </li>
+            <li>
+                <a class="clearfix special-column-name"  href="https://blog.csdn.net/qq_36301061/category_13035362.html" data-report-click='{"mod":"popu_537","spm":"3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/qq_36301061/category_13035362.html","ab":"new"}'>
+                    <div class="special-column-bar "></div>
+                    <img src="https://i-blog.csdnimg.cn/columns/default/20201014180756918.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://i-blog.csdnimg.cn/columns/default/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        渗透
+                    </span>
+                </a>
+                <span class="special-column-num">71篇</span>
+            </li>
+            <li>
+                <a class="clearfix special-column-name"  href="https://blog.csdn.net/qq_36301061/category_13094890.html" data-report-click='{"mod":"popu_537","spm":"3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/qq_36301061/category_13094890.html","ab":"new"}'>
+                    <div class="special-column-bar "></div>
+                    <img src="https://i-blog.csdnimg.cn/columns/default/20201014180756913.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://i-blog.csdnimg.cn/columns/default/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        驱动
+                    </span>
+                </a>
+                <span class="special-column-num">29篇</span>
+            </li>
+            <li>
+                <a class="clearfix special-column-name"  href="https://blog.csdn.net/qq_36301061/category_12711639.html" data-report-click='{"mod":"popu_537","spm":"3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/qq_36301061/category_12711639.html","ab":"new"}'>
+                    <div class="special-column-bar "></div>
+                    <img src="https://i-blog.csdnimg.cn/columns/default/20201014180756927.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://i-blog.csdnimg.cn/columns/default/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        逆向学习
+                    </span>
+                </a>
+                <span class="special-column-num">196篇</span>
+            </li>
+            <li>
+                <a class="clearfix special-column-name"  href="https://blog.csdn.net/qq_36301061/category_13034663.html" data-report-click='{"mod":"popu_537","spm":"3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/qq_36301061/category_13034663.html","ab":"new"}'>
+                    <div class="special-column-bar "></div>
+                    <img src="https://i-blog.csdnimg.cn/columns/default/20201014180756927.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://i-blog.csdnimg.cn/columns/default/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        公告
+                    </span>
+                </a>
+                <span class="special-column-num">5篇</span>
+            </li>
+            <li>
+                <a class="clearfix special-column-name"  href="https://blog.csdn.net/qq_36301061/category_13036780.html" data-report-click='{"mod":"popu_537","spm":"3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/qq_36301061/category_13036780.html","ab":"new"}'>
+                    <div class="special-column-bar "></div>
+                    <img src="https://i-blog.csdnimg.cn/columns/default/20201014180756757.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://i-blog.csdnimg.cn/columns/default/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        UI
+                    </span>
+                </a>
+                <span class="special-column-num">45篇</span>
+            </li>
+            <li>
+                <a class="clearfix special-column-name"  href="https://blog.csdn.net/qq_36301061/category_13014186.html" data-report-click='{"mod":"popu_537","spm":"3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/qq_36301061/category_13014186.html","ab":"new"}'>
+                    <div class="special-column-bar "></div>
+                    <img src="https://i-blog.csdnimg.cn/columns/default/20201014180756913.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://i-blog.csdnimg.cn/columns/default/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        苹果ios逆向
+                    </span>
+                </a>
+                <span class="special-column-num">14篇</span>
+            </li>
+            <li>
+                <a class="clearfix special-column-name"  href="https://blog.csdn.net/qq_36301061/category_12711746.html" data-report-click='{"mod":"popu_537","spm":"3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/qq_36301061/category_12711746.html","ab":"new"}'>
+                    <div class="special-column-bar "></div>
+                    <img src="https://i-blog.csdnimg.cn/columns/default/20201014180756918.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://i-blog.csdnimg.cn/columns/default/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        安卓逆向
+                    </span>
+                </a>
+                <span class="special-column-num">87篇</span>
+            </li>
+            <li>
+                <a class="clearfix special-column-name"  href="https://blog.csdn.net/qq_36301061/category_12649584.html" data-report-click='{"mod":"popu_537","spm":"3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/qq_36301061/category_12649584.html","ab":"new"}'>
+                    <div class="special-column-bar "></div>
+                    <img src="https://i-blog.csdnimg.cn/blog_column_migrate/a06b3b29cf15cd8125415c7f714274b4.jpeg?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://i-blog.csdnimg.cn/columns/default/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        汉语言
+                    </span>
+                </a>
+                <span class="special-column-num">6篇</span>
+            </li>
+            <li>
+                <a class="clearfix special-column-name"  href="https://blog.csdn.net/qq_36301061/category_12564909.html" data-report-click='{"mod":"popu_537","spm":"3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/qq_36301061/category_12564909.html","ab":"new"}'>
+                    <div class="special-column-bar "></div>
+                    <img src="https://i-blog.csdnimg.cn/blog_column_migrate/1f83e28b4ac4b95223a2ca08fad5465f.jpeg?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://i-blog.csdnimg.cn/columns/default/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        乐理基础-简谱
+                    </span>
+                </a>
+                <span class="special-column-num">77篇</span>
+            </li>
+            <li>
+                <a class="clearfix special-column-name"  href="https://blog.csdn.net/qq_36301061/category_12676706.html" data-report-click='{"mod":"popu_537","spm":"3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/qq_36301061/category_12676706.html","ab":"new"}'>
+                    <div class="special-column-bar "></div>
+                    <img src="https://i-blog.csdnimg.cn/columns/default/20201014180756918.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://i-blog.csdnimg.cn/columns/default/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        游戏逆向基础-单机游戏
+                    </span>
+                </a>
+                <span class="special-column-num">109篇</span>
+            </li>
+            <li>
+                <a class="clearfix special-column-name"  href="https://blog.csdn.net/qq_36301061/category_12727930.html" data-report-click='{"mod":"popu_537","spm":"3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/qq_36301061/category_12727930.html","ab":"new"}'>
+                    <div class="special-column-bar "></div>
+                    <img src="https://i-blog.csdnimg.cn/columns/default/20201014180756913.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://i-blog.csdnimg.cn/columns/default/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        小说
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a class="clearfix special-column-name"  href="https://blog.csdn.net/qq_36301061/category_12708008.html" data-report-click='{"mod":"popu_537","spm":"3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/qq_36301061/category_12708008.html","ab":"new"}'>
+                    <div class="special-column-bar "></div>
+                    <img src="https://i-blog.csdnimg.cn/columns/default/20201014180756919.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://i-blog.csdnimg.cn/columns/default/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        思路
+                    </span>
+                </a>
+                <span class="special-column-num">1篇</span>
+            </li>
+            <li>
+                <a class="clearfix special-column-name"  href="https://blog.csdn.net/qq_36301061/category_12564904.html" data-report-click='{"mod":"popu_537","spm":"3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/qq_36301061/category_12564904.html","ab":"new"}'>
+                    <div class="special-column-bar "></div>
+                    <img src="https://i-blog.csdnimg.cn/blog_column_migrate/c481ae02904e6f938daf6a619c7a3b83.jpeg?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://i-blog.csdnimg.cn/columns/default/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        乐理基础-五线谱
+                    </span>
+                </a>
+                <span class="special-column-num">69篇</span>
+            </li>
+            <li>
+                <a class="clearfix special-column-name"  href="https://blog.csdn.net/qq_36301061/category_12620983.html" data-report-click='{"mod":"popu_537","spm":"3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/qq_36301061/category_12620983.html","ab":"new"}'>
+                    <div class="special-column-bar "></div>
+                    <img src="https://i-blog.csdnimg.cn/columns/default/20201014180756927.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://i-blog.csdnimg.cn/columns/default/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        网游逆向分析与插件开发
+                    </span>
+                </a>
+                <span class="special-column-num">51篇</span>
+            </li>
+            <li>
+                <a class="clearfix special-column-name"  href="https://blog.csdn.net/qq_36301061/category_12600801.html" data-report-click='{"mod":"popu_537","spm":"3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/qq_36301061/category_12600801.html","ab":"new"}'>
+                    <div class="special-column-bar "></div>
+                    <img src="https://i-blog.csdnimg.cn/columns/default/20201014180756925.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://i-blog.csdnimg.cn/columns/default/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        网络游戏逆向分析与漏洞攻防
+                    </span>
+                </a>
+                <span class="special-column-num">122篇</span>
+            </li>
+            <li>
+                <a class="clearfix special-column-name"  href="https://blog.csdn.net/qq_36301061/category_12600785.html" data-report-click='{"mod":"popu_537","spm":"3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/qq_36301061/category_12600785.html","ab":"new"}'>
+                    <div class="special-column-bar "></div>
+                    <img src="https://i-blog.csdnimg.cn/blog_column_migrate/4e6a5160c63a16aed96933ce2b23bed2.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://i-blog.csdnimg.cn/columns/default/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        WEB渗透测试
+                    </span>
+                </a>
+                <span class="special-column-num">151篇</span>
+            </li>
+            <li>
+                <a class="clearfix special-column-name"  href="https://blog.csdn.net/qq_36301061/category_11029314.html" data-report-click='{"mod":"popu_537","spm":"3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/qq_36301061/category_11029314.html","ab":"new"}'>
+                    <div class="special-column-bar "></div>
+                    <img src="https://i-blog.csdnimg.cn/blog_column_migrate/974bb3dc0e18bc4c3b83347853565ffa.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://i-blog.csdnimg.cn/columns/default/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        java
+                    </span>
+                </a>
+                <span class="special-column-num">139篇</span>
+            </li>
+            <li>
+                <a class="clearfix special-column-name"  href="https://blog.csdn.net/qq_36301061/category_12579775.html" data-report-click='{"mod":"popu_537","spm":"3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/qq_36301061/category_12579775.html","ab":"new"}'>
+                    <div class="special-column-bar "></div>
+                    <img src="https://i-blog.csdnimg.cn/columns/default/20201014180756724.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://i-blog.csdnimg.cn/columns/default/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        知识点
+                    </span>
+                </a>
+                <span class="special-column-num">1篇</span>
+            </li>
+        </ul>
+    </div>
+    <p class="text-center">
+        <a class="flexible-btn" data-fbox="aside-archive"><img class="look-more" src="https://csdnimg.cn/release/blogv2/dist/pc/img/arrowDownWhite.png" alt=""></a>
+    </p>
+</div>
+<div id="asideNewComments" class="aside-box">
+    <h3 class="aside-title">最新评论</h3>
+    <div class="aside-content">
+        <ul class="newcomment-list">
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://jisuanjiwang.blog.csdn.net/article/details/149159128#comments_40282406" data-report-click='{"mod":"popu_542","spm":"3001.4231","dest":"https://jisuanjiwang.blog.csdn.net/article/details/149159128#comments_40282406","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"3001.4231","dest":"https://jisuanjiwang.blog.csdn.net/article/details/149159128#comments_40282406","ab":"new"}'>152.WEB渗透测试-MySQL基础（七）</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/Yovh250125" class="user-name" target="_blank">Yovh250125: </a>
+                    <span class="code-comments">您好，能再分享一个工具网盘链接吗？</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://jisuanjiwang.blog.csdn.net/article/details/156544456#comments_39362406" data-report-click='{"mod":"popu_542","spm":"3001.4231","dest":"https://jisuanjiwang.blog.csdn.net/article/details/156544456#comments_39362406","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"3001.4231","dest":"https://jisuanjiwang.blog.csdn.net/article/details/156544456#comments_39362406","ab":"new"}'>过ACE检测-过反作弊引擎（CE句柄提权驱动）</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/qq_40723922" class="user-name" target="_blank">洛杉矶有机密有机米: </a>
+                    <span class="code-comments">老大开源了吗代码？我怎么没找到啊</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://jisuanjiwang.blog.csdn.net/article/details/154915079#comments_39285487" data-report-click='{"mod":"popu_542","spm":"3001.4231","dest":"https://jisuanjiwang.blog.csdn.net/article/details/154915079#comments_39285487","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"3001.4231","dest":"https://jisuanjiwang.blog.csdn.net/article/details/154915079#comments_39285487","ab":"new"}'>11.游戏逆向-pxxx-c++实现dumpObject</a>
+                <p class="comment ellipsis">
+                    <a href="https://jisuanjiwang.blog.csdn.net" class="user-name" target="_blank">计算机王: </a>
+                    <span class="code-comments">看指定网盘</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://jisuanjiwang.blog.csdn.net/article/details/154915079#comments_39285481" data-report-click='{"mod":"popu_542","spm":"3001.4231","dest":"https://jisuanjiwang.blog.csdn.net/article/details/154915079#comments_39285481","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"3001.4231","dest":"https://jisuanjiwang.blog.csdn.net/article/details/154915079#comments_39285481","ab":"new"}'>11.游戏逆向-pxxx-c++实现dumpObject</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/2401_87401242" class="user-name" target="_blank">2401_87401242: </a>
+                    <span class="code-comments">能给个源码嘛</span>
+                </p>
+            </li>
+        </ul>
+    </div>
+</div>
+    <!-- 详情页显示目录 -->
+</aside>
+<script>
+	$("a.flexible-btn").click(function(){
+		$(this).parents('div.aside-box').removeClass('flexible-box');
+		$(this).parents("p.text-center").remove();
+	})
+</script>
+<script type="text/javascript"  src="https://g.csdnimg.cn/user-tooltip/2.7/user-tooltip.js"></script>
+<script type="text/javascript"  src="https://g.csdnimg.cn/user-medal/2.0.0/user-medal.js"></script>
+</div>
+<div class="mask"></div>
+<div class="promptBox clearfix">
+    <div class="title clearfix bottom-dis-16">
+        <span class="float-left">提示</span>
+        <a class="float-right Boxclose">
+            <svg class="icon" aria-hidden="true">
+                <use xlink:href="#csdnc-times"></use>
+            </svg>
+        </a>
+    </div>
+    <div class="text">确定要删除当前文章？</div>
+    <div class="pro-btn float-right">
+        <a class="clickNo">取消</a>
+        <a class="clickYes">删除</a>
+    </div>
+</div>
+<script  type="text/javascript">
+    var currentPage = 32;
+    var baseUrl = 'https://jisuanjiwang.blog.csdn.net/article/list';
+    var pageSize =40;
+    var listTotal = 1382;
+    var pageQueryStr = '';
+    function getAllUrl(page) {
+        return baseUrl + "/" + page + pageQueryStr;
+    }
+</script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/common-9d4993d9db.min.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/list-45c5ee7c14.min.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/side-toolbar/3.5/side-toolbar.js" type="text/javascript"></script>
+<script>
+window.csdnQualityGuideFreeArticle = false;
+</script>
+<link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/pc/css/quality_article_guide_enter-89680b2be8.min.css">
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/common/csdn-login-box/csdn-login-box.js"></script></body>
+</html>
