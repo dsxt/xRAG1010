@@ -16,7 +16,7 @@
 
 读请求先看进程内的 Caffeine，再看 Redis，最后查库并回填。强一致的读打主库。
 
-下面先走完一次提交和一次读详情。随后十三节对应这条路径上要能讲清的机制。MySQL 和 Redis 分开写，两边的故障模型不一样。网络一节里有 gRPC 和 WebSocket/SSE，Kubernetes 一节里有持久卷，分布式理论一节里有 Paxos，最后一节是安全底线。
+下面先走完一次提交和一次读详情。开发流程放在这些机制之后：分支怎么收拢、同一份镜像怎么从预发进生产、出了问题怎么退回上一份。随后十三节对应这条路径上要能讲清的机制。MySQL 和 Redis 分开写，两边的故障模型不一样。网络一节里有 gRPC 和 WebSocket/SSE，Kubernetes 一节里有持久卷，分布式理论一节里有 Paxos，最后一节是安全底线。
 
 ---
 
@@ -397,14 +397,28 @@ Lettuce 默认和 Spring 共享连接，多路复用把多个线程的命令写�
 | 类型 | 用法 | 编码 |
 | --- | --- | --- |
 | 字符串 | 计数用 `INCR`，对象用 JSON。每个 key 都能单独过期 | int、embstr、raw |
-| 哈希 | 一个对象的多个字段。过期只能设在整个 key 上 | 字段少用 listpack，多了转哈希表 |
+| 哈希 | 一个对象的多个字段。7.4 起 `HEXPIRE` 可以让单个字段过期，更早只能设在整个 key 上 | 字段少用 listpack，多了转哈希表 |
 | 列表 | 队列、时间线 | quicklist，节点是 listpack |
 | 集合 | 去重 | 全是整数且数量不大时用 intset，否则哈希表 |
 | 有序集合 | 排行榜、延迟任务 | 成员到分数用哈希表，按分数有序用跳表。量很小用 listpack |
 | Stream | 带 id 的追加日志，消费组、待确认列表 | listpack 组成的 radix tree |
 | 地理位置 | `GEOADD` / `GEOSEARCH` | 分数是 geohash，底层是有序集合 |
 
-哈希表冲突用链表，负载高了做渐进式 rehash：读写某个桶时顺便把旧表往新表搬。跳表从有序链表抽出稀疏的上层，查询从顶层往下跳，范围扫描沿着底层走。有序集合同时要按成员查分数和按分数扫范围，所以是哈希表加跳表。
+每个数据库是一张哈希表。存一个 key，先算哈希，再对桶的个数取模，落到一个桶。两个 key 进同一个桶，用链表串起来。设了过期时间的 key 再在另一张过期表里登记，过期扫描只看这张表。桶上的链太长就扩容。一次性把全部 key 搬到新表，主线程会停住。渐进式 rehash 让新旧两张表同时存在：查找先查旧表，没有再查新表；新写入只进新表；每次增删改查顺手搬一个桶；空闲时定时任务再搬一点。旧表空了，两张表交换，扩容结束。
+
+哈希表里的值包着一个 redisObject。`type` 是对外的类型，`encoding` 是当前真正用的结构。数据少用紧凑结构省内存，数据多了换成能保住复杂度的结构。`OBJECT ENCODING` 能看到现在用的是哪一种。
+
+字符串有三种编码。能放进整数的用 int，数字放在对象里，不再单独申请一块字符串。Redis 7 起，不超过 44 字节的短字符串用 embstr：redisObject 和 SDS 一次分配在连续内存里，改一次就会转成 raw。更长的一开始就是 raw，对象和字符串分两次申请。SDS 在头部记下长度，取长度不用扫描，中间有 `\0` 也不会被截断。追加时预留空间：需要的新长度不到 1MB 就按这个长度翻倍，达到 1MB 之后每次多留 1MB。一个字符串最大 512MB。Bitmap 就是按位使用的字符串：签到用一个用户一年一条，一位一天；在线状态用用户 id 当位的下标，一亿个用户大约 12MB。`BITCOUNT` 数置位的个数，`BITOP AND` 得到连续几天都出现过的用户。
+
+哈希、小集合、小有序集合用 listpack：一块连续内存，头部记下总字节数和元素个数，每个格子记下自己的编码、数据和自己的长度，末尾一个结束标记。它的前任 ziplist 记的是前一个格子的长度。前一个格子变长，后一个用来记长度的字段也可能从 1 字节涨到 5 字节，后面的格子跟着改，这是连锁更新。listpack 只记自己，倒着走时读末尾的长度就能跳过。哈希的字段个数或单个值超过 `hash-max-listpack-entries`、`hash-max-listpack-value`（默认 128 和 64）就转成哈希表。7.4 起 `HEXPIRE` 可以给单个字段设过期，更早的过期只能挂在整个 key 上。
+
+列表用 quicklist：双向链表的每个节点是一个 listpack。`list-max-listpack-size` 默认 -2，一个节点大约 8KB。纯链表每个元素都要前后指针，纯数组在中间插入要搬移后面的元素。quicklist 把元素分进一节节节点，两头进出只动端点上的节点。元素很少时可以只有一个 listpack。
+
+集合里全是整数、个数不超过 `set-max-intset-entries`（默认 512）时用 intset：从小到大排好的整数数组，查找用二分。塞进一个当前编码放不下的数，整个数组从 16 位升到 32 位或 64 位，不再降回去。有非整数但元素不多，用 listpack。再多就换成哈希表，只用键，值空着。
+
+有序集合元素少时仍是 listpack，成员和分数按分数挨着放。超过 `zset-max-listpack-entries` 或 `zset-max-listpack-value`（默认同样是 128 和 64）就换成跳表加哈希表。哈希表按成员查分数。跳表在有序链表上按概率往上加层，每往上一层的概率是 1/4，最高 32 层。查找从最高层往右，走过头就下一层。每一层记着这一跳跨过多少个节点，所以查排名也是对数复杂度。按分数取一段时，先找到起点，再沿着最底层往后走。插入和删除只改几根相邻指针。红黑树做范围扫描要中序走树，插入删除还要旋转和变色，跳表把这两件事都留在链表上。
+
+HyperLogLog 只估不重复的个数，不存元素本身，固定大约 12KB，标准误差大约 0.81%。它能给出「有多少个不同的人」，给不出成员名单。地理位置把经纬度编成 geohash，当作分数放进有序集合。同一片网格里的点分数接近；贴着网格边界的近邻，分数不一定挨在一起，`GEOSEARCH` 会把相邻网格一起算进去。Stream 比把列表当队列多了消费组和待确认列表：消息被取走但没确认，就留在这个列表里，消费者停了可以由别人认领。它仍然受这台 Redis 的内存限制，跨服务、要落盘的事件走消息队列。布隆过滤器是一条很长的位数组加上几个哈希函数。写入时把算出的几位置成 1。查询时只要有一位还是 0，这个元素一定不存在；全是 1 只说明可能存在，这几位也可能是别的元素置上的。元素只能加，不能单独删。Redis 8 起开源发行版内置 `BF.ADD` 和 `BF.EXISTS`，更早用 RedisBloom 模块或 Redisson 的 `RBloomFilter`，也可以用 Bitmap 自己做。
 
 管道把多条命令一次写出。`RedisTemplate.executePipelined` 拿到的是结果列表。管道里某一条失败，其他命令仍然执行。`MULTI`/`EXEC` 把一组命令收成一个事务，中途失败的处理取决于命令本身，Redis 事务没有回滚。管道和事务都做不到「先读再按结果写」的原子。这种读改写用 Lua。`WATCH` 加上 `MULTI` 是乐观锁，写之前键变了就整事务失败，由客户端重试。Lua 在主线程上原子执行，脚本里不要写循环去扫大集合。
 
@@ -484,7 +498,7 @@ try {
 三类失效：
 
 - 击穿：热点 key 过期，大量请求同时打到数据库。用锁只放一个请求去加载，其他请求短暂等待或返回旧值。`@Cacheable(sync = true)` 的互斥只在当前这一个进程里。
-- 穿透：查不存在的 key。固定的空值可以缓存，TTL 更短。每次都换 key 时，用布隆过滤器先挡。Redisson 的 `RBloomFilter` 或 RedisBloom 的 `BF.ADD` / `BF.EXISTS` 都可以。过滤器说不存在就一定不存在；说存在仍可能是误判，那时再查库。元素只能加不能删，删数据要换一个新过滤器再灌一遍主键。
+- 穿透：查不存在的 key。固定的空值可以缓存，TTL 更短。每次都换 key 时，用布隆过滤器先挡。Redisson 的 `RBloomFilter`、RedisBloom 模块，或 Redis 8 起内置的 `BF.ADD` / `BF.EXISTS` 都可以。位数组在结构那一节。过滤器说不存在就一定不存在；说存在仍可能是误判，那时再查库。元素只能加不能删，删数据要换一个新过滤器再灌一遍主键。
 - 雪崩：一批 key 同时过期，或 Redis 本身不可用。TTL 加随机抖动。热点 key 用锁重建。Redis 不可用时要有限流和降级，而不是无限穿透到数据库。
 
 强一致的数据留在数据库里。缓存这条链路做到最终一致：先写库，事务提交成功后再删 Redis。删缓存放在 `afterCommit`，提交前删除会让并发的读把旧行又装回缓存。
@@ -1018,9 +1032,21 @@ Rebalance 在组成员变化或分区数变化时发生。Range 按分区段切�
 
 消息 key 决定分区。同一订单号进同一分区，这个分区里才有顺序。key 太集中时，流量堆在一个分区上，加消费者也没用，因为一个分区同时只被组里的一个消费者读取。消费者数量超过分区数时，多出来的一直空闲。要提高并行度就先增加分区。分区数可以增加，减少会破坏 key 到分区的映射。
 
+副本按分区组织，通常三个，落在三台 Broker 上。follower 用和消费者一样的 fetch 去拉，请求里带着下一条要从哪个 offset 开始。同步复制要等副本写完，最慢的那台拖住写入。异步复制是 leader 写完就返回，没复制出去的在 leader 宕机时丢掉。Raft 和 ZooKeeper 用多数派：超过半数确认，容忍 f 台故障要 2f+1 个副本。Kafka 维护的是 ISR，一份「跟得上日志末尾」的名单。follower 超过 `replica.lag.time.max.ms`（默认 30 秒）还没追上，就移出 ISR，补齐后再加回来。一条消息进入当前全部 ISR，才算已提交。三副本、只从 ISR 接班时，坏两台仍不丢已提交的数据。`min.insync.replicas=2` 时，坏一台还可以继续写；再坏一台，写入失败。多数派同样三台只能坏一台。
+
 每个副本有自己的 LEO（log end offset），指向下一条要写入的位置，所以它是这条副本日志的末尾。HW（high watermark）是 leader 认为已经复制到全部 ISR 的偏移。消费者只能读到 HW 之前的消息。leader 的 LEO 已经往前走、消息也在 leader 的磁盘上，只要还有一个 ISR 的 LEO 没到这个位置，HW 就停在最慢的那个副本上，消费者读不到。跟随者的下一次 Fetch 才会把自己的进度告诉 leader，HW 的推进因此还要再等一轮拉取。这就是「副本盘上已经有了，消费端却看不到」。
 
-生产者从 Kafka 3.0 起默认 `acks=all`、`enable.idempotence=true`。`acks=all` 要等消息进入当前全部 ISR，也就是 HW 跨过这条消息，生产者才收到成功。幂等生产者保证的是同一个生产者会话里重试不会写出重复序号。主题的 `min.insync.replicas` 至少为 2，副本因子至少 3。ISR 数量不够时，生产者收到 `NotEnoughReplicas`。`unclean.leader.election.enable` 保持关闭，避免一个落后的副本在没有 ISR 时被选成 leader，把 HW 以上的消息带丢。leader 切换时，新 leader 会把自己日志里超过前任 HW 的部分截掉，和已经承诺给消费者的范围对齐。消费者处理成功但提交位点失败，仍会再投一次。Spring 的 `DefaultErrorHandler` 在重试耗尽后默认记下错误并跳过这条，位点继续向前。业务消息要配 `DeadLetterPublishingRecoverer`，把失败的记录发到死信主题，而不是悄悄跳过。
+`acks=0` 发出去就算成功。`acks=1` 只等 leader，就是异步复制。Java 客户端从 Kafka 3.0 起默认 `acks=all`、`enable.idempotence=true`，更早的默认是 `acks=1`，升级时核对旧的配置文件。`acks=all` 要等消息进入当前全部 ISR，也就是 HW 跨过这条消息，生产者才收到成功。幂等生产者用生产者 id 加分区内序列号，去掉同一个生产者会话里的重试重复。
+
+`acks=all` 等的是当时的 ISR。ISR 可以缩到只剩 leader，这时也只写了一份。主题的 `min.insync.replicas` 至少为 2，副本因子至少 3。这项的默认是 1。ISR 数量不够时，生产者收到 `NotEnoughReplicas`。`unclean.leader.election.enable` 保持关闭。ISR 空了就等待。
+
+每一任 leader 有递增的 leader epoch，日志记下这一任从哪个 offset 开始。旧 leader 回来后，先问新 leader 自己这一任到哪结束，截掉分叉点之后的尾巴，再把正确的数据拉回来。leader 切换时，新 leader 也会把自己日志里超过前任 HW 的部分截掉，和已经承诺给消费者的范围对齐。截掉的是从未对消费者可见的部分。
+
+Kafka 4.0 起可以启用 ELR（合格主副本，KIP-966）：不在 ISR 里、但日志至少覆盖到已提交高水位的副本，也能当接班人。它只在 KRaft 上生效。4.0 默认关闭，要设 `eligible.leader.replicas.version=1`。4.1 起新建集群默认开启，已经在跑的集群升级到 4.1 不会自动打开。打开之后，`min.insync.replicas` 放在集群或主题上，Broker 级的这项配置不再单独生效。选举顺序是：非空的 ISR，然后未被隔离的 ELR，最后才是上一次的 leader，而且它也不能处于隔离状态。unclean 选举会让没有已提交数据的副本接班，和 ELR 不是同一个开关。
+
+`acks=all` 的延迟取决于 ISR 里最慢的副本。下限设高了，ISR 一收缩写入就失败；设成 1，又会在只剩 leader 时确认成功。三副本大约是三倍的磁盘和复制带宽。一个分区的写入只打 leader，2.4 起消费者可以就近读 follower，热点分区的 leader 仍然是写入的压力点。扣款这类主题用三副本、`acks=all`、`min.insync.replicas=2`、关闭 unclean 选举。任意一台宕机，已确认的消息还在，其余副本仍能写入。
+
+消费者处理成功但提交位点失败，仍会再投一次。Spring 的 `DefaultErrorHandler` 在重试耗尽后默认记下错误并跳过这条，位点继续向前。业务消息要配 `DeadLetterPublishingRecoverer`，把失败的记录发到死信主题，位点不要向前跳过这条。
 
 积压看 lag：分区末端位点减去已提交位点。先分辨是处理变慢还是生产变快。扩容消费者之前先确认还有空闲分区。按 lag 扩容用 KEDA，HPA 的 CPU 反映不出堆积。
 
@@ -1298,7 +1324,7 @@ BASE 是另一端的工程说法：基本可用、软状态、最终一致。软
 
 N 个副本，写入要 W 个确认，读取要 R 个确认。W + R > N 时，读集合和写集合一定有交集，能读到最近一次满足 W 的写入。常见是 N = 3，W = 2，R = 2，可以坏一台。W = N 是每写都要全部确认，一台慢就写不进去。W = 1 是最快的写，读必须接触全部副本才能确认自己看到的是最新的。
 
-这是无主副本的算法。MySQL 和 Redis 主从是有主的：写进主，读主就看到这次写入；读从就要接受复制延迟。Kafka 的 `acks=all` 加上 `min.insync.replicas` 是有主的多数派。
+这是无主副本的算法。MySQL 和 Redis 主从是有主的：写进主，读主就看到这次写入；读从就要接受复制延迟。Kafka 的 `acks=all` 等的是当时的 ISR，不是超过半数。`min.insync.replicas` 设成 2、副本因子 3 时，确认只需要两份；ISR 缩到只剩 leader 时，这项保证也跟着缩掉。细节在消息队列的 Kafka 那一节。
 
 法定人数也用来选主。三个节点可以坏一个，五个可以坏两个。两个节点没有多数派，网络一切开就无法决定谁是主，所以哨兵、etcd、Nacos 的 Raft 组都用奇数。
 
@@ -1583,17 +1609,101 @@ Actuator、交互式文档和默认管理端口在生产只对内网开放，和
 
 ---
 
+## 开发流程
+
+前面各节讲一条请求怎么走完。这一节讲这份代码怎么从几个人的笔记本变成线上还能退回去的版本。例子是图书馆：登录、查书、借书、还书，书目和借阅记录在 MySQL。缓存、会话、主从、队列、网关和编排的机制已经写在对应的节里。这里定它们出现的顺序，以及哪一步会把别人的工作盖掉、哪一步会让全校一起借不了书。
+
+### 版本控制
+
+几个人同时改登录、查书、借书、还书。把文件发到群里，后传到的那份会盖掉先传到的，也看不出借期是谁从 14 改成了 30。Git 管的是整个工作树。一次提交是这一刻全部文件的快照，再加上指向父提交的指针。分支是一个可以移动的名字，指着某一次提交。`git diff` 看工作区和当前提交差了哪几行。`git log -p`，或者两次提交之间的 diff，看历史里具体改了什么。把分支指回从前某一次提交，工作树回到那时的快照。
+
+远程仓库是大家共用的那一份。改完在本地提交，再推上去，别人从远程拉。三个人用的是同一条历史。
+
+`main` 上只放能编译、测试能过、可以拿去部署的快照。借书和还书各自从 `main` 拉出分支。功能要写几天，当天只写了一半，就留在自己的分支上。半成品推进 `main`，别人一拉，整个程序跑不起来。Git 把每条分支上的提交按父指针串起来。两条分支从同一次提交分出去，之后各自追加。
+
+写完用 merge 收回 `main`。Git 从当初分叉的那次提交起，把两边末端的快照合成一次新的合并提交。两边改的是不同文件，自动合成。两边改了同一处，例如借期一边写成 14 天、一边写成 30 天，合并停住，冲突标在文件里。人改完、重新提交，这次合并才算完成。
+
+rebase 把当前分支上分叉之后的提交摘下来，接到目标分支现在的末端后面重放。历史看起来是一条直线，分叉点不再出现在图上。个人分支还没被别人拿去接着做时，用 rebase 跟上 `main`，冲突先在自己这边解决。已经推送到公共分支、队友拉过的提交不再 rebase。重放会改掉提交编号，队友本地的历史对不上，下一步就是强制推送。`main` 上已经存在的提交同样不再变基。收进 `main` 用 merge，冲突留在这一次合并里。仓库规则写明这一点。有人用 rebase 收、有人用 merge 收，历史会变成两种形状。
+
+### 评审和持续集成
+
+`main` 设成保护分支，不能直接推。借书的判断写反了，直接推进去，下一次发布全校都借不了。改动从自己的分支提起 Pull Request。自建的 GitLab 上这一步叫 Merge Request。至少一名队友看过才能合并。人看的是库存不足、重复提交、还书时这本书根本没借出，这些边界会不会漏。
+
+每次推送和每次提起评审，流水线跑同一套检查，没过就不能合并。Maven 或 Gradle 跑测试。控制器用 MockMvc 或 WebTestClient，Mapper 的差异打 Testcontainers 里的 MySQL。H2 对不齐的方言留在集成测试里打真库。镜像里不带 devtools。标签用这次提交的 git 编号，不把 `latest` 当唯一标识。分层 Jar 怎么进镜像，在 Docker 那一节。
+
+预发和生产用同一份镜像，只换配置和连接的库。在预发重新编译，两边就不是同一次提交，评审看过的代码和生产跑的代码会岔开。预发用测试数据，或只放隔离的流量。在预发把借书、还书、库存不足和重复提交走一遍，再允许进入生产。
+
+### 从一台机器到多份实例
+
+笔记本上的地址，别的同学连不到。先放到一台常年开着的云服务器上。校园内网里专门对外响应的那台机器，是同一种角色。一台的 CPU 满了，或者这台宕了整个馆都停，就再跑几份相同的程序。一台物理机上可以跑多份，各自有自己的 CPU 和内存限额。口头说的加机器，和在同一台上加实例，都是水平扩展：用更多份相同的程序分担请求。
+
+前面加一层反向代理。对外一个地址，按算法把请求分到后面的实例，实例健康检查失败就从名单里摘掉，拿不到正常回复就停止把新请求打过去。它把后端实例的真实地址藏在后面。正向代理站在客户端这一侧，替客户端去访问外面。反向代理站在服务这一侧，替服务接收外面进来的请求。四层和七层怎么转发，在负载均衡那一节。
+
+实例一多，登录态不能放在某一台的内存里。学生在第一台登录，下一跳被分到第二台，第二台的内存里没有这个会话，学生就被当成没登录。会话编号和学号放进 Redis，每台都按同一个编号去取。Cookie、过期和注销在网关、配置与发现那一节。
+
+查书远多于借书和还书。读可以打从库，写只打主库。主库把日志送到从库需要时间。学生刚还完最后一本，立刻查从库，仍可能看到未还。这种读打主库。热门教材的书目放进 Redis，没命中再查 MySQL，并设过期时间。不存在的书号、同一批 key 同时过期、更新之后删缓存，按缓存那一节做。借书和还书改的是库存和借阅记录，走主库事务。Redis 里的数字只是加速用的副本。对不上时以 MySQL 为准，由对账把缓存盖回去。
+
+全网每一份从库和每一份缓存都要立刻看到这次还书，就要等复制和缓存失效都完成再返回，延迟会抬上去。允许从库和缓存有短暂延迟，查书才能留在低时延这一侧。借还这种要强一致的写，走主库事务。这个选择就是 CAP 和 PACELC 在这条业务上的落点，名词在分布式理论那一节。
+
+### 同一份镜像上线
+
+评审和检查都过了，还不能在生产机器上手工拷文件。各台机器的运行时、依赖和配置会漂：一台的语言版本和另一台不一样，同一份代码在这边能跑、在那边启动失败。镜像把程序、依赖和运行时打在一起。容器共享宿主机的内核，不自带一整套操作系统，所以比虚拟机轻，启动是秒级。虚拟机是在一台物理机上用虚拟化切出的一整台机器，自己有内核。Boot 的分层 Jar 怎么进镜像，在 Docker 那一节。
+
+持续交付是：`main` 上每一份通过检查的提交都能打成镜像，放到预发，差一次人工确认就能进生产。持续部署是确认这一步也交给流水线。借还会改库存，生产由人点。点下去之后，十几个实例同时换成新镜像，一次错误判断会让全校一起失败。先让负载均衡把一小部分请求切过去，看借书失败率和延迟。稳了再一批一批放大。不对就把流量指回上一份镜像。回滚改的是流量指向的镜像标签。线上机器上不改判断条件。滚动更新先起一个新副本、就绪后再停一个旧的，`maxUnavailable: 0`、`maxSurge: 1`，在探针、资源和发布那一节。灰度决定切多少流量，滚动决定怎么换副本。新副本先接一小部分，确认后再按滚动把其余副本换掉。
+
+### 什么时候拆服务
+
+一个进程里，还书的错误发布会把查书一起换掉，借书忙的时候电子书也得跟着扩容。一个有问题的依赖把进程打满，登录和借书一起停。边界清楚、发布和扩容的节奏已经不同，再拆成各自拥有数据的服务。用户、账号和登录会话收成所有学校共用的一块。每个团队发自己的版本。
+
+对外给浏览器和手机的接口继续用 HTTP 和 JSON。对内字段稳定、调用密的，用 IDL 和 gRPC：先加字段，旧客户端按字段号跳过不认识的字段。连接、序列化和超时由框架处理。契约、超时、重试、熔断和舱壁在微服务那一节。拆开之后一次借书要跨网络。网络会丢、会慢、会重复，这些保护跟着拆分一起做。
+
+### 编排、入口和故障
+
+几十个服务、每个多份实例之后，人已经算不清新容器该放哪台还有空闲的机器上。Kubernetes 要的是期望状态：借阅服务要 50 个副本。控制面把容器补到这个数。半夜有容器停了，或者某台机器坏了，它把副本再拉回来。开学前把副本数调高，闲下来再调低。声明式的对象、探针和滚动更新在 Docker 与 Kubernetes 那一节。
+
+实例的地址会变。借阅服务把用户服务的 IP 写进配置文件，扩容或重启之后这份配置立刻过期。服务发现给出一份还能连的地址：实例带着心跳或健康检查登记，调用方查这份名单，并在本地缓存一小段时间。Kubernetes 里这份工作由 Service 和 CoreDNS 做。虚拟机或混部再用 etcd、Nacos 或 Consul。注册中心和 Redis 一样，是业务旁边的基础设施。注册中心自己停了，发现就停。选一套。Service 和 Nacos 各维护一份名单时，调用方会拿到两套地址。
+
+调用链上的保护按这个顺序看：先从名单里挑一个实例，连接放进连接池，请求设超时，只有可以重复执行的操作才重试，失败比例高了就熔断，慢调用放进单独的并发额度里。推荐服务卡死时，主页面先不展示推荐，借书仍然能做完。熔断过一段时间进入半开，放少量请求试探，成功再合上，失败继续断开。这些细节在同步调用上的保护那一节。
+
+外面进来的不再只是浏览器。后端已经是几十个服务。调用方记不住每个服务的内部地址，脚本也不能直接打到借阅服务上刷座位。网关是外部请求进集群的统一入口：按路径把借书转到借阅服务，把查书转到书目服务；TLS 在这里结束；登录态在这里验一次，再把用户 id 传给后面。限流也放在这里，把多余的流量挡在业务进程之外。网关自己要有多份，单份网关停了，整个入口就停。进来之后，服务之间的调用走集群内部的发现，不再绕回网关。路由、鉴权和限流在网关、配置与发现那一节。
+
+### 异步、观测，以及网格要不要上
+
+借书在用户服务确认没欠费、库存也扣完之后，这件事本身已经做完。通知、统计、推荐可以晚几秒。把它们留在同一次请求里，通知服务一停，借书接口就报错。请求一多，当场拉起的任务会把下游打满。进程重启，还在内存里的任务就没了。以后再加积分，借阅服务还得再改一次。
+
+消息队列放在借阅服务外面。借阅服务往队列里写一条借书成功的事件，写成功就可以返回。通知、统计各自订阅。队列把一瞬间的高峰先接住，消费端按自己的速度处理。Kafka 和 RocketMQ 把这条消息复制到多台机器上。坏掉一台，已经确认的消息还在。投递是至少一次，同一条提醒可能再来，消费端按借阅记录的主键做成幂等。可靠、削峰和这条解耦在消息队列那一节。副本怎么确认，在 Kafka 那一节。
+
+组件多了之后，学生借书偶尔失败，已经不能在一台机器上打断点。三份信号一起留。指标看流量、耗时和错误率，灰度时盯的就是借书失败率。日志记扣库存失败、推送异常，并且集中收集，不留在容器被删掉就消失的本地盘上。追踪给一次请求一个编号，从网关穿过借阅、数据库，进消息队列再出来，都带着它。拿这个编号才能看出死在哪一环。三份信号在可观测性那一节。
+
+服务网格是再往后的一步。Java、Go、Python 混在一起，超时、重试、熔断和链路加密若都写在各自的框架里，改一个超时就要每种语言发一版。网格在每个业务容器旁边放一个代理，进出的流量先经过它。这些代理是数据面。另一套控制面不碰具体请求，把超时和限流的规则推给全部代理。接口生成和语言内部的序列化仍然留在业务进程里。每一次调用多一跳，延迟、CPU 和内存都会上去。几十个服务、语言还没混到框架管不过来时，框架里的保护就够。网格换来的是治理逻辑可以单独发版。边车的重试和应用自己的重试叠在一起会相乘，这一点在同步调用上的保护那一节。
+
+| 阶段 | 图书馆里先碰到的事 | 往下看 |
+| --- | --- | --- |
+| 几个人改同一份代码 | 借书、还书分分支，`main` 只留能运行的快照 | 本节的版本控制和评审 |
+| 一台机器顶不住 | 多实例、反向代理，会话放进 Redis | 负载均衡、网关里的会话 |
+| 数据库顶不住 | 读可以从库，热门书目进缓存，借还走主库 | MySQL 复制、缓存 |
+| 上线一次换光 | 同一份镜像，先切一小部分流量 | Docker，探针、资源和发布 |
+| 一个程序互相拖累 | 按业务拆开，各自发布和扩容 | 微服务 |
+| 容器该放哪台机器 | 声明副本数，地址用服务发现 | Kubernetes，网关、配置与发现 |
+| 借书成功后还要通知 | 事件进队列，消费端按主键幂等 | 消息队列 |
+| 偶尔失败查不到死在哪 | 同一个请求编号穿过日志、指标和追踪 | 可观测性 |
+
+这一节用图书馆把顺序串起来。前面各节的例子仍是订单。两条业务用的是同一套规则：保护分支、同一份镜像、写走主库、允许读有短暂延迟、跨服务的通知走队列。
+
+---
+
 ## 依据
 
 - [InnoDB 锁](https://dev.mysql.com/doc/refman/8.4/en/innodb-locking.html)，[MVCC](https://dev.mysql.com/doc/refman/8.4/en/innodb-multi-versioning.html)，[半同步](https://dev.mysql.com/doc/refman/8.4/en/replication-semisync-interface.html)
 - [HikariCP](https://github.com/brettwooldridge/HikariCP)，[MyBatis](https://mybatis.org/mybatis-3/zh_CN/index.html)
 - [Spring 事务](https://docs.spring.io/spring-framework/reference/data-access/transaction.html)，[Spring MVC](https://docs.spring.io/spring-framework/reference/web/webmvc.html)
 - [Spring Boot 3.4 发布说明](https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.4-Release-Notes)（优雅停机改为默认），[优雅停机](https://docs.spring.io/spring-boot/reference/web/graceful-shutdown.html)，[虚拟线程](https://github.com/spring-projects/spring-boot/blob/v3.5.13/spring-boot-project/spring-boot-docs/src/docs/antora/modules/reference/pages/features/spring-application.adoc)，[Kubernetes 探针](https://docs.spring.io/spring-boot/reference/actuator/endpoints.html)
-- [Redis 持久化](https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/)，[集群规格](https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/)，[分布式锁](https://redis.io/docs/latest/develop/clients/patterns/distributed-locks/)
+- [Redis 持久化](https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/)，[集群规格](https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/)，[分布式锁](https://redis.io/docs/latest/develop/clients/patterns/distributed-locks/)，[HEXPIRE](https://redis.io/docs/latest/commands/hexpire/)，[BF.ADD](https://redis.io/docs/latest/commands/bf.add/)
 - [Lettuce 拓扑刷新](https://github.com/redis/lettuce/blob/master/src/main/java/io/lettuce/core/cluster/ClusterTopologyRefreshOptions.java)，Spring Boot 的 `spring.data.redis.lettuce.cluster.refresh` 默认不打开周期刷新
 - [JEP 444 虚拟线程](https://openjdk.org/jeps/444)，[JEP 491](https://openjdk.org/jeps/491)（JDK 24，`synchronized` 不再钉住载体），[JEP 506 Scoped Values](https://openjdk.org/jeps/506)（JDK 25）
 - [分层镜像与 JarLauncher](https://docs.spring.io/spring-boot/docs/3.2.x/reference/html/container-images.html)（3.2 起为 `org.springframework.boot.loader.launch.JarLauncher`）
-- [RabbitMQ 仲裁队列](https://www.rabbitmq.com/docs/quorum-queues)，[Kafka 复制与高水位](https://kafka.apache.org/documentation/#replication)，[Kafka 投递语义](https://kafka.apache.org/documentation/#semantics)
+- [RabbitMQ 仲裁队列](https://www.rabbitmq.com/docs/quorum-queues)，[Kafka 复制与高水位](https://kafka.apache.org/documentation/#replication)，[Kafka 投递语义](https://kafka.apache.org/documentation/#semantics)，[合格主副本 ELR](https://kafka.apache.org/41/operations/eligible-leader-replicas/)
+- [Git 分支](https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging)，[变基](https://git-scm.com/book/en/v2/Git-Branching-Rebasing)
 - [ClassLoader](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ClassLoader.html)
 - [Kubernetes Pod 生命周期](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/)，[持久卷](https://kubernetes.io/docs/concepts/storage/persistent-volumes/)
 - [Sentinel](https://sentinelguard.io/zh-cn/docs/introduction.html)，[Seata AT](https://seata.apache.org/docs/dev/mode/at-mode/)
